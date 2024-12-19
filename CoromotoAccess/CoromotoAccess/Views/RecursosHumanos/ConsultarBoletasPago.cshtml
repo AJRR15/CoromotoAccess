@@ -4,57 +4,28 @@
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Consultar Boletas de Pago</h2>
+    <p class="text-center">Utiliza las opciones a continuación para consultar tus boletas de pago y revisar el histórico de salarios.</p>
 
-    <!-- Tabla de Boletas de Pago -->
-    <h3 class="text-center mb-4">Boletas de Pago</h3>
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Fecha</th>
-                <th>Salario</th>
-                <th>Bonificaciones</th>
-                <th>Deducciones</th>
-                <th>Total</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>2024-12-01</td>
-                <td>$2000</td>
-                <td>$200</td>
-                <td>$100</td>
-                <td>$2100</td>
-                <td><button class="btn btn-outline-dark btn-sm">Descargar</button></td>
-            </tr>
-            <!-- Agregar más filas según sea necesario -->
-        </tbody>
-    </table>
-    <br />
-    <!-- Tabla de Histórico de Salarios -->
-    <div class="d-flex align-items-center justify-content-between mb-3">
-        <h3 class="text-center mb-4">Histórico de Salarios</h3>
-        <a class="btn btn-outline-dark ml-3">Descargar</a>
+    <div class="row justify-content-center mb-3">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Boletas de Pago</h5>
+                    <p class="card-text">Revisa tus boletas de pago y descarga los recibos.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("BoletasPago", "RecursosHumanos")">Ir a Boletas de Pago</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Histórico de Salarios</h5>
+                    <p class="card-text">Consulta el histórico de tus salarios y revisa los cambios a lo largo del tiempo.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("HistoricoSalarios", "RecursosHumanos")">Ir a Histórico de Salarios</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Fecha de Cambio</th>
-                <th>Salario Anterior</th>
-                <th>Salario Nuevo</th>
-                <th>Motivo del Cambio</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>2024-01-01</td>
-                <td>$1800</td>
-                <td>$2000</td>
-                <td>Promoción</td>
-            </tr>
-            <!-- Agregar más filas según sea necesario -->
-        </tbody>
-    </table>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

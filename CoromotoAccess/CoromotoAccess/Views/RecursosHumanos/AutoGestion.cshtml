@@ -4,10 +4,10 @@
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">AutoGestion</h2>
-    <p class="text-center">Utiliza las opciones a continuación para gestionar tus vacaciones y consultar tus boletas de pago.</p>
+    <p class="text-center">Utiliza las opciones a continuación para gestionar tus vacaciones, consultar tus boletas de pago y revisar tu evaluación.</p>
 
     <div class="row mb-3">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-body text-center">
                     <h5 class="card-title">Gestionar Vacaciones</h5>
@@ -16,12 +16,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-body text-center">
                     <h5 class="card-title">Consultar Boletas de Pago</h5>
                     <p class="card-text">Revisa tus boletas de pago y descarga los recibos.</p>
                     <a class="btn btn-outline-secondary" href="@Url.Action("ConsultarBoletasPago", "RecursosHumanos")">Ir a Consultar Boletas de Pago</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Mi Evaluación</h5>
+                    <p class="card-text">Revisa tu evaluación de desempeño y recibe retroalimentación.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("MiEvaluacion", "Login")">Ir a Mi Evaluación</a>
                 </div>
             </div>
         </div>

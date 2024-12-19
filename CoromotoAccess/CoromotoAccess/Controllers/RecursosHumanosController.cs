@@ -37,6 +37,18 @@ namespace CoromotoAccess.Controllers
         {
             return View();
         }
+        public ActionResult BoletasPago()
+        {
+            return View();
+        }
+        public ActionResult HistoricoSalarios()
+        {
+            return View();
+        }
+        
+            
+            
+
 
 
     }

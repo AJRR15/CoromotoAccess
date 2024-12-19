@@ -33,6 +33,10 @@ namespace CoromotoAccess.Controllers
         {
             return View();
         }
+        public ActionResult MiEvaluacion()
+        {
+            return View();
+        }
     }
 }
 
