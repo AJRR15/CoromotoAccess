@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Configuracion";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Configuración</h2>
+    <p class="text-center">Utiliza las opciones a continuación para gestionar los parámetros y la configuración de seguridad del sistema.</p>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Gestión de Parámetros</h5>
+                    <p class="card-text">Administra los parámetros del sistema para asegurar su correcto funcionamiento.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("HojaDeConfiguracion", "Parametros")">Ir a Gestión de Parámetros</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Gestión de Configuración</h5>
+                    <p class="card-text">Configura las opciones de seguridad y otros ajustes importantes del sistema.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("Seguridad", "Seguridad")">Ir a Gestión de Configuración</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "AdministrarReservas";
+}
+
+<div class="container mt-5">
+    <div class="row mb-3 align-items-center">
+        <div class="col-md-6">
+            <h2 class="text-left mb-0">Administrar Reservas</h2>
+        </div>
+        <div class="col-md-6 text-right">
+            <input type="text" class="form-control d-inline-block w-75" id="buscarCliente" placeholder="Buscar por cliente">
+            <button class="btn btn-outline-dark d-inline-block ml-2" onclick="filtrarReservas()">Buscar</button>
+        </div>
+    </div>
+    <br />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Teléfono</th>
+                <th>Habitación</th>
+                <th>Fecha de Entrada</th>
+                <th>Fecha de Salida</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Juan Pérez</td>
+                <td>+506 1234 5678</td>
+                <td>Habitación Deluxe</td>
+                <td>2024-12-01</td>
+                <td>2024-12-05</td>
+                <td>Confirmada</td>
+            </tr>
+            <tr>
+                <td>María López</td>
+                <td>+506 8765 4321</td>
+                <td>Habitación Familiar</td>
+                <td>2024-12-10</td>
+                <td>2024-12-15</td>
+                <td>Pendiente</td>
+            </tr>
+            <tr>
+                <td>Carlos García</td>
+                <td>+506 1122 3344</td>
+                <td>Habitación Económica</td>
+                <td>2024-12-20</td>
+                <td>2024-12-25</td>
+                <td>Cancelada</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "EmpleadosMain";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Gestión de Empleados</h2>
+    <p class="text-center">Utiliza las opciones a continuación para gestionar los empleados y sus turnos en el sistema.</p>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Gestionar Empleados</h5>
+                    <p class="card-text">Administra la información de los empleados, incluyendo sus datos personales y roles.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("GestionEmpleados", "Empleados")">Ir a Gestión de Empleados</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Gestionar Turnos</h5>
+                    <p class="card-text">Configura y administra los turnos de trabajo de los empleados.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("EmpleadoTurno", "Empleados")">Ir a Gestión de Turnos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

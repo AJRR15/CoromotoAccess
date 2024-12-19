@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "ModificarTipoHabitacion";
+}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Modificar Tipo de Habitación</h2>
+    <form id="modificarTipoHabitacionForm">
+        <div class="form-group">
+            <label for="tipoHabitacionNombre">Nombre del Tipo de Habitación:</label>
+            <input type="text" class="form-control" id="tipoHabitacionNombre" name="tipoHabitacionNombre" value="Estándar" required>
+        </div>
+        <br />
+        <div class="modal-footer">
+            <a class="btn btn-secondary btn-sm" href="@Url.Action("HojaDeConfiguracion", "Parametros")">Cancelar</a>
+            <a class="btn btn-primary btn-sm" href="@Url.Action("HojaDeConfiguracion", "Parametros")">Guardar Cambios</a>
+        </div>
+    </form>
+</div>
+<br />
+<br />
+<br />
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

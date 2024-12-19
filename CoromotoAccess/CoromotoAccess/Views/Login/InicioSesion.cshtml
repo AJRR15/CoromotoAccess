@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "InicioSesion";
+}
+
+<div class="page-wrapper custom-login" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+     data-sidebar-position="fixed" data-header-position="fixed">
+    <br />
+    <br />
+    <br />
+    <div class="d-flex align-items-center justify-content-center w-100" style="padding: 0; margin: 0;">
+        <div class="row justify-content-center w-100" style="padding: 0; margin: 0;">
+            <div class="col-md-8 col-lg-6 col-xxl-3" style="padding: 0; margin: 0;">
+                <div class="card mb-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <br>
+                        <center>
+                            <img src="~/Styles/imagenes/LogoCoromotoNegro.png" alt="CoromotoAccess Logo" class="logo-img" style="max-width: 50%; height: auto;">
+                        </center>
+                        <br>
+                        <h4 class="text-center mb-4">Iniciar Sesión</h4>
+
+                        @if (ViewBag.MensajePantalla != null)
+                        {
+                            <div class="alert alert-danger text-center" role="alert">
+                                @ViewBag.MensajePantalla
+                            </div>
+                        }
+
+                        @using (Html.BeginForm("Index", "Home"))
+                        {
+                            <div class="mb-3">
+                                <label class="form-label">Identificación</label>
+                                <input type="text" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" required />
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <div class="form-check">
+
+                                </div>
+                                <a class="text-primary fw-bold" href="@Url.Action("RecuperarAcceso", "Login")">Recuperar el acceso</a>
+                            </div>
+                            <button type="submit" class="btn w-100 py-2" style="background-color: #101820; color: white;">Iniciar Sesión</button>
+                        }
+
+                        <div class="text-center mt-4">
+                            <p>¿No tienes una cuenta? <a href="@Url.Action("Registro", "Login")" class="text-primary">Regístrate aquí</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+</div>

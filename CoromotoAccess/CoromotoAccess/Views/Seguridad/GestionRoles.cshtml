@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "GestionRoles";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">Gestión de Roles</h2>
+        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#agregarRolModal">Agregar Rol</button>
+    </div>
+
+    <!-- Tabla de Roles -->
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID Rol</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Cliente</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarRol(1)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Limpieza</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarRol(2)">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Admin</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarRol(3)">Eliminar</button>
+                    </td>
+                </tr>
+                <!-- Agregar más filas según sea necesario -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Agregar Rol -->
+<div class="modal fade" id="agregarRolModal" tabindex="-1" role="dialog" aria-labelledby="agregarRolModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarRolModalLabel">Agregar Rol</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Rol:</label>
+                            <input type="text" class="form-control" required />
+                        </div>
+                    </div>
+            <div class="modal-footer">
+                <a class="btn btn-secondary fw-bold" href="@Url.Action("GestionRoles", "Seguridad")">Cerrar</a>
+                <a class="btn btn-primary fw-bold" href="@Url.Action("GestionRoles", "Seguridad")">Guardar</a>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    function eliminarRol(idRol) {
+        if (confirm('¿Está seguro de que desea eliminar este rol?')) {
+            alert('Rol eliminado: ' + idRol);
+            // Lógica para eliminar el rol
+        }
+    }
+</script>

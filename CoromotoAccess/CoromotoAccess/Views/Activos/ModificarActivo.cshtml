@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "ModificarActivo";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Modificar Activo</h2>
+    <form class="form-horizontal">
+        <br />
+        <div class="form-group row">
+            <label class="control-label col-md-2 text-black" for="NombreActivo">Nombre del Activo:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="NombreActivo" name="NombreActivo" required />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group row">
+            <label class="control-label col-md-2 text-black" for="Modelo">Modelo:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Modelo" name="Modelo" required />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group row">
+            <label class="control-label col-md-2 text-black" for="NumeroSerie">Número de Serie:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="NumeroSerie" name="NumeroSerie" required />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group row">
+            <label class="control-label col-md-2 text-black" for="DescripcionActivo">Descripción:</label>
+            <div class="col-md-10">
+                <textarea class="form-control" id="DescripcionActivo" name="DescripcionActivo" required></textarea>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group row">
+            <label class="control-label col-md-2 text-black" for="Imagenes">Imágenes:</label>
+            <div class="col-md-10">
+                <input type="file" class="form-control" id="Imagenes" name="Imagenes" multiple />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group row">
+            <label class="control-label col-md-2 text-black" for="Categoria">Categoría:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Categoria" name="Categoria" required />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group row">
+            <label class="control-label col-md-2 text-black" for="Habitacion">Habitación:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Habitacion" name="Habitacion" required />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group row">
+            <div class="col-md-10 offset-md-2">
+                <a href="@Url.Action("AdministrarActivos", "Activos")" class="btn btn-secondary">Cancelar</a>
+                <a href="@Url.Action("AdministrarActivos", "Activos")" class="btn btn-primary mr-2">Guardar Cambios</a>
+            </div>
+        </div>
+        <br />
+        <br />
+    </form>
+</div>

@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "AutoGestion";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">AutoGestion</h2>
+    <p class="text-center">Utiliza las opciones a continuación para gestionar tus vacaciones y consultar tus boletas de pago.</p>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Gestionar Vacaciones</h5>
+                    <p class="card-text">Administra tus días de vacaciones y solicita nuevos permisos.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("GestionarVacaciones", "RecursosHumanos")">Ir a Gestionar Vacaciones</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Consultar Boletas de Pago</h5>
+                    <p class="card-text">Revisa tus boletas de pago y descarga los recibos.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("ConsultarBoletasPago", "RecursosHumanos")">Ir a Consultar Boletas de Pago</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
