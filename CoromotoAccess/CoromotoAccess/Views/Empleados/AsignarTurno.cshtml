@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "AsignarTurno";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center mb-4">Asignar Turno</h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#asignarTurnoModal">Asignar Turno</button>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Empleado</th>
+                <th>Disponibilidad</th>
+                <th>Turno</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Pedro Sanchez</td>
+                <td>Asignado</td>
+                <td>Mañana</td>
+                <td>
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#asignarTurnoModal">Editar Turno</button>
+                    <button type="button" class="btn btn-danger">Eliminar Turno</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal Asignar Turno -->
+    <div class="modal fade" id="asignarTurnoModal" tabindex="-1" aria-labelledby="asignarTurnoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="asignarTurnoModalLabel">Asignar Turno</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="empleado" class="form-label">Empleado:</label>
+                            <select class="form-select" id="empleado">
+                                <option selected>Pedro Sanchez</option>
+                                <!-- Agregar más opciones según sea necesario -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="turno" class="form-label">Turno:</label>
+                            <select class="form-select" id="turno">
+                                <option selected>Mañana</option>
+                                <option>Tarde</option>
+                                <option>Noche</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-dark">Asignar Turno</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

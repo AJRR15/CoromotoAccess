@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "ModificarIdioma";
+}
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Modificar Idioma</h2>
+        <form id="modificarIdiomaForm">
+            <div class="form-group">
+                <label for="idiomaNombre">Nombre del Idioma:</label>
+                <input type="text" class="form-control" id="idiomaNombre" name="idiomaNombre" value="Español" required>
+            </div>
+            <br />
+            <div class="modal-footer">
+                <a class="btn btn-secondary btn-sm" href="@Url.Action("HojaDeConfiguracion", "Parametros")">Cancelar</a>
+                <a class="btn btn-primary btn-sm" href="@Url.Action("HojaDeConfiguracion", "Parametros")">Guardar Cambios</a>
+            </div>
+        </form>
+    </div>
+    <br />
+    <br />
+    <br />
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

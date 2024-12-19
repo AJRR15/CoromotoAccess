@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "ControlDeLimpieza";
+}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">Control de Limpieza</h2>
+        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#asignarLimpiezaModal">Asignar Limpieza</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th colspan="4">Limpiezas</th>
+                    <th class="text-right">
+                        <button class="btn btn-dark" data-toggle="modal" data-target="#generarReporteModal">Generar Reporte</button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Empleado</th>
+                    <th>Fecha de Limpieza</th>
+                    <th>Habitación</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Jose Mario</td>
+                    <td>2024-12-11</td>
+                    <td>101</td>
+                    <td>En Proceso</td>
+                    <td>
+                        <button class="btn btn-success btn-sm" onclick="confirmarLimpieza()">✔</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="asignarLimpiezaModal" tabindex="-1" role="dialog" aria-labelledby="asignarLimpiezaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="asignarLimpiezaModalLabel">Asignar Limpieza</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="empleado">Empleado:</label>
+                        <input type="text" class="form-control" id="empleado" name="empleado" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaInicio">Fecha de Inicio:</label>
+                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="habitacion">Habitación:</label>
+                        <input type="text" class="form-control" id="habitacion" name="habitacion" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Asignar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="generarReporteModal" tabindex="-1" role="dialog" aria-labelledby="generarReporteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="generarReporteModalLabel">Generar Reporte</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="fechaInicioReporte">Fecha de Inicio:</label>
+                        <input type="date" class="form-control" id="fechaInicioReporte" name="fechaInicioReporte" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaFinReporte">Fecha de Fin:</label>
+                        <input type="date" class="form-control" id="fechaFinReporte" name="fechaFinReporte" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmarLimpieza() {
+        if (confirm('¿Está seguro de que desea confirmar la limpieza?')) {
+            alert('Limpieza confirmada.');
+        }
+    }
+</script>

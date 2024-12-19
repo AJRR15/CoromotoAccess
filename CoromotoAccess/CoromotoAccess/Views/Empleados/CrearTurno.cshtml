@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "CrearTurno";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center mb-4">Crear Turno</h2>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#crearTurnoModal">Crear Turno</button>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID del Turno</th>
+                <th>Nombre</th>
+                <th>Hora de Inicio</th>
+                <th>Hora de Final</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Mañana</td>
+                <td>08:00</td>
+                <td>16:00</td>
+                <td>
+                    <button type="button" class="btn btn-warning">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Tarde</td>
+                <td>16:00</td>
+                <td>00:00</td>
+                <td>
+                    <button type="button" class="btn btn-warning">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Noche</td>
+                <td>00:00</td>
+                <td>08:00</td>
+                <td>
+                    <button type="button" class="btn btn-warning">Modificar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal Crear Turno -->
+    <div class="modal fade" id="crearTurnoModal" tabindex="-1" aria-labelledby="crearTurnoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearTurnoModalLabel">Crear Turno</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="nombreTurno" class="form-label">Nombre:</label>
+                            <input type="text" class="form-control" id="nombreTurno">
+                        </div>
+                        <div class="mb-3">
+                            <label for="horaInicio" class="form-label">Hora de Inicio:</label>
+                            <input type="time" class="form-control" id="horaInicio">
+                        </div>
+                        <div class="mb-3">
+                            <label for="horaFinal" class="form-label">Hora de Final:</label>
+                            <input type="time" class="form-control" id="horaFinal">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-dark">Crear Turno</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "GestionPermisos";
+}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Gestión de Permisos</h2>
+    <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-outline-dark" data-toggle="modal" data-target="#permisoModal">Agregar Permiso</button>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Rol</th>
+                <th>Permisos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Administrador</td>
+                <td>Crear Usuarios, Eliminar Usuarios, Modificar Configuraciones, Ver Reportes</td>
+            </tr>
+            <tr>
+                <td>Editor</td>
+                <td>Crear Contenido, Editar Contenido, Publicar Contenido</td>
+            </tr>
+            <tr>
+                <td>Usuario</td>
+                <td>Ver Contenido, Comentar en Contenido</td>
+            </tr>
+            <tr>
+                <td>Invitado</td>
+                <td>Ver Contenido Público</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para agregar/modificar permiso -->
+<div class="modal fade" id="permisoModal" tabindex="-1" role="dialog" aria-labelledby="permisoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="permisoModalLabel">Agregar/Modificar Permiso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="permisoForm">
+                    <div class="form-group">
+                        <label for="rol">Rol:</label>
+                        <select class="form-control" id="rol" name="rol" required>
+                            <option value="">Selecciona un rol</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Editor">Editor</option>
+                            <option value="Usuario">Usuario</option>
+                            <option value="Invitado">Invitado</option>
+                            <!-- Agrega más roles según sea necesario -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Permisos:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="crearUsuarios" name="permisos" value="Crear Usuarios">
+                            <label class="form-check-label" for="crearUsuarios">Crear Usuarios</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="eliminarUsuarios" name="permisos" value="Eliminar Usuarios">
+                            <label class="form-check-label" for="eliminarUsuarios">Eliminar Usuarios</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="modificarConfiguraciones" name="permisos" value="Modificar Configuraciones">
+                            <label class="form-check-label" for="modificarConfiguraciones">Modificar Configuraciones</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="verReportes" name="permisos" value="Ver Reportes">
+                            <label class="form-check-label" for="verReportes">Ver Reportes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="crearContenido" name="permisos" value="Crear Contenido">
+                            <label class="form-check-label" for="crearContenido">Crear Contenido</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="editarContenido" name="permisos" value="Editar Contenido">
+                            <label class="form-check-label" for="editarContenido">Editar Contenido</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="publicarContenido" name="permisos" value="Publicar Contenido">
+                            <label class="form-check-label" for="publicarContenido">Publicar Contenido</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="verContenido" name="permisos" value="Ver Contenido">
+                            <label class="form-check-label" for="verContenido">Ver Contenido</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="comentarContenido" name="permisos" value="Comentar en Contenido">
+                            <label class="form-check-label" for="comentarContenido">Comentar en Contenido</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="verContenidoPublico" name="permisos" value="Ver Contenido Público">
+                            <label class="form-check-label" for="verContenidoPublico">Ver Contenido Público</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+

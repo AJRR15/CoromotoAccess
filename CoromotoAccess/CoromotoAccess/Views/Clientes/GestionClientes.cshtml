@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "GestionClientes";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">Gestión de Cliente</h2>
+        <div class="input-group w-50">
+            <input type="text" class="form-control" id="buscarCliente" placeholder="Buscar cliente por nombre">
+            <div class="input-group-append" style="margin-left: 5px;">
+                <button class="btn btn-outline-dark" type="button">Buscar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered" id="tablaClientes">
+            <thead>
+                <tr>
+                    <th>Nombre Completo</th>
+                    <th>ID</th>
+                    <th>Teléfono</th>
+                    <th>Correo Electrónico</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Juan Pérez</td>
+                    <td>12345</td>
+                    <td>555-1234</td>
+                    <td>juan.perez@example.com</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarCliente", "Clientes")" role="button">Modificar</a>
+                        <a class="btn btn-info btn-sm" href="@Url.Action("HistorialCliente", "Clientes")" role="button">Historial de Reservas</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

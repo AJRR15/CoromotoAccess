@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "GestiondeRRHH";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Gestión de RRHH</h1>
+    <p class="text-center">Utiliza las opciones a continuación para gestionar las vacaciones, nómina y evaluación de empleados.</p>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Aprobar Vacaciones</h5>
+                    <p class="card-text">Revisa y aprueba las solicitudes de vacaciones de los empleados.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("AprobarVacaciones", "RecursosHumanos")">Ir a Aprobar Vacaciones</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Gestión de Nómina</h5>
+                    <p class="card-text">Administra la nómina de los empleados, incluyendo salarios y bonificaciones.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("GestionNomina", "RecursosHumanos")">Ir a Gestión de Nómina</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Evaluación Empleados</h5>
+                    <p class="card-text">Evalúa el desempeño de los empleados y proporciona retroalimentación.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("EvaluacionEmpleados", "RecursosHumanos")">Ir a Evaluación Empleados</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

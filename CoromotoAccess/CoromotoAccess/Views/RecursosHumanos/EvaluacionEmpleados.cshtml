@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "EvaluacionEmpleados";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Evaluación de Empleados</h2>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="button-addon2">
+        <button class="btn btn-info" type="button" id="button-addon2">Buscar</button>
+    </div>
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Horas Trabajadas</th>
+                <th>Comentario</th>
+                <th>Calificación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Pedro Sanchez</td>
+                <td>Empleado</td>
+                <td>160</td>
+                <td>Buen desempeño</td>
+                <td>Excelente</td>
+                <td><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#evaluarEmpleadoModal">Evaluar</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="evaluarEmpleadoModal" tabindex="-1" aria-labelledby="evaluarEmpleadoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="evaluarEmpleadoModalLabel">Evaluar Empleado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="comentario" class="form-label">Comentario:</label>
+                            <textarea class="form-control" id="comentario" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="calificacion" class="form-label">Calificación:</label>
+                            <select class="form-select" id="calificacion">
+                                <option selected>Excelente</option>
+                                <option>Bueno</option>
+                                <option>Regular</option>
+                                <option>Pobre</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-dark">Guardar Evaluación</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "DatosHabitacion";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Inicio</title>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="~/Styles/css/estilo.css">
+    <link rel="stylesheet" href="~/Styles/css/camara.css">
+    <link rel="stylesheet" href="~/Styles/css/estilo.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="page1">
+    <!--==============================header=================================-->
+    <header>
+        <div class="head-box1">
+            <div class="logo-container">
+                <h1 style="text-align: center;">
+                    <a class="logo" href="@Url.Action("Index","Home")"> <img src="~/Styles/imagenes/CoromotoLogo.png" alt="CoromotoAccess Logo" class="logo-img"> </a>
+                </h1>
+            </div>
+            <div class="container_24">
+                <div class="language-selector" style="text-align: right; margin-top: 10px;">
+                    <label for="language" style="margin-right: 5px;">
+                        Idioma:
+                    </label>
+                    <select class="form-control" id="language" name="language" style="display: inline-block; width: auto; border: none; background: none; padding: 0; font-size: 1em;" onchange="cambiarIdioma(this.value)">
+                        <option value="es">Español</option>
+                        <option value="en">Inglés</option>
+                        <option value="pt">Portugués</option>
+                    </select>
+                </div>
+                <form id="search1">
+
+                    <p id="welcome-message">Bienvenido, Administrador</p>
+
+                    <div class="clear"></div>
+                </form>
+
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="head-box2">
+            <div class="container_24">
+                <div class="grid_24">
+                    <nav>
+                        <ul class="sf-menu">
+                            <li class="current"><a class="active" href=@Url.Action("Index", "Home")>Inicio</a></li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="@Url.Action("CatalogoHabitaciones","Habitacion")" id="userDropdown" role="button">
+                                    Hospedajes
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="@Url.Action("ControlDeLimpieza", "Limpieza")"> Control de   <br /> Limpieza</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("AdministrarReservas", "Reserva")"> Reservas  <br /> Existentes</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("AdministrarActivos", "Activos")"> Administrar  <br /> Activos</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="@Url.Action("About","Home")">Nosotros</a></li>
+                            <li><a href="@Url.Action("Contact","Home")">Contactenos</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Procesos
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="@Url.Action("EmpleadosMain", "Empleados")"> Gestión de  <br /> Empleados</a></li>
+
+                                    <li><a class="dropdown-item" href="@Url.Action("GestionClientes", "Clientes")"> Gestión de  <br /> Clientes</a></li>
+
+                                    <li><a class="dropdown-item" href="@Url.Action("GestiondeRRHH", "RecursosHumanos")"> Gestión de  <br /> RRHH</a></li>
+
+                                    <li><a class="dropdown-item" href="@Url.Action("Historico", "Facturas")"> Facturación  <br /> </a></li>
+
+                                    <li><a class="dropdown-item" href="@Url.Action("GestionReporteria", "Reporteria")"> Reportería</a></li>
+
+                                    <li><a class="dropdown-item" href="@Url.Action("Configuracion", "Seguridad")"> Gestión de  <br /> Configuración</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                            <a class="nav-link" href="@Url.Action("MiPerfil", "Login")" id="guestDropdown" role="button"> Mi Perfil </a>
+                            <ul class="dropdown-menu" aria-labelledby="guestDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("InicioSesion", "Login")">Ingresar</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("ActualizarPerfil", "Login")">Actualizar <br />Perfil</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("AutoGestion", "RecursosHumanos")">AutoGestión</a>
+                                </li>
+                            </ul> 
+                            </li>
+                        </ul>
+                        <div class="clear"></div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+    <!--==============================footer=================================-->
+    <footer>
+        <div class="container_24">
+            <div class="grid_24">
+
+                <ul class="foot-menu">
+                    <li class="last3"><a class="active" href=@Url.Action("Index", "Home")>Inicio</a></li>
+                    <li><a href="@Url.Action("Productos","Productos")">Menú</a></li>
+                    <li><a href="@Url.Action("About","Nosotros")">Nosotros</a></li>
+                    <li><a href="@Url.Action("Contact","Contacto")">Contáctenos</a></li>
+                    <li><a href="@Url.Action("Canasta", "Carrito")">Carrito</a></li>
+                    <li><a href="@Url.Action("InicioSesion", "Login")">Ingresar</a></li>
+                </ul>
+                <div class="foot-page2">
+                    <img src="~/Styles/imagenes/LogoCoromotoNegro.png" alt="CoromotoAccess Logo" class="logo-img" style="max-width: 10%; height: auto;">
+                    &copy; 2024  |   <a>Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/Styles/js/jquery.js"></script>
+    <script src="~/Styles/js/jquery-migrate-1.1.1.js"></script>
+    <script src="~/Styles/js/script.js"></script>
+    <script src="~/Styles/js/superfish.js"></script>
+    <script src="~/Styles/js/jquery.ui.totop.js"></script>
+    <script src="~/Styles/js/jquery.equalheights.js"></script>
+    <script src="~/Styles/js/jquery.mobilemenu.js"></script>
+    <script src="~/Styles/js/jquery.easing.1.3.js"></script>
+    <script src="~/Styles/js/camera.js"></script>
+    <script src="~/Styles/js/jquery.mobile.customized.min.js"></script>
+    <script src="~/Styles/js/jquery.carouFredSel-6.1.0-packed.js"></script>
+    <script src="~/Styles/js/jquery.touchSwipe.min.js"></script>
+    <script src="~/Styles/FuncionesJS/Layout.js"></script>
+</body>
+</html>

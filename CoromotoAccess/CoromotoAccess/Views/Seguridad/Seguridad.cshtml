@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Seguridad";
+}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Menú de Seguridad</h2>
+    <p class="text-center">Utiliza las opciones a continuación para gestionar los roles y permisos de los usuarios en el sistema.</p>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Gestión de Roles</h5>
+                    <p class="card-text">Administra los roles de los usuarios y define sus responsabilidades.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("GestionRoles", "Seguridad")">Ir a Gestión de Roles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Gestión de Permisos</h5>
+                    <p class="card-text">Configura los permisos específicos para cada rol de usuario.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("GestionPermisos", "Seguridad")">Ir a Gestión de Permisos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

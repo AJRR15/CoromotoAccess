@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "AprobarVacaciones";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Aprobar Vacaciones</h2>
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID Empleado</th>
+                <th>Días de Vacaciones Disponibles</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>12345</td>
+                <td>10</td>
+                <td>2024-12-20</td>
+                <td>2024-12-30</td>
+                <td>Pendiente</td>
+                <td>
+                    <button class="btn btn-success btn-sm" onclick="aprobarVacaciones(12345)">Aprobar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function aprobarVacaciones(idEmpleado) {
+        if (confirm('¿Está seguro de que desea aprobar las vacaciones para el empleado con ID: ' + idEmpleado + '?')) {
+            alert('Vacaciones aprobadas para el empleado con ID: ' + idEmpleado);
+        }
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "Historico";
+}
+
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Gestión de Facturas</h2>
+
+    <!-- Botones de acciones principales -->
+    <div class="d-flex justify-content-between mb-4">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarFacturaModal">
+            <i class="fas fa-plus"></i> Nueva Factura
+        </button>
+        <button class="btn btn-secondary" onclick="descargarXML()">
+            <i class="fas fa-download"></i> Descargar Factura (XML)
+        </button>
+        <button class="btn btn-info" onclick="verDashboard()">
+            <i class="fas fa-chart-pie"></i> Ver Dashboard
+        </button>
+    </div>
+
+    <!-- Filtros de búsqueda -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>Filtros</h5>
+            <form id="filtroForm" class="row g-3">
+                <div class="col-md-6">
+                    <label for="filtroFechaInicio" class="form-label">Fecha de Inicio</label>
+                    <input type="date" class="form-control" id="filtroFechaInicio" name="filtroFechaInicio">
+                </div>
+                <div class="col-md-6">
+                    <label for="filtroFechaFin" class="form-label">Fecha de Fin</label>
+                    <input type="date" class="form-control" id="filtroFechaFin" name="filtroFechaFin">
+                </div>
+                <div class="col-md-12">
+                    <label for="filtroCliente" class="form-label">Cliente</label>
+                    <input type="text" class="form-control" id="filtroCliente" name="filtroCliente" placeholder="Nombre del Cliente">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success">Aplicar Filtros</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de facturas -->
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Fecha de Emisión</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Juan Pérez</td>
+                <td>2023-12-10</td>
+                <td>$100.00</td>
+                <td>Pagada</td>
+                <td>
+                    <button class="btn btn-info btn-sm" onclick="verFactura(1)">Ver</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarFactura(1)">Eliminar</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>María López</td>
+                <td>2023-12-08</td>
+                <td>$200.00</td>
+                <td>Pendiente</td>
+                <td>
+                    <button class="btn btn-info btn-sm" onclick="verFactura(2)">Ver</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarFactura(2)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para agregar factura -->
+<div class="modal fade" id="agregarFacturaModal" tabindex="-1" aria-labelledby="agregarFacturaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarFacturaLabel">Agregar Factura</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formFactura">
+                    <div class="mb-3">
+                        <label for="cliente" class="form-label">Cliente</label>
+                        <input type="text" class="form-control" id="cliente" name="cliente" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha de Emisión</label>
+                        <input type="date" class="form-control" id="fecha" name="fecha" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="monto" class="form-label">Monto Total</label>
+                        <input type="number" class="form-control" id="monto" name="monto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="estado" class="form-label">Estado</label>
+                        <select class="form-select" id="estado" name="estado" required>
+                            <option value="Pagada">Pagada</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Anulada">Anulada</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Factura</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function verFactura(id) {
+        alert('Visualizando factura con ID: ' + id);
+    }
+
+    function eliminarFactura(id) {
+        if (confirm('¿Seguro que deseas eliminar la factura con ID: ' + id + '?')) {
+            alert('Factura eliminada.');
+        }
+    }
+
+    function descargarXML() {
+        alert('Descargando factura en formato XML...');
+    }
+
+    function verDashboard() {
+        alert('Visualizando el dashboard de facturas.');
+    }
+</script>
+

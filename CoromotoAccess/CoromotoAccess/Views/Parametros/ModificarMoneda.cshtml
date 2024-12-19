@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "ModificarMoneda";
+}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Modificar Tipo de Moneda</h2>
+    <form id="modificarTipoMonedaForm">
+        <div class="form-group">
+            <label for="tipoMonedaNombre">Nombre del Tipo de Moneda:</label>
+            <input type="text" class="form-control" id="tipoMonedaNombre" name="tipoMonedaNombre" value="Dólares" required>
+        </div>
+        <br />
+        <div class="modal-footer">
+            <a class="btn btn-secondary btn-sm" href="@Url.Action("HojaDeConfiguracion", "Parametros")">Cancelar</a>
+            <a class="btn btn-primary btn-sm" href="@Url.Action("HojaDeConfiguracion", "Parametros")">Guardar Cambios</a>
+        </div>
+    </form>
+</div>
+<br />
+<br />
+<br />
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

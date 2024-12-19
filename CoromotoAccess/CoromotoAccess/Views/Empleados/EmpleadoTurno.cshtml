@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "EmpleadoTurno";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Gestión de Turnos</h2>
+    <p class="text-center">Utiliza las opciones a continuación para gestionar los turnos de los empleados en el sistema.</p>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Crear Turno</h5>
+                    <p class="card-text">Configura y crea nuevos turnos de trabajo para los empleados.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("CrearTurno", "Empleados")">Ir a Crear Turno</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Asignar Turno</h5>
+                    <p class="card-text">Asigna turnos de trabajo a los empleados según su disponibilidad.</p>
+                    <a class="btn btn-outline-secondary" href="@Url.Action("AsignarTurno", "Empleados")">Ir a Asignar Turno</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

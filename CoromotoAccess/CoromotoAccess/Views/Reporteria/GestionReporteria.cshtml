@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "GestionReporteria";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Dashboard de Reportería</h2>
+    <p class="text-center">Visualiza los datos clave de ganancias de las reservas, reservas y ocupación de habitaciones.</p>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Ganancias de las Reservas</h5>
+                    <p class="card-text">Resumen de ganancias del mes.</p>
+                    <h3>$50,000</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Reservas</h5>
+                    <p class="card-text">Total de reservas realizadas.</p>
+                    <h3>120</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Habitaciones Ocupadas</h5>
+                    <p class="card-text">Porcentaje de ocupación de habitaciones.</p>
+                    <h3>85%</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gráfico de Ganancias de las Reservas</h5>
+                    <canvas id="gananciasChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gráfico de Reservas</h5>
+                    <canvas id="reservasChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gráfico de Ocupación de Habitaciones</h5>
+                    <canvas id="ocupacionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctxGanancias = document.getElementById('gananciasChart').getContext('2d');
+    var gananciasChart = new Chart(ctxGanancias, {
+        type: 'line',
+        data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+            datasets: [{
+                label: 'Ganancias de las Reservas',
+                data: [12000, 15000, 10000, 20000, 25000, 30000],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        }
+    });
+
+    var ctxReservas = document.getElementById('reservasChart').getContext('2d');
+    var reservasChart = new Chart(ctxReservas, {
+        type: 'bar',
+        data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+            datasets: [{
+                label: 'Reservas',
+                data: [20, 30, 25, 40, 35, 50],
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        }
+    });
+
+    var ctxOcupacion = document.getElementById('ocupacionChart').getContext('2d');
+    var ocupacionChart = new Chart(ctxOcupacion, {
+        type: 'pie',
+        data: {
+            labels: ['Ocupadas', 'Disponibles'],
+            datasets: [{
+                label: 'Ocupación de Habitaciones',
+                data: [85, 15],
+                backgroundColor: ['rgba(255, 206, 86, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+                borderColor: ['rgba(255, 206, 86, 1)', 'rgba(54, 162, 235, 1)'],
+                borderWidth: 1
+            }]
+        }
+    });
+</script>
