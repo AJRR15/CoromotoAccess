@@ -1,4 +1,6 @@
-﻿@{
+﻿
+@model List<CoromotoAccess.Models.Habitacion>
+@{
     ViewBag.Title = "AdministrarHabitaciones";
 }
 
@@ -54,41 +56,24 @@
                         </tr>
                     </thead>
                     <tbody id="tablaVillaCoromoto">
-                        <tr>
-                            <td>Habitación Deluxe</td>
-                            <td>Cómoda habitación con vistas al jardín y cama king size.</td>
-                            <td>3:00 PM</td>
-                            <td>11:00 AM</td>
-                            <td>$120</td>
-                            <td>
-                                <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion")">Modificar</a>
-                                <a class="btn btn-danger btn-sm" href="#" onclick="eliminarHabitacion(1)">Eliminar</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Habitación Familiar</td>
-                            <td>Espacio ideal para familias con capacidad para 4 personas.</td>
-                            <td>3:00 PM</td>
-                            <td>11:00 AM</td>
-                            <td>$150</td>
-                            <td>
-                                <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion")">Modificar</a>
-                                <a class="btn btn-danger btn-sm" href="#" onclick="eliminarHabitacion(2)">Eliminar</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Habitación Económica</td>
-                            <td>Opción accesible para estancias cortas y viajeros solitarios.</td>
-                            <td>3:00 PM</td>
-                            <td>11:00 AM</td>
-                            <td>$80</td>
-                            <td>
-                                <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion")">Modificar</a>
-                                <a class="btn btn-danger btn-sm" href="#" onclick="eliminarHabitacion(3)">Eliminar</a>
-                            </td>
-                        </tr>
+                        @foreach (var habitacion in Model.Where(h => h.IdVilla == 1))
+                        {
+                            <tr>
+                                <td>@habitacion.NombreHabitacion</td>
+                                <td>@habitacion.Descripcion</td>
+                                <td>@habitacion.CheckIn.ToString("hh:mm tt")</td>
+                                <td>@habitacion.CheckOut.ToString("hh:mm tt")</td>
+                                <td>$@habitacion.Precio.ToString("N2")</td>
+                                <td>
+                                    <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })">Modificar</a>
+                                    <a class="btn btn-danger btn-sm" href="#" onclick="eliminarHabitacion(@habitacion.IdHabitacion)">Eliminar</a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
+
+                <!-- Tabla Villa Vallita -->
                 <br />
                 <h3 class="p17 text-black font-weight-bold">Villa Vallita</h3>
                 <table class="table table-bordered" style="border: 2px solid #000;">
@@ -103,39 +88,20 @@
                         </tr>
                     </thead>
                     <tbody id="tablaVillaVallita">
-                        <tr>
-                            <td>Habitación Deluxe</td>
-                            <td>Cómoda habitación con vistas al jardín y cama king size.</td>
-                            <td>3:00 PM</td>
-                            <td>11:00 AM</td>
-                            <td>$120</td>
-                            <td>
-                                <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion")">Modificar</a>
-                                <a class="btn btn-danger btn-sm" href="#" onclick="eliminarHabitacion(4)">Eliminar</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Habitación Familiar</td>
-                            <td>Espacio ideal para familias con capacidad para 4 personas.</td>
-                            <td>3:00 PM</td>
-                            <td>11:00 AM</td>
-                            <td>$150</td>
-                            <td>
-                                <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion")">Modificar</a>
-                                <a class="btn btn-danger btn-sm" href="#" onclick="eliminarHabitacion(5)">Eliminar</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Habitación Económica</td>
-                            <td>Opción accesible para estancias cortas y viajeros solitarios.</td>
-                            <td>3:00 PM</td>
-                            <td>11:00 AM</td>
-                            <td>$80</td>
-                            <td>
-                                <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion")">Modificar</a>
-                                <a class="btn btn-danger btn-sm" href="#" onclick="eliminarHabitacion(6)">Eliminar</a>
-                            </td>
-                        </tr>
+                        @foreach (var habitacion in Model.Where(h => h.IdVilla == 2))
+                        {
+                            <tr>
+                                <td>@habitacion.NombreHabitacion</td>
+                                <td>@habitacion.Descripcion</td>
+                                <td>@habitacion.CheckIn.ToString("hh:mm tt")</td>
+                                <td>@habitacion.CheckOut.ToString("hh:mm tt")</td>
+                                <td>$@habitacion.Precio.ToString("N2")</td>
+                                <td>
+                                    <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })">Modificar</a>
+                                    <a class="btn btn-danger btn-sm" href="#" onclick="eliminarHabitacion(@habitacion.IdHabitacion)">Eliminar</a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </article>
@@ -157,38 +123,68 @@
                 @using (Html.BeginForm("AgregarHabitacion", "Habitacion", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     <div class="form-group">
-                        <label class="control-label col-md-4" for="Nombre">Nombre:</label>
+                        <label class="control-label col-md-4" for="NombreHabitacion">Nombre:</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="Nombre" name="Nombre" required />
+                            <input type="text" class="form-control" name="NombreHabitacion" required />
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="control-label col-md-4" for="Descripcion">Descripción:</label>
                         <div class="col-md-8">
-                            <textarea class="form-control" id="Descripcion" name="Descripcion" required></textarea>
+                            <textarea class="form-control" name="Descripcion" required></textarea>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="control-label col-md-4" for="CheckIn">Check-in:</label>
                         <div class="col-md-8">
-                            <input type="time" class="form-control" id="CheckIn" name="CheckIn" required />
+                            <input type="time" class="form-control" name="CheckIn" required />
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="control-label col-md-4" for="CheckOut">Check-out:</label>
                         <div class="col-md-8">
-                            <input type="time" class="form-control" id="CheckOut" name="CheckOut" required />
+                            <input type="time" class="form-control" name="CheckOut" required />
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="control-label col-md-4" for="Precio">Precio por noche:</label>
                         <div class="col-md-8">
-                            <input type="number" class="form-control" id="Precio" name="Precio" required />
+                            <input type="number" step="0.01" class="form-control" name="Precio" required />
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Estado">Estado:</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="Estado" required>
+                                <option value="Disponible">Disponible</option>
+                                <option value="Ocupada">Ocupada</option>
+                                <option value="Mantenimiento">Mantenimiento</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="IdVilla">Villa:</label>
+                        <div class="col-md-8">
+                            <input type="number" class="form-control" name="IdVilla" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="IdTipoHabitacion">Tipo de Habitación:</label>
+                        <div class="col-md-8">
+                            <input type="number" class="form-control" name="IdTipoHabitacion" required />
+                        </div>
+                    </div>
+
                     <div class="modal-footer">
-                        <a class="btn btn-secondary ml-3" href="@Url.Action("AdministrarHabitaciones", "Habitacion")">Cerrar</a>
-                        <a class="btn btn-outline-dark ml-3" href="@Url.Action("AdministrarHabitaciones", "Habitacion")">Guardar</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
                     </div>
                 }
             </div>

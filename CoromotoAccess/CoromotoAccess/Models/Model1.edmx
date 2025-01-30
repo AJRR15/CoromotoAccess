@@ -1,0 +1,1410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tActivos">
+          <Key>
+            <PropertyRef Name="IdActivo" />
+          </Key>
+          <Property Name="IdActivo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdHabitacion" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Modelo" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="NumeroSerie" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IdCategoria" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tCategorias">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tContactenos">
+          <Key>
+            <PropertyRef Name="IdContacto" />
+          </Key>
+          <Property Name="IdContacto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="Mensaje" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tEmpleados">
+          <Key>
+            <PropertyRef Name="ConsecutivoEmp" />
+          </Key>
+          <Property Name="ConsecutivoEmp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Identificacion" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="FotoPerfil" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Contrasenna" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ConsecutivoRol" Type="int" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
+          <Property Name="IdVilla" Type="int" Nullable="false" />
+          <Property Name="IdTurno" Type="int" Nullable="false" />
+          <Property Name="Vacaciones" Type="int" Nullable="false" />
+          <Property Name="HorasTrabajadas" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tEvaluaciones">
+          <Key>
+            <PropertyRef Name="IdEvaluacion" />
+          </Key>
+          <Property Name="IdEvaluacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEmpleado" Type="int" Nullable="false" />
+          <Property Name="Comentario" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Calificacion" Type="int" Nullable="false" />
+          <Property Name="FechaEvaluacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tFacturas">
+          <Key>
+            <PropertyRef Name="IdFactura" />
+          </Key>
+          <Property Name="IdFactura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="FechaEmision" Type="datetime" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Total" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tHabitaciones">
+          <Key>
+            <PropertyRef Name="IdHabitacion" />
+          </Key>
+          <Property Name="IdHabitacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreHabitacion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="CheckIn" Type="datetime" Nullable="false" />
+          <Property Name="CheckOut" Type="datetime" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="IdVilla" Type="int" Nullable="false" />
+          <Property Name="IdTipoHabitacion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tLimpiezas">
+          <Key>
+            <PropertyRef Name="IdLimpieza" />
+          </Key>
+          <Property Name="IdLimpieza" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEmpleado" Type="int" Nullable="false" />
+          <Property Name="IdHabitacion" Type="int" Nullable="false" />
+          <Property Name="FechaLimpieza" Type="datetime" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tMetodoPago">
+          <Key>
+            <PropertyRef Name="IdMetodoP" />
+          </Key>
+          <Property Name="IdMetodoP" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreMetodoP" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tMonedas">
+          <Key>
+            <PropertyRef Name="IdMoneda" />
+          </Key>
+          <Property Name="IdMoneda" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreMoneda" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tNominas">
+          <Key>
+            <PropertyRef Name="IdNomina" />
+          </Key>
+          <Property Name="IdNomina" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEmpleado" Type="int" Nullable="false" />
+          <Property Name="Salario" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Bono" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Multa" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tPermisos">
+          <Key>
+            <PropertyRef Name="IdPermiso" />
+          </Key>
+          <Property Name="IdPermiso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdRol" Type="int" Nullable="false" />
+          <Property Name="NombrePermiso" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tReservas">
+          <Key>
+            <PropertyRef Name="IdReserva" />
+          </Key>
+          <Property Name="IdReserva" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="IdHabitacion" Type="int" Nullable="false" />
+          <Property Name="CheckIn" Type="datetime" Nullable="false" />
+          <Property Name="CheckOut" Type="datetime" Nullable="false" />
+          <Property Name="Estado" Type="int" Nullable="false" />
+          <Property Name="IdMoneda" Type="int" Nullable="false" />
+          <Property Name="IdMetodoP" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tRoles">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreRol" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tTiposHabitaciones">
+          <Key>
+            <PropertyRef Name="IdTipodeHabitacion" />
+          </Key>
+          <Property Name="IdTipodeHabitacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreTipodeHabitcion" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tTurnos">
+          <Key>
+            <PropertyRef Name="IdTurno" />
+          </Key>
+          <Property Name="IdTurno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="HoraInicio" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="HoraSalida" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tUsuario">
+          <Key>
+            <PropertyRef Name="ConsecutivoCliente" />
+          </Key>
+          <Property Name="ConsecutivoCliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Identificacion" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="FotoPerfil" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Contrasenna" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ConsecutivoRol" Type="int" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tVacaciones">
+          <Key>
+            <PropertyRef Name="IdVacacion" />
+          </Key>
+          <Property Name="IdVacacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEmpleado" Type="int" Nullable="false" />
+          <Property Name="DiasSolicitados" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="fechaInicio" Type="datetime" Nullable="false" />
+          <Property Name="fechaFin" Type="datetime" Nullable="false" />
+          <Property Name="Estado" Type="int" />
+        </EntityType>
+        <EntityType Name="tVillas">
+          <Key>
+            <PropertyRef Name="IdVilla" />
+          </Key>
+          <Property Name="IdVilla" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreHabitacion" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tActivos_tCategorias">
+          <End Role="tCategorias" Type="Self.tCategorias" Multiplicity="1" />
+          <End Role="tActivos" Type="Self.tActivos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tCategorias">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="tActivos">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tActivos_tHabitaciones">
+          <End Role="tHabitaciones" Type="Self.tHabitaciones" Multiplicity="1" />
+          <End Role="tActivos" Type="Self.tActivos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tHabitaciones">
+              <PropertyRef Name="IdHabitacion" />
+            </Principal>
+            <Dependent Role="tActivos">
+              <PropertyRef Name="IdHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tContactenos_tUsuario">
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="1" />
+          <End Role="tContactenos" Type="Self.tContactenos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUsuario">
+              <PropertyRef Name="ConsecutivoCliente" />
+            </Principal>
+            <Dependent Role="tContactenos">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tEmpleados_tRoles">
+          <End Role="tRoles" Type="Self.tRoles" Multiplicity="1" />
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRoles">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tEmpleados_tTurnos">
+          <End Role="tTurnos" Type="Self.tTurnos" Multiplicity="1" />
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tTurnos">
+              <PropertyRef Name="IdTurno" />
+            </Principal>
+            <Dependent Role="tEmpleados">
+              <PropertyRef Name="IdTurno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tEmpleados_tVillas">
+          <End Role="tVillas" Type="Self.tVillas" Multiplicity="1" />
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tVillas">
+              <PropertyRef Name="IdVilla" />
+            </Principal>
+            <Dependent Role="tEmpleados">
+              <PropertyRef Name="IdVilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tEvaluaciones_tEmpleados">
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
+          <End Role="tEvaluaciones" Type="Self.tEvaluaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoEmp" />
+            </Principal>
+            <Dependent Role="tEvaluaciones">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFacturas_tUsuario">
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="1" />
+          <End Role="tFacturas" Type="Self.tFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUsuario">
+              <PropertyRef Name="ConsecutivoCliente" />
+            </Principal>
+            <Dependent Role="tFacturas">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tHabitaciones_tTipoHabitacion">
+          <End Role="tTiposHabitaciones" Type="Self.tTiposHabitaciones" Multiplicity="1" />
+          <End Role="tHabitaciones" Type="Self.tHabitaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tTiposHabitaciones">
+              <PropertyRef Name="IdTipodeHabitacion" />
+            </Principal>
+            <Dependent Role="tHabitaciones">
+              <PropertyRef Name="IdTipoHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tHabitaciones_tVillas">
+          <End Role="tVillas" Type="Self.tVillas" Multiplicity="1" />
+          <End Role="tHabitaciones" Type="Self.tHabitaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tVillas">
+              <PropertyRef Name="IdVilla" />
+            </Principal>
+            <Dependent Role="tHabitaciones">
+              <PropertyRef Name="IdVilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tLimpiezas_tEmpleados">
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
+          <End Role="tLimpiezas" Type="Self.tLimpiezas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoEmp" />
+            </Principal>
+            <Dependent Role="tLimpiezas">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tLimpiezas_tHabitaciones">
+          <End Role="tHabitaciones" Type="Self.tHabitaciones" Multiplicity="1" />
+          <End Role="tLimpiezas" Type="Self.tLimpiezas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tHabitaciones">
+              <PropertyRef Name="IdHabitacion" />
+            </Principal>
+            <Dependent Role="tLimpiezas">
+              <PropertyRef Name="IdHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tNominas_tEmpleados">
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
+          <End Role="tNominas" Type="Self.tNominas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoEmp" />
+            </Principal>
+            <Dependent Role="tNominas">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tPermisos_tRoles">
+          <End Role="tRoles" Type="Self.tRoles" Multiplicity="1" />
+          <End Role="tPermisos" Type="Self.tPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRoles">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="tPermisos">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tReservas_tHabitaciones">
+          <End Role="tHabitaciones" Type="Self.tHabitaciones" Multiplicity="1" />
+          <End Role="tReservas" Type="Self.tReservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tHabitaciones">
+              <PropertyRef Name="IdHabitacion" />
+            </Principal>
+            <Dependent Role="tReservas">
+              <PropertyRef Name="IdHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tReservas_tMetodoPago">
+          <End Role="tMetodoPago" Type="Self.tMetodoPago" Multiplicity="1" />
+          <End Role="tReservas" Type="Self.tReservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMetodoPago">
+              <PropertyRef Name="IdMetodoP" />
+            </Principal>
+            <Dependent Role="tReservas">
+              <PropertyRef Name="IdMetodoP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tReservas_tMonedas">
+          <End Role="tMonedas" Type="Self.tMonedas" Multiplicity="1" />
+          <End Role="tReservas" Type="Self.tReservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMonedas">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="tReservas">
+              <PropertyRef Name="IdMoneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tReservas_tUsuario">
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="1" />
+          <End Role="tReservas" Type="Self.tReservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUsuario">
+              <PropertyRef Name="ConsecutivoCliente" />
+            </Principal>
+            <Dependent Role="tReservas">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tUsuario_tRoles">
+          <End Role="tRoles" Type="Self.tRoles" Multiplicity="1" />
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRoles">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="tUsuario">
+              <PropertyRef Name="ConsecutivoRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tVacaciones_tEmpleados">
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
+          <End Role="tVacaciones" Type="Self.tVacaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoEmp" />
+            </Principal>
+            <Dependent Role="tVacaciones">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BDCoromotoModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tActivos" EntityType="Self.tActivos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tCategorias" EntityType="Self.tCategorias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tContactenos" EntityType="Self.tContactenos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tEmpleados" EntityType="Self.tEmpleados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tEvaluaciones" EntityType="Self.tEvaluaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tFacturas" EntityType="Self.tFacturas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tHabitaciones" EntityType="Self.tHabitaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tLimpiezas" EntityType="Self.tLimpiezas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMetodoPago" EntityType="Self.tMetodoPago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMonedas" EntityType="Self.tMonedas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tNominas" EntityType="Self.tNominas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tPermisos" EntityType="Self.tPermisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tReservas" EntityType="Self.tReservas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tRoles" EntityType="Self.tRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tTiposHabitaciones" EntityType="Self.tTiposHabitaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tTurnos" EntityType="Self.tTurnos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tUsuario" EntityType="Self.tUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tVacaciones" EntityType="Self.tVacaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tVillas" EntityType="Self.tVillas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tActivos_tCategorias" Association="Self.FK_tActivos_tCategorias">
+            <End Role="tCategorias" EntitySet="tCategorias" />
+            <End Role="tActivos" EntitySet="tActivos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tActivos_tHabitaciones" Association="Self.FK_tActivos_tHabitaciones">
+            <End Role="tHabitaciones" EntitySet="tHabitaciones" />
+            <End Role="tActivos" EntitySet="tActivos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tContactenos_tUsuario" Association="Self.FK_tContactenos_tUsuario">
+            <End Role="tUsuario" EntitySet="tUsuario" />
+            <End Role="tContactenos" EntitySet="tContactenos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tEmpleados_tRoles" Association="Self.FK_tEmpleados_tRoles">
+            <End Role="tRoles" EntitySet="tRoles" />
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tEmpleados_tTurnos" Association="Self.FK_tEmpleados_tTurnos">
+            <End Role="tTurnos" EntitySet="tTurnos" />
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tEmpleados_tVillas" Association="Self.FK_tEmpleados_tVillas">
+            <End Role="tVillas" EntitySet="tVillas" />
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tEvaluaciones_tEmpleados" Association="Self.FK_tEvaluaciones_tEmpleados">
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+            <End Role="tEvaluaciones" EntitySet="tEvaluaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFacturas_tUsuario" Association="Self.FK_tFacturas_tUsuario">
+            <End Role="tUsuario" EntitySet="tUsuario" />
+            <End Role="tFacturas" EntitySet="tFacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tHabitaciones_tTipoHabitacion" Association="Self.FK_tHabitaciones_tTipoHabitacion">
+            <End Role="tTiposHabitaciones" EntitySet="tTiposHabitaciones" />
+            <End Role="tHabitaciones" EntitySet="tHabitaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tHabitaciones_tVillas" Association="Self.FK_tHabitaciones_tVillas">
+            <End Role="tVillas" EntitySet="tVillas" />
+            <End Role="tHabitaciones" EntitySet="tHabitaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLimpiezas_tEmpleados" Association="Self.FK_tLimpiezas_tEmpleados">
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+            <End Role="tLimpiezas" EntitySet="tLimpiezas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLimpiezas_tHabitaciones" Association="Self.FK_tLimpiezas_tHabitaciones">
+            <End Role="tHabitaciones" EntitySet="tHabitaciones" />
+            <End Role="tLimpiezas" EntitySet="tLimpiezas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tNominas_tEmpleados" Association="Self.FK_tNominas_tEmpleados">
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+            <End Role="tNominas" EntitySet="tNominas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPermisos_tRoles" Association="Self.FK_tPermisos_tRoles">
+            <End Role="tRoles" EntitySet="tRoles" />
+            <End Role="tPermisos" EntitySet="tPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReservas_tHabitaciones" Association="Self.FK_tReservas_tHabitaciones">
+            <End Role="tHabitaciones" EntitySet="tHabitaciones" />
+            <End Role="tReservas" EntitySet="tReservas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReservas_tMetodoPago" Association="Self.FK_tReservas_tMetodoPago">
+            <End Role="tMetodoPago" EntitySet="tMetodoPago" />
+            <End Role="tReservas" EntitySet="tReservas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReservas_tMonedas" Association="Self.FK_tReservas_tMonedas">
+            <End Role="tMonedas" EntitySet="tMonedas" />
+            <End Role="tReservas" EntitySet="tReservas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReservas_tUsuario" Association="Self.FK_tReservas_tUsuario">
+            <End Role="tUsuario" EntitySet="tUsuario" />
+            <End Role="tReservas" EntitySet="tReservas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tUsuario_tRoles" Association="Self.FK_tUsuario_tRoles">
+            <End Role="tRoles" EntitySet="tRoles" />
+            <End Role="tUsuario" EntitySet="tUsuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tVacaciones_tEmpleados" Association="Self.FK_tVacaciones_tEmpleados">
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+            <End Role="tVacaciones" EntitySet="tVacaciones" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BDCoromotoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tActivos">
+          <Key>
+            <PropertyRef Name="IdActivo" />
+          </Key>
+          <Property Name="IdActivo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdHabitacion" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Modelo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NumeroSerie" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdCategoria" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tCategorias" Relationship="Self.FK_tActivos_tCategorias" FromRole="tActivos" ToRole="tCategorias" />
+          <NavigationProperty Name="tHabitaciones" Relationship="Self.FK_tActivos_tHabitaciones" FromRole="tActivos" ToRole="tHabitaciones" />
+        </EntityType>
+        <EntityType Name="tCategorias">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tActivos" Relationship="Self.FK_tActivos_tCategorias" FromRole="tCategorias" ToRole="tActivos" />
+        </EntityType>
+        <EntityType Name="tContactenos">
+          <Key>
+            <PropertyRef Name="IdContacto" />
+          </Key>
+          <Property Name="IdContacto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="Mensaje" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tUsuario" Relationship="Self.FK_tContactenos_tUsuario" FromRole="tContactenos" ToRole="tUsuario" />
+        </EntityType>
+        <EntityType Name="tEmpleados">
+          <Key>
+            <PropertyRef Name="ConsecutivoEmp" />
+          </Key>
+          <Property Name="ConsecutivoEmp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Identificacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FotoPerfil" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasenna" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ConsecutivoRol" Type="Int32" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdVilla" Type="Int32" Nullable="false" />
+          <Property Name="IdTurno" Type="Int32" Nullable="false" />
+          <Property Name="Vacaciones" Type="Int32" Nullable="false" />
+          <Property Name="HorasTrabajadas" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tRoles" Relationship="Self.FK_tEmpleados_tRoles" FromRole="tEmpleados" ToRole="tRoles" />
+          <NavigationProperty Name="tTurnos" Relationship="Self.FK_tEmpleados_tTurnos" FromRole="tEmpleados" ToRole="tTurnos" />
+          <NavigationProperty Name="tVillas" Relationship="Self.FK_tEmpleados_tVillas" FromRole="tEmpleados" ToRole="tVillas" />
+          <NavigationProperty Name="tEvaluaciones" Relationship="Self.FK_tEvaluaciones_tEmpleados" FromRole="tEmpleados" ToRole="tEvaluaciones" />
+          <NavigationProperty Name="tLimpiezas" Relationship="Self.FK_tLimpiezas_tEmpleados" FromRole="tEmpleados" ToRole="tLimpiezas" />
+          <NavigationProperty Name="tNominas" Relationship="Self.FK_tNominas_tEmpleados" FromRole="tEmpleados" ToRole="tNominas" />
+          <NavigationProperty Name="tVacaciones" Relationship="Self.FK_tVacaciones_tEmpleados" FromRole="tEmpleados" ToRole="tVacaciones" />
+        </EntityType>
+        <EntityType Name="tEvaluaciones">
+          <Key>
+            <PropertyRef Name="IdEvaluacion" />
+          </Key>
+          <Property Name="IdEvaluacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="Comentario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Calificacion" Type="Int32" Nullable="false" />
+          <Property Name="FechaEvaluacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tEmpleados" Relationship="Self.FK_tEvaluaciones_tEmpleados" FromRole="tEvaluaciones" ToRole="tEmpleados" />
+        </EntityType>
+        <EntityType Name="tFacturas">
+          <Key>
+            <PropertyRef Name="IdFactura" />
+          </Key>
+          <Property Name="IdFactura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="FechaEmision" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Total" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tUsuario" Relationship="Self.FK_tFacturas_tUsuario" FromRole="tFacturas" ToRole="tUsuario" />
+        </EntityType>
+        <EntityType Name="tHabitaciones">
+          <Key>
+            <PropertyRef Name="IdHabitacion" />
+          </Key>
+          <Property Name="IdHabitacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreHabitacion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="CheckIn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CheckOut" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="IdVilla" Type="Int32" Nullable="false" />
+          <Property Name="IdTipoHabitacion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tActivos" Relationship="Self.FK_tActivos_tHabitaciones" FromRole="tHabitaciones" ToRole="tActivos" />
+          <NavigationProperty Name="tTiposHabitaciones" Relationship="Self.FK_tHabitaciones_tTipoHabitacion" FromRole="tHabitaciones" ToRole="tTiposHabitaciones" />
+          <NavigationProperty Name="tVillas" Relationship="Self.FK_tHabitaciones_tVillas" FromRole="tHabitaciones" ToRole="tVillas" />
+          <NavigationProperty Name="tLimpiezas" Relationship="Self.FK_tLimpiezas_tHabitaciones" FromRole="tHabitaciones" ToRole="tLimpiezas" />
+          <NavigationProperty Name="tReservas" Relationship="Self.FK_tReservas_tHabitaciones" FromRole="tHabitaciones" ToRole="tReservas" />
+        </EntityType>
+        <EntityType Name="tLimpiezas">
+          <Key>
+            <PropertyRef Name="IdLimpieza" />
+          </Key>
+          <Property Name="IdLimpieza" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="IdHabitacion" Type="Int32" Nullable="false" />
+          <Property Name="FechaLimpieza" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tEmpleados" Relationship="Self.FK_tLimpiezas_tEmpleados" FromRole="tLimpiezas" ToRole="tEmpleados" />
+          <NavigationProperty Name="tHabitaciones" Relationship="Self.FK_tLimpiezas_tHabitaciones" FromRole="tLimpiezas" ToRole="tHabitaciones" />
+        </EntityType>
+        <EntityType Name="tMetodoPago">
+          <Key>
+            <PropertyRef Name="IdMetodoP" />
+          </Key>
+          <Property Name="IdMetodoP" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreMetodoP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tReservas" Relationship="Self.FK_tReservas_tMetodoPago" FromRole="tMetodoPago" ToRole="tReservas" />
+        </EntityType>
+        <EntityType Name="tMonedas">
+          <Key>
+            <PropertyRef Name="IdMoneda" />
+          </Key>
+          <Property Name="IdMoneda" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreMoneda" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tReservas" Relationship="Self.FK_tReservas_tMonedas" FromRole="tMonedas" ToRole="tReservas" />
+        </EntityType>
+        <EntityType Name="tNominas">
+          <Key>
+            <PropertyRef Name="IdNomina" />
+          </Key>
+          <Property Name="IdNomina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="Salario" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Bono" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Multa" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="tEmpleados" Relationship="Self.FK_tNominas_tEmpleados" FromRole="tNominas" ToRole="tEmpleados" />
+        </EntityType>
+        <EntityType Name="tPermisos">
+          <Key>
+            <PropertyRef Name="IdPermiso" />
+          </Key>
+          <Property Name="IdPermiso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdRol" Type="Int32" Nullable="false" />
+          <Property Name="NombrePermiso" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tRoles" Relationship="Self.FK_tPermisos_tRoles" FromRole="tPermisos" ToRole="tRoles" />
+        </EntityType>
+        <EntityType Name="tReservas">
+          <Key>
+            <PropertyRef Name="IdReserva" />
+          </Key>
+          <Property Name="IdReserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="IdHabitacion" Type="Int32" Nullable="false" />
+          <Property Name="CheckIn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CheckOut" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Estado" Type="Int32" Nullable="false" />
+          <Property Name="IdMoneda" Type="Int32" Nullable="false" />
+          <Property Name="IdMetodoP" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tHabitaciones" Relationship="Self.FK_tReservas_tHabitaciones" FromRole="tReservas" ToRole="tHabitaciones" />
+          <NavigationProperty Name="tMetodoPago" Relationship="Self.FK_tReservas_tMetodoPago" FromRole="tReservas" ToRole="tMetodoPago" />
+          <NavigationProperty Name="tMonedas" Relationship="Self.FK_tReservas_tMonedas" FromRole="tReservas" ToRole="tMonedas" />
+          <NavigationProperty Name="tUsuario" Relationship="Self.FK_tReservas_tUsuario" FromRole="tReservas" ToRole="tUsuario" />
+        </EntityType>
+        <EntityType Name="tRoles">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreRol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tEmpleados" Relationship="Self.FK_tEmpleados_tRoles" FromRole="tRoles" ToRole="tEmpleados" />
+          <NavigationProperty Name="tPermisos" Relationship="Self.FK_tPermisos_tRoles" FromRole="tRoles" ToRole="tPermisos" />
+          <NavigationProperty Name="tUsuario" Relationship="Self.FK_tUsuario_tRoles" FromRole="tRoles" ToRole="tUsuario" />
+        </EntityType>
+        <EntityType Name="tTiposHabitaciones">
+          <Key>
+            <PropertyRef Name="IdTipodeHabitacion" />
+          </Key>
+          <Property Name="IdTipodeHabitacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreTipodeHabitcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tHabitaciones" Relationship="Self.FK_tHabitaciones_tTipoHabitacion" FromRole="tTiposHabitaciones" ToRole="tHabitaciones" />
+        </EntityType>
+        <EntityType Name="tTurnos">
+          <Key>
+            <PropertyRef Name="IdTurno" />
+          </Key>
+          <Property Name="IdTurno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HoraInicio" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HoraSalida" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tEmpleados" Relationship="Self.FK_tEmpleados_tTurnos" FromRole="tTurnos" ToRole="tEmpleados" />
+        </EntityType>
+        <EntityType Name="tUsuario">
+          <Key>
+            <PropertyRef Name="ConsecutivoCliente" />
+          </Key>
+          <Property Name="ConsecutivoCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Identificacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FotoPerfil" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasenna" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ConsecutivoRol" Type="Int32" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tContactenos" Relationship="Self.FK_tContactenos_tUsuario" FromRole="tUsuario" ToRole="tContactenos" />
+          <NavigationProperty Name="tFacturas" Relationship="Self.FK_tFacturas_tUsuario" FromRole="tUsuario" ToRole="tFacturas" />
+          <NavigationProperty Name="tReservas" Relationship="Self.FK_tReservas_tUsuario" FromRole="tUsuario" ToRole="tReservas" />
+          <NavigationProperty Name="tRoles" Relationship="Self.FK_tUsuario_tRoles" FromRole="tUsuario" ToRole="tRoles" />
+        </EntityType>
+        <EntityType Name="tVacaciones">
+          <Key>
+            <PropertyRef Name="IdVacacion" />
+          </Key>
+          <Property Name="IdVacacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="DiasSolicitados" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fechaInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fechaFin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Estado" Type="Int32" />
+          <NavigationProperty Name="tEmpleados" Relationship="Self.FK_tVacaciones_tEmpleados" FromRole="tVacaciones" ToRole="tEmpleados" />
+        </EntityType>
+        <EntityType Name="tVillas">
+          <Key>
+            <PropertyRef Name="IdVilla" />
+          </Key>
+          <Property Name="IdVilla" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreHabitacion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tEmpleados" Relationship="Self.FK_tEmpleados_tVillas" FromRole="tVillas" ToRole="tEmpleados" />
+          <NavigationProperty Name="tHabitaciones" Relationship="Self.FK_tHabitaciones_tVillas" FromRole="tVillas" ToRole="tHabitaciones" />
+        </EntityType>
+        <Association Name="FK_tActivos_tCategorias">
+          <End Role="tCategorias" Type="Self.tCategorias" Multiplicity="1" />
+          <End Role="tActivos" Type="Self.tActivos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tCategorias">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="tActivos">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tActivos_tHabitaciones">
+          <End Role="tHabitaciones" Type="Self.tHabitaciones" Multiplicity="1" />
+          <End Role="tActivos" Type="Self.tActivos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tHabitaciones">
+              <PropertyRef Name="IdHabitacion" />
+            </Principal>
+            <Dependent Role="tActivos">
+              <PropertyRef Name="IdHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tContactenos_tUsuario">
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="1" />
+          <End Role="tContactenos" Type="Self.tContactenos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUsuario">
+              <PropertyRef Name="ConsecutivoCliente" />
+            </Principal>
+            <Dependent Role="tContactenos">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tEmpleados_tRoles">
+          <End Role="tRoles" Type="Self.tRoles" Multiplicity="1" />
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRoles">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tEmpleados_tTurnos">
+          <End Role="tTurnos" Type="Self.tTurnos" Multiplicity="1" />
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tTurnos">
+              <PropertyRef Name="IdTurno" />
+            </Principal>
+            <Dependent Role="tEmpleados">
+              <PropertyRef Name="IdTurno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tEmpleados_tVillas">
+          <End Role="tVillas" Type="Self.tVillas" Multiplicity="1" />
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tVillas">
+              <PropertyRef Name="IdVilla" />
+            </Principal>
+            <Dependent Role="tEmpleados">
+              <PropertyRef Name="IdVilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tEvaluaciones_tEmpleados">
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
+          <End Role="tEvaluaciones" Type="Self.tEvaluaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoEmp" />
+            </Principal>
+            <Dependent Role="tEvaluaciones">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tLimpiezas_tEmpleados">
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
+          <End Role="tLimpiezas" Type="Self.tLimpiezas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoEmp" />
+            </Principal>
+            <Dependent Role="tLimpiezas">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tNominas_tEmpleados">
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
+          <End Role="tNominas" Type="Self.tNominas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoEmp" />
+            </Principal>
+            <Dependent Role="tNominas">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tVacaciones_tEmpleados">
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
+          <End Role="tVacaciones" Type="Self.tVacaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoEmp" />
+            </Principal>
+            <Dependent Role="tVacaciones">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tFacturas_tUsuario">
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="1" />
+          <End Role="tFacturas" Type="Self.tFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUsuario">
+              <PropertyRef Name="ConsecutivoCliente" />
+            </Principal>
+            <Dependent Role="tFacturas">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tHabitaciones_tTipoHabitacion">
+          <End Role="tTiposHabitaciones" Type="Self.tTiposHabitaciones" Multiplicity="1" />
+          <End Role="tHabitaciones" Type="Self.tHabitaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tTiposHabitaciones">
+              <PropertyRef Name="IdTipodeHabitacion" />
+            </Principal>
+            <Dependent Role="tHabitaciones">
+              <PropertyRef Name="IdTipoHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tHabitaciones_tVillas">
+          <End Role="tVillas" Type="Self.tVillas" Multiplicity="1" />
+          <End Role="tHabitaciones" Type="Self.tHabitaciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tVillas">
+              <PropertyRef Name="IdVilla" />
+            </Principal>
+            <Dependent Role="tHabitaciones">
+              <PropertyRef Name="IdVilla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tLimpiezas_tHabitaciones">
+          <End Role="tHabitaciones" Type="Self.tHabitaciones" Multiplicity="1" />
+          <End Role="tLimpiezas" Type="Self.tLimpiezas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tHabitaciones">
+              <PropertyRef Name="IdHabitacion" />
+            </Principal>
+            <Dependent Role="tLimpiezas">
+              <PropertyRef Name="IdHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tReservas_tHabitaciones">
+          <End Role="tHabitaciones" Type="Self.tHabitaciones" Multiplicity="1" />
+          <End Role="tReservas" Type="Self.tReservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tHabitaciones">
+              <PropertyRef Name="IdHabitacion" />
+            </Principal>
+            <Dependent Role="tReservas">
+              <PropertyRef Name="IdHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tReservas_tMetodoPago">
+          <End Role="tMetodoPago" Type="Self.tMetodoPago" Multiplicity="1" />
+          <End Role="tReservas" Type="Self.tReservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMetodoPago">
+              <PropertyRef Name="IdMetodoP" />
+            </Principal>
+            <Dependent Role="tReservas">
+              <PropertyRef Name="IdMetodoP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tReservas_tMonedas">
+          <End Role="tMonedas" Type="Self.tMonedas" Multiplicity="1" />
+          <End Role="tReservas" Type="Self.tReservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMonedas">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="tReservas">
+              <PropertyRef Name="IdMoneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tPermisos_tRoles">
+          <End Role="tRoles" Type="Self.tRoles" Multiplicity="1" />
+          <End Role="tPermisos" Type="Self.tPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRoles">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="tPermisos">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tReservas_tUsuario">
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="1" />
+          <End Role="tReservas" Type="Self.tReservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUsuario">
+              <PropertyRef Name="ConsecutivoCliente" />
+            </Principal>
+            <Dependent Role="tReservas">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tUsuario_tRoles">
+          <End Role="tRoles" Type="Self.tRoles" Multiplicity="1" />
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRoles">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="tUsuario">
+              <PropertyRef Name="ConsecutivoRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BDCoromotoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tActivos" EntityType="Self.tActivos" />
+          <EntitySet Name="tCategorias" EntityType="Self.tCategorias" />
+          <EntitySet Name="tContactenos" EntityType="Self.tContactenos" />
+          <EntitySet Name="tEmpleados" EntityType="Self.tEmpleados" />
+          <EntitySet Name="tEvaluaciones" EntityType="Self.tEvaluaciones" />
+          <EntitySet Name="tFacturas" EntityType="Self.tFacturas" />
+          <EntitySet Name="tHabitaciones" EntityType="Self.tHabitaciones" />
+          <EntitySet Name="tLimpiezas" EntityType="Self.tLimpiezas" />
+          <EntitySet Name="tMetodoPago" EntityType="Self.tMetodoPago" />
+          <EntitySet Name="tMonedas" EntityType="Self.tMonedas" />
+          <EntitySet Name="tNominas" EntityType="Self.tNominas" />
+          <EntitySet Name="tPermisos" EntityType="Self.tPermisos" />
+          <EntitySet Name="tReservas" EntityType="Self.tReservas" />
+          <EntitySet Name="tRoles" EntityType="Self.tRoles" />
+          <EntitySet Name="tTiposHabitaciones" EntityType="Self.tTiposHabitaciones" />
+          <EntitySet Name="tTurnos" EntityType="Self.tTurnos" />
+          <EntitySet Name="tUsuario" EntityType="Self.tUsuario" />
+          <EntitySet Name="tVacaciones" EntityType="Self.tVacaciones" />
+          <EntitySet Name="tVillas" EntityType="Self.tVillas" />
+          <AssociationSet Name="FK_tActivos_tCategorias" Association="Self.FK_tActivos_tCategorias">
+            <End Role="tCategorias" EntitySet="tCategorias" />
+            <End Role="tActivos" EntitySet="tActivos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tActivos_tHabitaciones" Association="Self.FK_tActivos_tHabitaciones">
+            <End Role="tHabitaciones" EntitySet="tHabitaciones" />
+            <End Role="tActivos" EntitySet="tActivos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tContactenos_tUsuario" Association="Self.FK_tContactenos_tUsuario">
+            <End Role="tUsuario" EntitySet="tUsuario" />
+            <End Role="tContactenos" EntitySet="tContactenos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tEmpleados_tRoles" Association="Self.FK_tEmpleados_tRoles">
+            <End Role="tRoles" EntitySet="tRoles" />
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tEmpleados_tTurnos" Association="Self.FK_tEmpleados_tTurnos">
+            <End Role="tTurnos" EntitySet="tTurnos" />
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tEmpleados_tVillas" Association="Self.FK_tEmpleados_tVillas">
+            <End Role="tVillas" EntitySet="tVillas" />
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tEvaluaciones_tEmpleados" Association="Self.FK_tEvaluaciones_tEmpleados">
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+            <End Role="tEvaluaciones" EntitySet="tEvaluaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLimpiezas_tEmpleados" Association="Self.FK_tLimpiezas_tEmpleados">
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+            <End Role="tLimpiezas" EntitySet="tLimpiezas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tNominas_tEmpleados" Association="Self.FK_tNominas_tEmpleados">
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+            <End Role="tNominas" EntitySet="tNominas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tVacaciones_tEmpleados" Association="Self.FK_tVacaciones_tEmpleados">
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+            <End Role="tVacaciones" EntitySet="tVacaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tFacturas_tUsuario" Association="Self.FK_tFacturas_tUsuario">
+            <End Role="tUsuario" EntitySet="tUsuario" />
+            <End Role="tFacturas" EntitySet="tFacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tHabitaciones_tTipoHabitacion" Association="Self.FK_tHabitaciones_tTipoHabitacion">
+            <End Role="tTiposHabitaciones" EntitySet="tTiposHabitaciones" />
+            <End Role="tHabitaciones" EntitySet="tHabitaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tHabitaciones_tVillas" Association="Self.FK_tHabitaciones_tVillas">
+            <End Role="tVillas" EntitySet="tVillas" />
+            <End Role="tHabitaciones" EntitySet="tHabitaciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLimpiezas_tHabitaciones" Association="Self.FK_tLimpiezas_tHabitaciones">
+            <End Role="tHabitaciones" EntitySet="tHabitaciones" />
+            <End Role="tLimpiezas" EntitySet="tLimpiezas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReservas_tHabitaciones" Association="Self.FK_tReservas_tHabitaciones">
+            <End Role="tHabitaciones" EntitySet="tHabitaciones" />
+            <End Role="tReservas" EntitySet="tReservas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReservas_tMetodoPago" Association="Self.FK_tReservas_tMetodoPago">
+            <End Role="tMetodoPago" EntitySet="tMetodoPago" />
+            <End Role="tReservas" EntitySet="tReservas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReservas_tMonedas" Association="Self.FK_tReservas_tMonedas">
+            <End Role="tMonedas" EntitySet="tMonedas" />
+            <End Role="tReservas" EntitySet="tReservas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tPermisos_tRoles" Association="Self.FK_tPermisos_tRoles">
+            <End Role="tRoles" EntitySet="tRoles" />
+            <End Role="tPermisos" EntitySet="tPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tReservas_tUsuario" Association="Self.FK_tReservas_tUsuario">
+            <End Role="tUsuario" EntitySet="tUsuario" />
+            <End Role="tReservas" EntitySet="tReservas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tUsuario_tRoles" Association="Self.FK_tUsuario_tRoles">
+            <End Role="tRoles" EntitySet="tRoles" />
+            <End Role="tUsuario" EntitySet="tUsuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BDCoromotoModelStoreContainer" CdmEntityContainer="BDCoromotoEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BDCoromotoModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tActivos">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tActivos">
+              <MappingFragment StoreEntitySet="tActivos">
+                <ScalarProperty Name="IdActivo" ColumnName="IdActivo" />
+                <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="NumeroSerie" ColumnName="NumeroSerie" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tCategorias">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tCategorias">
+              <MappingFragment StoreEntitySet="tCategorias">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tContactenos">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tContactenos">
+              <MappingFragment StoreEntitySet="tContactenos">
+                <ScalarProperty Name="IdContacto" ColumnName="IdContacto" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tEmpleados">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tEmpleados">
+              <MappingFragment StoreEntitySet="tEmpleados">
+                <ScalarProperty Name="ConsecutivoEmp" ColumnName="ConsecutivoEmp" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="FotoPerfil" ColumnName="FotoPerfil" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="ConsecutivoRol" ColumnName="ConsecutivoRol" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
+                <ScalarProperty Name="IdVilla" ColumnName="IdVilla" />
+                <ScalarProperty Name="IdTurno" ColumnName="IdTurno" />
+                <ScalarProperty Name="Vacaciones" ColumnName="Vacaciones" />
+                <ScalarProperty Name="HorasTrabajadas" ColumnName="HorasTrabajadas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tEvaluaciones">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tEvaluaciones">
+              <MappingFragment StoreEntitySet="tEvaluaciones">
+                <ScalarProperty Name="IdEvaluacion" ColumnName="IdEvaluacion" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
+                <ScalarProperty Name="FechaEvaluacion" ColumnName="FechaEvaluacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tFacturas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tFacturas">
+              <MappingFragment StoreEntitySet="tFacturas">
+                <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tHabitaciones">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tHabitaciones">
+              <MappingFragment StoreEntitySet="tHabitaciones">
+                <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />
+                <ScalarProperty Name="NombreHabitacion" ColumnName="NombreHabitacion" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
+                <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdVilla" ColumnName="IdVilla" />
+                <ScalarProperty Name="IdTipoHabitacion" ColumnName="IdTipoHabitacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tLimpiezas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tLimpiezas">
+              <MappingFragment StoreEntitySet="tLimpiezas">
+                <ScalarProperty Name="IdLimpieza" ColumnName="IdLimpieza" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />
+                <ScalarProperty Name="FechaLimpieza" ColumnName="FechaLimpieza" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMetodoPago">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tMetodoPago">
+              <MappingFragment StoreEntitySet="tMetodoPago">
+                <ScalarProperty Name="IdMetodoP" ColumnName="IdMetodoP" />
+                <ScalarProperty Name="NombreMetodoP" ColumnName="NombreMetodoP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMonedas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tMonedas">
+              <MappingFragment StoreEntitySet="tMonedas">
+                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+                <ScalarProperty Name="NombreMoneda" ColumnName="NombreMoneda" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tNominas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tNominas">
+              <MappingFragment StoreEntitySet="tNominas">
+                <ScalarProperty Name="IdNomina" ColumnName="IdNomina" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="Salario" ColumnName="Salario" />
+                <ScalarProperty Name="Bono" ColumnName="Bono" />
+                <ScalarProperty Name="Multa" ColumnName="Multa" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tPermisos">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tPermisos">
+              <MappingFragment StoreEntitySet="tPermisos">
+                <ScalarProperty Name="IdPermiso" ColumnName="IdPermiso" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombrePermiso" ColumnName="NombrePermiso" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tReservas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tReservas">
+              <MappingFragment StoreEntitySet="tReservas">
+                <ScalarProperty Name="IdReserva" ColumnName="IdReserva" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />
+                <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
+                <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+                <ScalarProperty Name="IdMetodoP" ColumnName="IdMetodoP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tRoles">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tRoles">
+              <MappingFragment StoreEntitySet="tRoles">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tTiposHabitaciones">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tTiposHabitaciones">
+              <MappingFragment StoreEntitySet="tTiposHabitaciones">
+                <ScalarProperty Name="IdTipodeHabitacion" ColumnName="IdTipodeHabitacion" />
+                <ScalarProperty Name="NombreTipodeHabitcion" ColumnName="NombreTipodeHabitcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tTurnos">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tTurnos">
+              <MappingFragment StoreEntitySet="tTurnos">
+                <ScalarProperty Name="IdTurno" ColumnName="IdTurno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tUsuario">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tUsuario">
+              <MappingFragment StoreEntitySet="tUsuario">
+                <ScalarProperty Name="ConsecutivoCliente" ColumnName="ConsecutivoCliente" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="FotoPerfil" ColumnName="FotoPerfil" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="ConsecutivoRol" ColumnName="ConsecutivoRol" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tVacaciones">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tVacaciones">
+              <MappingFragment StoreEntitySet="tVacaciones">
+                <ScalarProperty Name="IdVacacion" ColumnName="IdVacacion" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="DiasSolicitados" ColumnName="DiasSolicitados" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tVillas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tVillas">
+              <MappingFragment StoreEntitySet="tVillas">
+                <ScalarProperty Name="IdVilla" ColumnName="IdVilla" />
+                <ScalarProperty Name="NombreHabitacion" ColumnName="NombreHabitacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
