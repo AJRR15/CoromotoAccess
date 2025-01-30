@@ -66,7 +66,10 @@
                                 <td>$@habitacion.Precio.ToString("N2")</td>
                                 <td>
                                     <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })">Modificar</a>
-                                    <a class="btn btn-danger btn-sm" href="#" onclick="eliminarHabitacion(@habitacion.IdHabitacion)">Eliminar</a>
+                                    <form action="@Url.Action("EliminarHabitacion", "Habitacion")" method="post" style="display:inline;">
+                                        <input type="hidden" name="IdHabitacion" value="@habitacion.IdHabitacion" />
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta habitación?')">Eliminar</button>
+                                    </form>
                                 </td>
                             </tr>
                         }
@@ -98,7 +101,10 @@
                                 <td>$@habitacion.Precio.ToString("N2")</td>
                                 <td>
                                     <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })">Modificar</a>
-                                    <a class="btn btn-danger btn-sm" href="#" onclick="eliminarHabitacion(@habitacion.IdHabitacion)">Eliminar</a>
+                                    <form action="@Url.Action("EliminarHabitacion", "Habitacion")" method="post" style="display:inline;">
+                                        <input type="hidden" name="IdHabitacion" value="@habitacion.IdHabitacion" />
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta habitación?')">Eliminar</button>
+                                    </form>
                                 </td>
                             </tr>
                         }

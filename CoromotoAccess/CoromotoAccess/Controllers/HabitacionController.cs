@@ -105,9 +105,91 @@ namespace CoromotoAccess.Controllers
                 }
             }
         }
-        public ActionResult ModificarHabitacion()
+        [HttpPost]
+        public ActionResult EliminarHabitacion(long IdHabitacion)
         {
-            return View();
+            try
+            {
+                using (var context = new BDCoromotoEntities())
+                {
+                    var habitacion = context.tHabitaciones.Find(IdHabitacion);
+
+                    if (habitacion == null)
+                    {
+                        TempData["Mensaje"] = "La habitacion no existe.";
+                        return RedirectToAction("AdministrarHabitaciones");
+                    }
+
+                    context.tHabitaciones.Remove(habitacion);
+                    context.SaveChanges();
+
+                    TempData["Mensaje"] = "Habitación eliminada exitosamente.";
+                    return RedirectToAction("AdministrarHabitaciones");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = "Error al eliminar la habitacion.";
+                return RedirectToAction("AdministrarHabitaciones");
+            }
+        }
+
+
+
+        [HttpGet]
+        public ActionResult ModificarHabitacion(long id)
+        {
+
+            using (var context = new BDCoromotoEntities())
+            {
+                var model = context.tHabitaciones.Where(x => x.IdHabitacion == id).FirstOrDefault();
+
+                if (model == null)
+                {
+                    ViewBag.MensajePantalla = "No se encontró el producto.";
+                    return RedirectToAction("AdministrarHabitaciones", "Habitacion");
+                }
+
+                var habitacion = new Habitacion()
+                {
+                    IdHabitacion = model.IdHabitacion,
+                    NombreHabitacion = model.NombreHabitacion,
+                    Descripcion = model.Descripcion,
+                    Precio = model.Precio,
+                    CheckIn = model.CheckIn,
+                    CheckOut = model.CheckOut,
+                    Estado = model.Estado,
+                    IdVilla = model.IdVilla,
+                    IdTipoHabitacion = model.IdTipoHabitacion
+                };
+
+                return View(habitacion);
+            }
+        }
+        [HttpPost]
+        public ActionResult ModificarHabitacion(Habitacion model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var datos = context.tHabitaciones.Where(x => x.IdHabitacion == model.IdHabitacion).FirstOrDefault();
+                if (datos != null)
+                {
+                    datos.NombreHabitacion = model.NombreHabitacion;
+                    datos.Descripcion = model.Descripcion;
+                    datos.Precio = model.Precio;
+                    datos.CheckIn = model.CheckIn;
+                    datos.CheckOut = model.CheckOut;
+                    datos.Estado = model.Estado;
+                    datos.IdVilla = model.IdVilla;
+                    datos.IdTipoHabitacion = model.IdTipoHabitacion;
+
+                    context.SaveChanges();
+                    return RedirectToAction("AdministrarHabitaciones", "Habitacion");
+                }
+
+                ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente";
+            }
+            return View(model);
         }
         public ActionResult DatosHabitacion()
         {

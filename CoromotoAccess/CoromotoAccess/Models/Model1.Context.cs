@@ -25,7 +25,6 @@ namespace CoromotoAccess.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<tActivos> tActivos { get; set; }
         public virtual DbSet<tCategorias> tCategorias { get; set; }
         public virtual DbSet<tContactenos> tContactenos { get; set; }
