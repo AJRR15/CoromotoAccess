@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tActivos">
           <Key>
             <PropertyRef Name="IdActivo" />
@@ -182,8 +182,8 @@
           <Property Name="Contrasenna" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="ConsecutivoRol" Type="int" Nullable="false" />
           <Property Name="Activo" Type="bit" Nullable="false" />
-          <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
-          <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="bit" />
+          <Property Name="FechaVencimientoTemp" Type="datetime" />
         </EntityType>
         <EntityType Name="tVacaciones">
           <Key>
@@ -443,6 +443,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="RegistroUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Identificacion" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Apellido" Type="varchar" Mode="In" />
+          <Parameter Name="CorreoElectronico" Type="varchar" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="FotoPerfil" Type="varchar" Mode="In" />
+          <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="BDCoromotoModelStoreContainer">
           <EntitySet Name="tActivos" EntityType="Self.tActivos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tCategorias" EntityType="Self.tCategorias" Schema="dbo" store:Type="Tables" />
@@ -544,8 +553,7 @@
             <End Role="tVacaciones" EntitySet="tVacaciones" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BDCoromotoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -759,8 +767,8 @@
           <Property Name="Contrasenna" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ConsecutivoRol" Type="Int32" Nullable="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
-          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
-          <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TieneContrasennaTemp" Type="Boolean" />
+          <Property Name="FechaVencimientoTemp" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tContactenos" Relationship="Self.FK_tContactenos_tUsuario" FromRole="tUsuario" ToRole="tContactenos" />
           <NavigationProperty Name="tFacturas" Relationship="Self.FK_tFacturas_tUsuario" FromRole="tUsuario" ToRole="tFacturas" />
           <NavigationProperty Name="tReservas" Relationship="Self.FK_tReservas_tUsuario" FromRole="tUsuario" ToRole="tReservas" />
@@ -1127,6 +1135,15 @@
             <End Role="tRoles" EntitySet="tRoles" />
             <End Role="tUsuario" EntitySet="tUsuario" />
           </AssociationSet>
+          <FunctionImport Name="RegistroUsuario">
+            <Parameter Name="Identificacion" Mode="In" Type="String" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+            <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="FotoPerfil" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -1351,6 +1368,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RegistroUsuario" FunctionName="BDCoromotoModel.Store.RegistroUsuario" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -16,37 +16,7 @@ namespace CoromotoAccess.Controllers
             return View();
         }
         // GET: Login/InicioSesion
-        [HttpPost]
-        public ActionResult InicioSesion(Usuario model)
-        {
-            using (var context = new BDCoromotoEntities())
-            {
-                var usuario = context.tUsuario
-                    .FirstOrDefault(u => u.Identificacion == model.Identificacion
-                                      && u.Contrasenna == model.Contrasenna);
-
-                if (usuario != null)
-                {
-                    if (usuario.TieneContrasennaTemp && usuario.FechaVencimientoTemp < DateTime.Now)
-                    {
-                        ViewBag.MensajePantalla = "Credenciales Expiradas";
-                        return View();
-                    }
-
-                    Session["Consecutivo"] = usuario.ConsecutivoCliente;
-                    Session["IdUsuario"] = usuario.Identificacion;
-                    Session["NombreUsuario"] = usuario.Nombre;
-                    Session["Rol"] = usuario.ConsecutivoRol;
-
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ViewBag.MensajePantalla = "Credenciales incorrectas";
-                    return View();
-                }
-            }
-        }
+        
 
         [HttpGet]
         public ActionResult Registro() {
@@ -55,60 +25,73 @@ namespace CoromotoAccess.Controllers
         [HttpPost]
         public ActionResult Registro(Usuario model)
         {
+            // Validar si el modelo es nulo o contiene errores de validación
+            if (model == null || !ModelState.IsValid)
+            {
+                ViewBag.MensajePantalla = "Los datos ingresados no son válidos.";
+                return View(model);
+            }
+
             using (var context = new BDCoromotoEntities())
             {
-                try
-                {
-                    // Validar existencia previa
-                    bool identificacionExiste = context.tUsuario.Any(u => u.Identificacion == model.Identificacion);
-                    bool correoExiste = context.tUsuario.Any(u => u.CorreoElectronico == model.CorreoElectronico);
+                // Verificar si la identificación o el correo ya existen en la base de datos
+                bool identificacionExiste = context.tUsuario.Any(u => u.Identificacion == model.Identificacion);
+                bool correoExiste = context.tUsuario.Any(u => u.CorreoElectronico == model.CorreoElectronico);
 
-                    if (identificacionExiste || correoExiste)
+                if (identificacionExiste || correoExiste)
+                {
+                    if (identificacionExiste && correoExiste)
                     {
-                        if (identificacionExiste && correoExiste)
-                        {
-                            ViewBag.MensajePantalla = "La identificación y el correo ya existen.";
-                        }
-                        else if (identificacionExiste)
-                        {
-                            ViewBag.MensajePantalla = "La identificación ya existe.";
-                        }
-                        else if (correoExiste)
-                        {
-                            ViewBag.MensajePantalla = "El correo ya existe.";
-                        }
-                        return View(model);
-                    } 
-
-                    //model.Contrasenna = BCrypt.Net.BCrypt.HashPassword(model.Contrasenna);
-
-                        var nuevoCliente = new tUsuario
-                        {
-                            ConsecutivoCliente = 0,
-                            Identificacion = model.Identificacion,
-                            Nombre = model.Nombre,
-                            Apellido = model.Apellido,
-                            CorreoElectronico = model.CorreoElectronico,
-                            Telefono = model.Telefono,
-                            FotoPerfil = model.FotoPerfil,
-                            Contrasenna = model.Contrasenna,
-                            ConsecutivoRol = 3,
-                            Activo = true
-
-                        };
-                        context.tUsuario.Add(nuevoCliente);
-                        context.SaveChanges();
-                        return RedirectToAction("InicioSesion", "Login");
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.MensajePantalla = $"Error registrando usuario: {ex.Message}";
+                        ViewBag.MensajePantalla = "La identificación y el correo ya existen.";
+                    }
+                    else if (identificacionExiste)
+                    {
+                        ViewBag.MensajePantalla = "La identificación ya existe.";
+                    }
+                    else if (correoExiste)
+                    {
+                        ViewBag.MensajePantalla = "El correo ya existe.";
+                    }
                     return View(model);
                 }
-            }
-        }
 
-        [HttpGet]
+                
+                    // Validar que FotoPerfil no sea nulo (si la base de datos no acepta nulos)
+                    if (string.IsNullOrEmpty(model.FotoPerfil))
+                    {
+                        model.FotoPerfil = "default.jpg"; // O asigna una imagen por defecto
+                    }
+
+                    // Llamar al procedimiento almacenado `RegistroUsuario`
+                    var respuesta = context.RegistroUsuario(
+                        model.Identificacion,
+                        model.Nombre,
+                        model.Apellido,
+                        model.CorreoElectronico,
+                        model.Telefono,
+                        model.FotoPerfil,
+                        model.Contrasenna
+                    );
+
+                    // Verificar si el registro fue exitoso
+                    if (respuesta > 0)
+                    {
+                        return RedirectToAction("InicioSesion", "Login");
+                    }
+                    else
+                    {
+                        ViewBag.MensajePantalla = "No se ha podido registrar el usuario.";
+                        return View(model);
+                    }
+                }
+                
+            }
+        
+    
+
+
+
+[HttpGet]
         public ActionResult RecuperarAcceso()
         {
             return View();

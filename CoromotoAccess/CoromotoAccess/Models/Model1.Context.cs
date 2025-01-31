@@ -12,6 +12,8 @@ namespace CoromotoAccess.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class BDCoromotoEntities : DbContext
     {
@@ -44,5 +46,38 @@ namespace CoromotoAccess.Models
         public virtual DbSet<tUsuario> tUsuario { get; set; }
         public virtual DbSet<tVacaciones> tVacaciones { get; set; }
         public virtual DbSet<tVillas> tVillas { get; set; }
+    
+        public virtual int RegistroUsuario(string identificacion, string nombre, string apellido, string correoElectronico, string telefono, string fotoPerfil, string contrasenna)
+        {
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var apellidoParameter = apellido != null ?
+                new ObjectParameter("Apellido", apellido) :
+                new ObjectParameter("Apellido", typeof(string));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var telefonoParameter = telefono != null ?
+                new ObjectParameter("Telefono", telefono) :
+                new ObjectParameter("Telefono", typeof(string));
+    
+            var fotoPerfilParameter = fotoPerfil != null ?
+                new ObjectParameter("FotoPerfil", fotoPerfil) :
+                new ObjectParameter("FotoPerfil", typeof(string));
+    
+            var contrasennaParameter = contrasenna != null ?
+                new ObjectParameter("Contrasenna", contrasenna) :
+                new ObjectParameter("Contrasenna", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroUsuario", identificacionParameter, nombreParameter, apellidoParameter, correoElectronicoParameter, telefonoParameter, fotoPerfilParameter, contrasennaParameter);
+        }
     }
 }

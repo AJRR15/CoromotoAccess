@@ -42,12 +42,16 @@
                                 @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control", @type = "lastname", @required = "required" })
                             </div>
                             <div class="mb-4">
+                                <label class="form-label">Correo Electrónico</label>
+                                @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", @type = "email", @required = "required" })
+                            </div>
+                            <div class="mb-4">
                                 <label class="form-label">Número de télefono</label>
                                 @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control", @type = "tel", @required = "required" })
                             </div>
                             <div class="mb-4">
-                                <label class="form-label">Correo Electrónico</label>
-                                @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", @type = "email", @required = "required" })
+                                <label class="form-label">Foto de Perfil</label>
+                                @Html.TextBoxFor(m => m.FotoPerfil, new { @class = "form-control", @type = "text", @required = "required" })
                             </div>
                             <div class="mb-4">
                                 <label class="form-label">Contraseña</label>

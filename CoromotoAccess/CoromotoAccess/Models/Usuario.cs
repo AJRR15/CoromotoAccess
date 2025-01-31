@@ -18,6 +18,6 @@ namespace CoromotoAccess.Models
         public int ConsecutivoRol { get; set; }
         public bool Activo { get; set; }
         public bool TieneContrasennaTemp { get; set; }
-        public DateTime FechaVencimientoTemp { get; set; }
+        public DateTime? FechaVencimientoTemp { get; set; }
     }
 }
