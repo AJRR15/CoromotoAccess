@@ -191,9 +191,43 @@ namespace CoromotoAccess.Controllers
             }
             return View(model);
         }
-        public ActionResult DatosHabitacion()
+        [HttpGet]
+        public ActionResult DatosHabitacion(int id)
         {
-            return View();
+            try
+            {
+                using (var context = new BDCoromotoEntities())
+                {
+                    var habitacion = context.tHabitaciones.Find(id);
+
+                    if (habitacion == null)
+                    {
+                        ViewBag.ErrorMessage = "Habitación no encontrada.";
+                        return View("Error");
+                    }
+
+                    var habitaciones = new List<Habitacion>
+            {
+                new Habitacion
+                {
+                    IdHabitacion = habitacion.IdHabitacion,
+                    NombreHabitacion = habitacion.NombreHabitacion,
+                    Descripcion = habitacion.Descripcion,
+                    Precio = habitacion.Precio,
+                    CheckIn = habitacion.CheckIn,
+                    CheckOut = habitacion.CheckOut,
+                    Estado = habitacion.Estado,
+                    IdVilla = habitacion.IdVilla,
+                }
+            };
+                    return View(habitaciones);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al cargar los datos de la habitación.";
+                return View("Error");
+            }
         }
     }
 }
