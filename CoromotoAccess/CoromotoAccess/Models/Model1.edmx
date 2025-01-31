@@ -443,6 +443,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="InicioSesionEmpleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Identificacion" Type="varchar" Mode="In" />
+          <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="InicioSesionUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Identificacion" Type="varchar" Mode="In" />
+          <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="RegistroUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Identificacion" Type="varchar" Mode="In" />
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
@@ -1135,6 +1143,10 @@
             <End Role="tRoles" EntitySet="tRoles" />
             <End Role="tUsuario" EntitySet="tUsuario" />
           </AssociationSet>
+          <FunctionImport Name="InicioSesionUsuario" ReturnType="Collection(BDCoromotoModel.InicioSesionUsuario_Result)">
+            <Parameter Name="Identificacion" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="RegistroUsuario">
             <Parameter Name="Identificacion" Mode="In" Type="String" />
             <Parameter Name="Nombre" Mode="In" Type="String" />
@@ -1144,7 +1156,45 @@
             <Parameter Name="FotoPerfil" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="InicioSesionEmpleado" ReturnType="Collection(BDCoromotoModel.InicioSesionEmpleado_Result)">
+            <Parameter Name="Identificacion" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="InicioSesionUsuario_Result">
+          <Property Type="Int32" Name="ConsecutivoCliente" Nullable="false" />
+          <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="80" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="FotoPerfil" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Contrasenna" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="ConsecutivoRol" Nullable="false" />
+          <Property Type="Boolean" Name="Activo" Nullable="false" />
+          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="true" />
+          <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="InicioSesionEmpleado_Result">
+          <Property Type="Int32" Name="ConsecutivoEmp" Nullable="false" />
+          <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="80" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="FotoPerfil" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Contrasenna" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="ConsecutivoRol" Nullable="false" />
+          <Property Type="Boolean" Name="Activo" Nullable="false" />
+          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
+          <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="IdVilla" Nullable="false" />
+          <Property Type="Int32" Name="IdTurno" Nullable="false" />
+          <Property Type="Int32" Name="Vacaciones" Nullable="false" />
+          <Property Type="Int32" Name="HorasTrabajadas" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1368,7 +1418,49 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InicioSesionUsuario" FunctionName="BDCoromotoModel.Store.InicioSesionUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BDCoromotoModel.InicioSesionUsuario_Result">
+                <ScalarProperty Name="ConsecutivoCliente" ColumnName="ConsecutivoCliente" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="FotoPerfil" ColumnName="FotoPerfil" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="ConsecutivoRol" ColumnName="ConsecutivoRol" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="RegistroUsuario" FunctionName="BDCoromotoModel.Store.RegistroUsuario" />
+          <FunctionImportMapping FunctionImportName="InicioSesionEmpleado" FunctionName="BDCoromotoModel.Store.InicioSesionEmpleado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BDCoromotoModel.InicioSesionEmpleado_Result">
+                <ScalarProperty Name="ConsecutivoEmp" ColumnName="ConsecutivoEmp" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="FotoPerfil" ColumnName="FotoPerfil" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="ConsecutivoRol" ColumnName="ConsecutivoRol" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
+                <ScalarProperty Name="IdVilla" ColumnName="IdVilla" />
+                <ScalarProperty Name="IdTurno" ColumnName="IdTurno" />
+                <ScalarProperty Name="Vacaciones" ColumnName="Vacaciones" />
+                <ScalarProperty Name="HorasTrabajadas" ColumnName="HorasTrabajadas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

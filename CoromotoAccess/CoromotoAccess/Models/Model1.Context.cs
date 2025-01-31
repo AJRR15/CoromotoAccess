@@ -47,6 +47,19 @@ namespace CoromotoAccess.Models
         public virtual DbSet<tVacaciones> tVacaciones { get; set; }
         public virtual DbSet<tVillas> tVillas { get; set; }
     
+        public virtual ObjectResult<InicioSesionUsuario_Result> InicioSesionUsuario(string identificacion, string contrasenna)
+        {
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var contrasennaParameter = contrasenna != null ?
+                new ObjectParameter("Contrasenna", contrasenna) :
+                new ObjectParameter("Contrasenna", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InicioSesionUsuario_Result>("InicioSesionUsuario", identificacionParameter, contrasennaParameter);
+        }
+    
         public virtual int RegistroUsuario(string identificacion, string nombre, string apellido, string correoElectronico, string telefono, string fotoPerfil, string contrasenna)
         {
             var identificacionParameter = identificacion != null ?
@@ -78,6 +91,19 @@ namespace CoromotoAccess.Models
                 new ObjectParameter("Contrasenna", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroUsuario", identificacionParameter, nombreParameter, apellidoParameter, correoElectronicoParameter, telefonoParameter, fotoPerfilParameter, contrasennaParameter);
+        }
+    
+        public virtual ObjectResult<InicioSesionEmpleado_Result> InicioSesionEmpleado(string identificacion, string contrasenna)
+        {
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var contrasennaParameter = contrasenna != null ?
+                new ObjectParameter("Contrasenna", contrasenna) :
+                new ObjectParameter("Contrasenna", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InicioSesionEmpleado_Result>("InicioSesionEmpleado", identificacionParameter, contrasennaParameter);
         }
     }
 }

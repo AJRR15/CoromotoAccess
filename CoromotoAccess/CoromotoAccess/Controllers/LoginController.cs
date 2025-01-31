@@ -16,7 +16,56 @@ namespace CoromotoAccess.Controllers
             return View();
         }
         // GET: Login/InicioSesion
-        
+
+        // POST: Login/InicioSesion
+        [HttpPost]
+        public ActionResult InicioSesion(Usuario model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var resultadoUsuario = context.InicioSesionUsuario(model.Identificacion, model.Contrasenna).FirstOrDefault();
+                var resultadoEmpleado = context.InicioSesionEmpleado(model.Identificacion, model.Contrasenna).FirstOrDefault();
+
+                if (resultadoUsuario != null)
+                {
+                    if (resultadoUsuario.TieneContrasennaTemp && resultadoUsuario.FechaVencimientoTemp < DateTime.Now)
+                    {
+                        ViewBag.MensajePantalla = "Credenciales Expiradas";
+                        return View();
+                    }
+                    else
+                    {
+                        Session["Consecutivo"] = resultadoUsuario.ConsecutivoCliente;
+                        Session["IdUsuario"] = resultadoUsuario.Identificacion;
+                        Session["NombreUsuario"] = resultadoUsuario.Nombre;
+                        Session["Rol"] = resultadoUsuario.ConsecutivoRol;
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else if (resultadoEmpleado != null)
+                {
+                    if (resultadoEmpleado.TieneContrasennaTemp && resultadoEmpleado.FechaVencimientoTemp < DateTime.Now)
+                    {
+                        ViewBag.MensajePantalla = "Credenciales Expiradas";
+                        return View();
+                    }
+                    else
+                    {
+                        Session["Consecutivo"] = resultadoEmpleado.ConsecutivoCliente;
+                        Session["IdUsuario"] = resultadoEmpleado.Identificacion;
+                        Session["NombreUsuario"] = resultadoEmpleado.Nombre;
+                        Session["Rol"] = resultadoEmpleado.ConsecutivoRol;
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    ViewBag.MensajePantalla = "Correo o Contraseña incorrecta";
+                    return View();
+                }
+            }
+        }
+
 
         [HttpGet]
         public ActionResult Registro() {
@@ -91,7 +140,7 @@ namespace CoromotoAccess.Controllers
 
 
 
-[HttpGet]
+        [HttpGet]
         public ActionResult RecuperarAcceso()
         {
             return View();
