@@ -26,11 +26,11 @@
                 </h1>
             </div>
             <div class="container_24">
-                <div class="language-selector" style="text-align: right; margin-top: 10px;">
+                <div class="language-selector" style="text-align: right; margin-top: 10px; color: white;">
                     <label for="language" style="margin-right: 5px;">
                         Idioma:
                     </label>
-                    <select class="form-control" id="language" name="language" style="display: inline-block; width: auto; border: none; background: none; padding: 0; font-size: 1em;" onchange="cambiarIdioma(this.value)">
+                    <select class="form-control" id="language" name="language" style="display: inline-block; color: #2952ff; width: auto; border: none; background: none; padding: 0; font-size: 1em; " onchange="cambiarIdioma(this.value)">
                         <option value="es">Español</option>
                         <option value="en">Inglés</option>
                         <option value="pt">Portugués</option>
@@ -38,7 +38,13 @@
                 </div>
                 <form id="search1">
 
-                    <p id="welcome-message">Bienvenido, Administrador</p>
+                    @if (Session["NombreUsuario"] != null)
+                    {
+                        <p id="welcome-message" style="color: white;">Bienvenido, @Session["NombreUsuario"].ToString()</p>
+                    }
+                    else {
+                          <p id="welcome-message" style="color: white;">Bienvenido </p>
+                    }
 
                     <div class="clear"></div>
                 </form>
