@@ -89,17 +89,100 @@ namespace CoromotoAccess.Controllers
             }
         }
 
+        //Eliminar Actvo
 
-
-        public ActionResult ModificarActivo()
+        [HttpPost]
+        public ActionResult EliminarActivo(long IdActivo)
         {
-            return View();
+            try
+            {
+                using (var context = new BDCoromotoEntities())
+                {
+                    var activo = context.tActivos.Find(IdActivo);
+
+                    if (activo == null)
+                    {
+                        TempData["Mensaje"] = "El activo no existe.";
+                        return RedirectToAction("AdministrarActivos");
+                    }
+
+                    context.tActivos.Remove(activo);
+                    context.SaveChanges();
+
+                    TempData["Mensaje"] = "Activo eliminado exitosamente.";
+                    return RedirectToAction("AdministrarActivos");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = "Error al eliminar el activo.";
+                return RedirectToAction("AdministrarActivos");
+            }
         }
 
-        public ActionResult EliminarActivo()
+    //Modificar Activo
+        
+        [HttpGet]
+        public ActionResult ModificarActivo(long id)
         {
-            return View();
+            using (var context = new BDCoromotoEntities())
+            {
+                var model = context.tActivos.Where(x => x.IdActivo == id).FirstOrDefault();
+
+                if (model == null)
+                {
+                    ViewBag.MensajePantalla = "No se encontró el activo.";
+                    return RedirectToAction("AdministrarActivos");
+                }
+
+                // Cargar las listas desplegables
+               ViewBag.Categorias = new SelectList(context.tCategorias.ToList(), "IdCategoria", "Nombre");
+               ViewBag.Habitaciones = new SelectList(context.tHabitaciones.ToList(), "IdHabitacion", "NombreHabitacion");
+
+                var activo = new Activo()
+                {
+                    IdActivo = model.IdActivo,
+                    IdHabitacion = model.IdHabitacion,
+                    Nombre = model.Nombre,
+                    Modelo = model.Modelo,
+                    NumeroSerie = model.NumeroSerie,
+                    Descripcion = model.Descripcion,
+                    IdCategoria = model.IdCategoria
+                };
+
+                return View(activo);
+            }
         }
 
+        [HttpPost]
+        public ActionResult ModificarActivo(Activo model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var datos = context.tActivos.Where(x => x.IdActivo == model.IdActivo).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    datos.IdHabitacion = model.IdHabitacion;
+                    datos.Nombre = model.Nombre;
+                    datos.Modelo = model.Modelo;
+                    datos.NumeroSerie = model.NumeroSerie;
+                    datos.Descripcion = model.Descripcion;
+                    datos.IdCategoria = model.IdCategoria;
+
+                    context.SaveChanges();
+
+                    TempData["Mensaje"] = "Activo modificado exitosamente.";
+                    return RedirectToAction("AdministrarActivos");
+                }
+
+                ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente.";
+
+                // Recargar listas desplegables para la vista
+                ViewBag.Categorias = new SelectList(context.tCategorias.ToList(), "IdCategoria", "Nombre");
+                ViewBag.Habitaciones = new SelectList(context.tHabitaciones.ToList(), "IdHabitacion", "NombreHabitacion");
+            }
+            return View(model);
+        }
     }
 }
