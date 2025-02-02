@@ -57,6 +57,8 @@ namespace CoromotoAccess.Controllers
                         IdVilla = item.IdVilla,
                     });
                 }
+                ViewBag.Villas = new SelectList(context.tVillas.ToList(), "IdVilla", "NombreHabitacion");
+                ViewBag.TiposHabitacion = new SelectList(context.tTiposHabitaciones.ToList(), "IdTipodeHabitacion", "NombreTipodeHabitcion");
                 return View(habitaciones); // Ahora la vista recibe una lista
             }
         }
@@ -67,9 +69,8 @@ namespace CoromotoAccess.Controllers
         {
             using (var context = new BDCoromotoEntities())
             {
-                // Cargar datos para los dropdowns
-                ViewBag.Villas = new SelectList(context.tVillas.ToList(), "IdVilla", "NombreVilla");
-                ViewBag.TiposHabitacion = new SelectList(context.tTiposHabitaciones.ToList(), "IdTipoHabitacion", "NombreTipo");
+                ViewBag.Villas = new SelectList(context.tVillas.ToList(), "IdVilla", "NombreHabitacion");
+                ViewBag.TiposHabitacion = new SelectList(context.tTiposHabitaciones.ToList(), "IdTipodeHabitacion", "NombreTipodeHabitcion");
             }
             return View();
         }
@@ -79,6 +80,8 @@ namespace CoromotoAccess.Controllers
         {
             using (var context = new BDCoromotoEntities())
             {
+                ViewBag.Villas = new SelectList(context.tVillas.ToList(), "IdVilla", "NombreHabitacion");
+                ViewBag.TiposHabitacion = new SelectList(context.tTiposHabitaciones.ToList(), "IdTipodeHabitacion", "NombreTipodeHabitcion");
                 try
                 {
                     var nuevaHabitacion = new tHabitaciones
@@ -149,6 +152,9 @@ namespace CoromotoAccess.Controllers
                     ViewBag.MensajePantalla = "No se encontró el producto.";
                     return RedirectToAction("AdministrarHabitaciones", "Habitacion");
                 }
+
+                ViewBag.Villas = new SelectList(context.tVillas.ToList(), "IdVilla", "NombreHabitacion");
+                ViewBag.TiposHabitacion = new SelectList(context.tTiposHabitaciones.ToList(), "IdTipodeHabitacion", "NombreTipodeHabitcion");
 
                 var habitacion = new Habitacion()
                 {

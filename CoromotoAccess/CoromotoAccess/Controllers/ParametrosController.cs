@@ -240,7 +240,8 @@ namespace CoromotoAccess.Controllers
                     context.tTiposHabitaciones.Add(tipoHabitacion);
                     context.SaveChanges();
                     return RedirectToAction("HojaDeConfiguracion");
-                 catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     ViewBag.MensajePantalla = $"Error: {ex.Message}";
                     return View(model);
