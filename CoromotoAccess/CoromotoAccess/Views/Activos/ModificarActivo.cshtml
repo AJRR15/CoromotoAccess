@@ -1,74 +1,56 @@
-﻿@{
+﻿@model CoromotoAccess.Models.Activo
+@{
     ViewBag.Title = "ModificarActivo";
 }
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Modificar Activo</h2>
-    <form class="form-horizontal">
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="NombreActivo">Nombre del Activo:</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" id="NombreActivo" name="NombreActivo" required />
-            </div>
+
+    @if (ViewBag.MensajePantalla != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajePantalla
         </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="Modelo">Modelo:</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" id="Modelo" name="Modelo" required />
-            </div>
+    }
+
+    @using (Html.BeginForm("ModificarActivo", "Activos", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    {
+        @Html.HiddenFor(m => m.IdActivo)
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">ID de Habitación:</label>
+            @Html.DropDownList("IdHabitacion", (SelectList)ViewBag.Habitaciones, "Seleccione una Habitación", new { @class = "form-control", required = "required" })
         </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="NumeroSerie">Número de Serie:</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" id="NumeroSerie" name="NumeroSerie" required />
-            </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Nombre:</label>
+            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", required = "required" })
         </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="DescripcionActivo">Descripción:</label>
-            <div class="col-md-10">
-                <textarea class="form-control" id="DescripcionActivo" name="DescripcionActivo" required></textarea>
-            </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Modelo:</label>
+            @Html.TextBoxFor(m => m.Modelo, new { @class = "form-control", required = "required" })
         </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="Imagenes">Imágenes:</label>
-            <div class="col-md-10">
-                <input type="file" class="form-control" id="Imagenes" name="Imagenes" multiple />
-            </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Número de Serie:</label>
+            @Html.TextBoxFor(m => m.NumeroSerie, new { @class = "form-control", required = "required" })
         </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="Categoria">Categoría:</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" id="Categoria" name="Categoria" required />
-            </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Descripción:</label>
+            @Html.TextBoxFor(m => m.Descripcion, new { @class = "form-control", required = "required" })
         </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="Habitacion">Habitación:</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" id="Habitacion" name="Habitacion" required />
-            </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">ID de Categoria:</label>
+            @Html.DropDownList("IdCategoria", (SelectList)ViewBag.Categorias, "Seleccione una Categoria", new { @class = "form-control", required = "required" })
         </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <div class="col-md-10 offset-md-2">
-                <a href="@Url.Action("AdministrarActivos", "Activos")" class="btn btn-secondary">Cancelar</a>
-                <a href="@Url.Action("AdministrarActivos", "Activos")" class="btn btn-primary mr-2">Guardar Cambios</a>
-            </div>
+
+      
+        <div class="d-flex justify-content-end gap-2">
+            <a href="@Url.Action("AdministrarActivos", "Activos")" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </div>
-        <br />
-        <br />
-    </form>
+    }
 </div>

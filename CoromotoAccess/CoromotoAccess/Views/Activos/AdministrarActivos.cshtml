@@ -40,134 +40,47 @@
             </div>
         </div>
     </div>
-
-
-
-    <div class="d-flex justify-content-between align-items-center">
-        <h3>Villa Coromoto</h3>
-        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#activoModal" onclick="agregarActivo()">Agregar Activo</button>
-    </div>
-    <br />
-    <div class="mb-4">
-        <br />
-        <table class="table table-bordered">
+    @foreach (var habitacion in ViewBag.Habitaciones)
+    {
+        <h3 class="p17 text-black font-weight-bold">@habitacion.Text</h3>
+        <table class="table table-bordered" style="border: 2px solid #000;">
             <thead>
                 <tr>
-                    <th>ID Habitación</th>
-                    <th>Nombre de la Habitación</th>
-                    <th>Activo</th>
+                    <th>IdHabitacion</th>
+                    <th>Nombre</th>
                     <th>Modelo</th>
-                    <th>Número de Serie</th>
-                    <th>Descripción</th>
-                    <th>Categoría</th>
-                    <th>Acciones</th>
+                    <th>NumeroSerie</th>
+                    <th>Descripcion</th>
+                    <th>IdCategoria</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Habitación 1</td>
-                    <td>Activo 1</td>
-                    <td>Modelo A</td>
-                    <td>123456</td>
-                    <td>Descripción del activo 1</td>
-                    <td>Categoría 1</td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarActivo", "Activos")">Modificar</a>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarActivo(1)">Eliminar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Habitación 2</td>
-                    <td>Activo 2</td>
-                    <td>Modelo B</td>
-                    <td>654321</td>
-                    <td>Descripción del activo 2</td>
-                    <td>Categoría 2</td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarActivo", "Activos")">Modificar</a>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarActivo(2)">Eliminar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Habitación 3</td>
-                    <td>Activo 3</td>
-                    <td>Modelo C</td>
-                    <td>789012</td>
-                    <td>Descripción del activo 3</td>
-                    <td>Categoría 3</td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarActivo", "Activos")">Modificar</a>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarActivo(3)">Eliminar</button>
-                    </td>
-                </tr>
+                @foreach (var activo in Model.Where(h => h.IdHabitacion.ToString() == habitacion.Value))
+                {
+                    <tr>
+                        <td>@activo.IdHabitacion</td>
+                        <td>@activo.Nombre</td>
+                        <td>@activo.Modelo</td>
+                        <td>@activo.NumeroSerie</td>
+                        <td>$@activo.Descripcion</td>
+                        <td>$@activo.IdCategoria</td>
+                        <td>
+                            <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarActivo", "Activos", new { id = activo.IdActivo })">Modificar</a>
+                            <form action="@Url.Action("EliminarActivo", "Activos")" method="post" style="display:inline;">
+                                <input type="hidden" name="IdActivo" value="@activo.IdActivo" />
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este activo?')">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
-    </div>
-    <div class="d-flex justify-content-between align-items-center">
-        <h3>Villa Vallita</h3>
-    </div>
-    <br />
-    <div class="mb-4">
         <br />
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID Habitación</th>
-                    <th>Nombre de la Habitación</th>
-                    <th>Activo</th>
-                    <th>Modelo</th>
-                    <th>Número de Serie</th>
-                    <th>Descripción</th>
-                    <th>Categoría</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>4</td>
-                    <td>Habitación 4</td>
-                    <td>Activo 1</td>
-                    <td>Modelo A</td>
-                    <td>123456</td>
-                    <td>Descripción del activo 1</td>
-                    <td>Categoría 1</td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarActivo", "Activos")">Modificar</a>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarActivo(1)">Eliminar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Habitación 5</td>
-                    <td>Activo 2</td>
-                    <td>Modelo B</td>
-                    <td>654321</td>
-                    <td>Descripción del activo 2</td>
-                    <td>Categoría 2</td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarActivo", "Activos")">Modificar</a>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarActivo(2)">Eliminar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Habitación 6</td>
-                    <td>Activo 3</td>
-                    <td>Modelo C</td>
-                    <td>789012</td>
-                    <td>Descripción del activo 3</td>
-                    <td>Categoría 3</td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarActivo", "Activos")">Modificar</a>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarActivo(3)">Eliminar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    }
+
+
+
+</div>
 </div>
 
 
