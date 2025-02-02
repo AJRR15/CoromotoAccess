@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tActivos">
           <Key>
             <PropertyRef Name="IdActivo" />
@@ -141,7 +141,7 @@
           <Property Name="IdHabitacion" Type="int" Nullable="false" />
           <Property Name="CheckIn" Type="datetime" Nullable="false" />
           <Property Name="CheckOut" Type="datetime" Nullable="false" />
-          <Property Name="Estado" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="IdMoneda" Type="int" Nullable="false" />
           <Property Name="IdMetodoP" Type="int" Nullable="false" />
         </EntityType>
@@ -182,8 +182,8 @@
           <Property Name="Contrasenna" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="ConsecutivoRol" Type="int" Nullable="false" />
           <Property Name="Activo" Type="bit" Nullable="false" />
-          <Property Name="TieneContrasennaTemp" Type="bit" />
-          <Property Name="FechaVencimientoTemp" Type="datetime" />
+          <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="tVacaciones">
           <Key>
@@ -561,7 +561,8 @@
             <End Role="tVacaciones" EntitySet="tVacaciones" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BDCoromotoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -725,7 +726,7 @@
           <Property Name="IdHabitacion" Type="Int32" Nullable="false" />
           <Property Name="CheckIn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CheckOut" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Estado" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdMoneda" Type="Int32" Nullable="false" />
           <Property Name="IdMetodoP" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tHabitaciones" Relationship="Self.FK_tReservas_tHabitaciones" FromRole="tReservas" ToRole="tHabitaciones" />
@@ -775,8 +776,8 @@
           <Property Name="Contrasenna" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ConsecutivoRol" Type="Int32" Nullable="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
-          <Property Name="TieneContrasennaTemp" Type="Boolean" />
-          <Property Name="FechaVencimientoTemp" Type="DateTime" Precision="3" />
+          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="tContactenos" Relationship="Self.FK_tContactenos_tUsuario" FromRole="tUsuario" ToRole="tContactenos" />
           <NavigationProperty Name="tFacturas" Relationship="Self.FK_tFacturas_tUsuario" FromRole="tUsuario" ToRole="tFacturas" />
           <NavigationProperty Name="tReservas" Relationship="Self.FK_tReservas_tUsuario" FromRole="tUsuario" ToRole="tReservas" />
@@ -1143,6 +1144,10 @@
             <End Role="tRoles" EntitySet="tRoles" />
             <End Role="tUsuario" EntitySet="tUsuario" />
           </AssociationSet>
+          <FunctionImport Name="InicioSesionEmpleado" ReturnType="Collection(BDCoromotoModel.InicioSesionEmpleado_Result)">
+            <Parameter Name="Identificacion" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="InicioSesionUsuario" ReturnType="Collection(BDCoromotoModel.InicioSesionUsuario_Result)">
             <Parameter Name="Identificacion" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
@@ -1156,26 +1161,7 @@
             <Parameter Name="FotoPerfil" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="InicioSesionEmpleado" ReturnType="Collection(BDCoromotoModel.InicioSesionEmpleado_Result)">
-            <Parameter Name="Identificacion" Mode="In" Type="String" />
-            <Parameter Name="Contrasenna" Mode="In" Type="String" />
-          </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="InicioSesionUsuario_Result">
-          <Property Type="Int32" Name="ConsecutivoCliente" Nullable="false" />
-          <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="80" />
-          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="FotoPerfil" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="Contrasenna" Nullable="false" MaxLength="10" />
-          <Property Type="Int32" Name="ConsecutivoRol" Nullable="false" />
-          <Property Type="Boolean" Name="Activo" Nullable="false" />
-          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
-          <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="true" />
-          <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="true" Precision="23" />
-        </ComplexType>
         <ComplexType Name="InicioSesionEmpleado_Result">
           <Property Type="Int32" Name="ConsecutivoEmp" Nullable="false" />
           <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
@@ -1194,6 +1180,21 @@
           <Property Type="Int32" Name="IdTurno" Nullable="false" />
           <Property Type="Int32" Name="Vacaciones" Nullable="false" />
           <Property Type="Int32" Name="HorasTrabajadas" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="InicioSesionUsuario_Result">
+          <Property Type="Int32" Name="ConsecutivoCliente" Nullable="false" />
+          <Property Type="String" Name="Identificacion" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="80" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="FotoPerfil" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Contrasenna" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="ConsecutivoRol" Nullable="false" />
+          <Property Type="Boolean" Name="Activo" Nullable="false" />
+          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
+          <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="false" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1418,26 +1419,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="InicioSesionUsuario" FunctionName="BDCoromotoModel.Store.InicioSesionUsuario">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BDCoromotoModel.InicioSesionUsuario_Result">
-                <ScalarProperty Name="ConsecutivoCliente" ColumnName="ConsecutivoCliente" />
-                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
-                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="FotoPerfil" ColumnName="FotoPerfil" />
-                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
-                <ScalarProperty Name="ConsecutivoRol" ColumnName="ConsecutivoRol" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
-                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
-                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
-                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="RegistroUsuario" FunctionName="BDCoromotoModel.Store.RegistroUsuario" />
           <FunctionImportMapping FunctionImportName="InicioSesionEmpleado" FunctionName="BDCoromotoModel.Store.InicioSesionEmpleado">
             <ResultMapping>
               <ComplexTypeMapping TypeName="BDCoromotoModel.InicioSesionEmpleado_Result">
@@ -1461,6 +1442,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InicioSesionUsuario" FunctionName="BDCoromotoModel.Store.InicioSesionUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BDCoromotoModel.InicioSesionUsuario_Result">
+                <ScalarProperty Name="ConsecutivoCliente" ColumnName="ConsecutivoCliente" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="FotoPerfil" ColumnName="FotoPerfil" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="ConsecutivoRol" ColumnName="ConsecutivoRol" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RegistroUsuario" FunctionName="BDCoromotoModel.Store.RegistroUsuario" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

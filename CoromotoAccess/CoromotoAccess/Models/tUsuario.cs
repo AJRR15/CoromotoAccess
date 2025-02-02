@@ -32,8 +32,8 @@ namespace CoromotoAccess.Models
         public string Contrasenna { get; set; }
         public int ConsecutivoRol { get; set; }
         public bool Activo { get; set; }
-        public Nullable<bool> TieneContrasennaTemp { get; set; }
-        public Nullable<System.DateTime> FechaVencimientoTemp { get; set; }
+        public bool TieneContrasennaTemp { get; set; }
+        public System.DateTime FechaVencimientoTemp { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tContactenos> tContactenos { get; set; }

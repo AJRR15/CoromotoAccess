@@ -25,6 +25,6 @@ namespace CoromotoAccess.Models
         public bool Activo { get; set; }
         public string NombreRol { get; set; }
         public bool TieneContrasennaTemp { get; set; }
-        public DateTime FechaVencimientoTemp { get; set; }
+        public System.DateTime FechaVencimientoTemp { get; set; }
     }
 }
