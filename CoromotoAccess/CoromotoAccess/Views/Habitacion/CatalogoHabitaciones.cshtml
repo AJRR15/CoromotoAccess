@@ -14,32 +14,44 @@
                 <br />
 
                 <!-- Mostrar habitaciones por villa -->
-                @foreach (var villa in Model.GroupBy(h => h.IdVilla))
+                @foreach (var villa in ViewBag.Villas)
                 {
-                    <h3 class="p17 text-black font-weight-bold">Villa @villa.Key</h3>
+                    <h3 class="p17 text-black font-weight-bold">@villa.NombreHabitacion</h3>
                     <div class="row">
-                        @foreach (var habitacion in villa)
+                        @{
+                            var habitacionesVilla = Model.Where(h => h.IdVilla == villa.IdVilla).ToList();
+                        }
+                        @if (habitacionesVilla.Any())
                         {
-                            <div class="col-md-4 mb-4">
-                                <a href="@Url.Action("DatosHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })" class="text-decoration-none">
-                                    <div class="card h-100 text-center border-0 shadow-sm" style="background-color: #f8f9fa;">
-                                        <div class="card-body">
-                                            <figure class="page3-img1 img-bot">
-                                                <img src="~/Styles/imagenes/AfuerasVilla.jpg"
-                                                     alt="@habitacion.NombreHabitacion"
-                                                     class="img-fluid rounded"
-                                                     style="width:250px; height:225px; object-fit: cover; margin: auto;" />
-                                            </figure>
-                                            <h5 class="card-title text-dark font-weight-bold">@habitacion.NombreHabitacion</h5>
-                                            <p class="card-text text-body">@habitacion.Descripcion</p>
-                                            <span class="text-dark font-weight-bold">Check-in: @habitacion.CheckIn.ToString("hh:mm tt")</span>
-                                            <br />
-                                            <span class="text-dark font-weight-bold">Check-out: @habitacion.CheckOut.ToString("hh:mm tt")</span>
-                                            <br />
-                                            <span class="text-dark font-weight-bold">$@habitacion.Precio.ToString("N2") por noche</span>
+                            foreach (var habitacion in habitacionesVilla)
+                            {
+                                <div class="col-md-4 mb-4">
+                                    <a href="@Url.Action("DatosHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })" class="text-decoration-none">
+                                        <div class="card h-100 text-center border-0 shadow-sm" style="background-color: #f8f9fa;">
+                                            <div class="card-body">
+                                                <figure class="page3-img1 img-bot">
+                                                    <img src="~/Styles/imagenes/AfuerasVilla.jpg"
+                                                         alt="@habitacion.NombreHabitacion"
+                                                         class="img-fluid rounded"
+                                                         style="width:250px; height:225px; object-fit: cover; margin: auto;" />
+                                                </figure>
+                                                <h5 class="card-title text-dark font-weight-bold">@habitacion.NombreHabitacion</h5>
+                                                <p class="card-text text-body">@habitacion.Descripcion</p>
+                                                <span class="text-dark font-weight-bold">Check-in: @habitacion.CheckIn.ToString("hh:mm tt")</span>
+                                                <br />
+                                                <span class="text-dark font-weight-bold">Check-out: @habitacion.CheckOut.ToString("hh:mm tt")</span>
+                                                <br />
+                                                <span class="text-dark font-weight-bold">$@habitacion.Precio.ToString("N2") por noche</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-md-12">
+                                <p class="text-center text-muted">No hay habitaciones registradas a esta villa</p>
                             </div>
                         }
                     </div>

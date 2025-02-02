@@ -31,6 +31,8 @@ namespace CoromotoAccess.Controllers
                         IdVilla = item.IdVilla,
                     });
                 }
+                ViewBag.Villas = context.tVillas.ToList();
+
                 return View(habitaciones);
             }
         }
