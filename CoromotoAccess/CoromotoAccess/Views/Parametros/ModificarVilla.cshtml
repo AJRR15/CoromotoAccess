@@ -1,0 +1,30 @@
+﻿@model CoromotoAccess.Models.Villa
+@{
+    ViewBag.Title = "ModificarVilla";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Modificar Villa</h2>
+
+    @if (ViewBag.MensajePantalla != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajePantalla
+        </div>
+    }
+
+    @using (Html.BeginForm("ModificarVilla", "Parametros", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    {
+        @Html.HiddenFor(m => m.IdVilla)
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Nombre de la Villa:</label>
+            @Html.TextBoxFor(m => m.NombreHabitacion, new { @class = "form-control", required = "required" })
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+            <a href="@Url.Action("HojaDeConfiguracion", "Parametros")" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+    }
+</div>

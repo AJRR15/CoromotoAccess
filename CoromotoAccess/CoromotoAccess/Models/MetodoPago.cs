@@ -5,9 +5,10 @@ using System.Web;
 
 namespace CoromotoAccess.Models
 {
-    public class Villa
+    public class MetodoPago
     {
-        public int IdVilla { get; set; }
-        public string NombreHabitacion { get; set; }
+        public int IdMetodoP { get; set; }
+        public string NombreMetodoP{ get; set; }
+
     }
 }

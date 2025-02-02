@@ -51,7 +51,7 @@ namespace CoromotoAccess.Controllers
                     }
                     else
                     {
-                        Session["Consecutivo"] = resultadoEmpleado.ConsecutivoCliente;
+                        Session["Consecutivo"] = resultadoEmpleado.ConsecutivoEmp;
                         Session["IdUsuario"] = resultadoEmpleado.Identificacion;
                         Session["NombreUsuario"] = resultadoEmpleado.Nombre;
                         Session["Rol"] = resultadoEmpleado.ConsecutivoRol;

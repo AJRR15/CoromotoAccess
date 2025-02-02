@@ -2,15 +2,16 @@
     ViewBag.Title = "HojaDeConfiguracion";
 }
 
+@model CoromotoAccess.Models.Parametros
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">Hoja de Configuración</h2>
     <p class="text-center">Utiliza las opciones a continuación para gestionar los parámetros del sistema.</p>
 
-    <!-- Menú de Parámetros -->
     <div class="row mb-3">
         <div class="col-md-3">
             <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active" id="list-idioma-list" data-toggle="list" href="#list-idioma" role="tab" aria-controls="idioma">Idioma</a>
+                <a class="list-group-item list-group-item-action active" id="list-villa-list" data-toggle="list" href="#list-villa" role="tab" aria-controls="villa">Villas</a>
                 <a class="list-group-item list-group-item-action" id="list-metodos-pago-list" data-toggle="list" href="#list-metodos-pago" role="tab" aria-controls="metodos-pago">Métodos de Pago</a>
                 <a class="list-group-item list-group-item-action" id="list-tipos-habitacion-list" data-toggle="list" href="#list-tipos-habitacion" role="tab" aria-controls="tipos-habitacion">Tipos de Habitación</a>
                 <a class="list-group-item list-group-item-action" id="list-tipos-moneda-list" data-toggle="list" href="#list-tipos-moneda" role="tab" aria-controls="tipos-moneda">Tipos de Moneda</a>
@@ -18,33 +19,31 @@
         </div>
         <div class="col-md-9">
             <div class="tab-content" id="nav-tabContent">
-                <!-- Idioma -->
-                <div class="tab-pane fade show active" id="list-idioma" role="tabpanel" aria-labelledby="list-idioma-list">
-                    <h3>Idioma</h3>
-                    <button class="btn btn-dark mb-3" data-toggle="modal" data-target="#agregarIdiomaModal">Agregar Idioma</button>
-                    <ul class="list-group" id="listaIdiomas">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Español
-                            <div>
-                                <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarIdioma", "Parametros")">Modificar</a>
-                                <button class="btn btn-danger btn-sm" type="button" onclick="eliminarIdioma('Español')">Eliminar</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Inglés
-                            <div>
-                                <button class="btn btn-warning btn-sm" type="button" onclick="modificarIdioma('Inglés')">Modificar</button>
-                                <button class="btn btn-danger btn-sm" type="button" onclick="eliminarIdioma('Inglés')">Eliminar</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Portugués
-                            <div>
-                                <button class="btn btn-warning btn-sm" type="button" onclick="modificarIdioma('Portugués')">Modificar</button>
-                                <button class="btn btn-danger btn-sm" type="button" onclick="eliminarIdioma('Portugués')">Eliminar</button>
-                            </div>
-                        </li>
-                        <!-- Agregar más idiomas según sea necesario -->
+                <!-- Villas -->
+                <div class="tab-pane fade show active" id="list-villa" role="tabpanel" aria-labelledby="list-villa-list">
+                    <h3>Villas</h3>
+                    <button class="btn btn-dark mb-3" data-toggle="modal" data-target="#agregarVillaModal">Agregar villa</button>
+                    <ul class="list-group" id="listaVillas">
+                        @if (Model.Villas != null && Model.Villas.Any())
+                        {
+                            foreach (var villa in Model.Villas)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    @villa.NombreHabitacion
+                                    <div>
+                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarVilla", "Parametros", new { id = villa.IdVilla })">Modificar</a>
+                                        <form action="@Url.Action("EliminarVilla", "Parametros")" method="post" style="display:inline;">
+                                            <input type="hidden" name="IdVilla" value="@villa.IdVilla" />
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta villa?')">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="list-group-item">No hay datos en la base de datos</li>
+                        }
                     </ul>
                 </div>
                 <!-- Métodos de Pago -->
@@ -52,21 +51,26 @@
                     <h3>Métodos de Pago</h3>
                     <button class="btn btn-dark mb-3" data-toggle="modal" data-target="#agregarMetodoPagoModal">Agregar Método de Pago</button>
                     <ul class="list-group" id="listaMetodosPago">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Tarjeta
-                            <div>
-                                <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarMetodoPago", "Parametros")">Modificar</a>
-                                <button class="btn btn-danger btn-sm" type="button" onclick="eliminarMetodoPago('Tarjeta')">Eliminar</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Efectivo
-                            <div>
-                                <button class="btn btn-warning btn-sm" type="button" onclick="modificarMetodoPago('Efectivo')">Modificar</button>
-                                <button class="btn btn-danger btn-sm" type="button" onclick="eliminarMetodoPago('Efectivo')">Eliminar</button>
-                            </div>
-                        </li>
-                        <!-- Agregar más métodos de pago según sea necesario -->
+                        @if (Model.MetodosPago != null && Model.MetodosPago.Any())
+                        {
+                            foreach (var metodo in Model.MetodosPago)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    @metodo.NombreMetodoP
+                                    <div>
+                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarMetodoPago", "Parametros", new { id = metodo.IdMetodoP })">Modificar</a>
+                                        <form action="@Url.Action("EliminarMetodoP", "Parametros")" method="post" style="display:inline;">
+                                            <input type="hidden" name="IdMetodoP" value="@metodo.IdMetodoP" />
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este metodo?')">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="list-group-item">No hay datos en la base de datos</li>
+                        }
                     </ul>
                 </div>
                 <!-- Tipos de Habitación -->
@@ -74,21 +78,26 @@
                     <h3>Tipos de Habitación</h3>
                     <button class="btn btn-dark mb-3" data-toggle="modal" data-target="#agregarTipoHabitacionModal">Agregar Tipo de Habitación</button>
                     <ul class="list-group" id="listaTiposHabitacion">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Estándar
-                            <div>
-                                <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarTipoHabitacion", "Parametros")">Modificar</a>
-                                <button class="btn btn-danger btn-sm" type="button" onclick="eliminarTipoHabitacion('Estándar')">Eliminar</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Lujo
-                            <div>
-                                <button class="btn btn-warning btn-sm" type="button" onclick="modificarTipoHabitacion('Lujo')">Modificar</button>
-                                <button class="btn btn-danger btn-sm" type="button" onclick="eliminarTipoHabitacion('Lujo')">Eliminar</button>
-                            </div>
-                        </li>
-                        <!-- Agregar más tipos de habitación según sea necesario -->
+                        @if (Model.TiposHabitacion != null && Model.TiposHabitacion.Any())
+                        {
+                            foreach (var tipo in Model.TiposHabitacion)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    @tipo.NombreTipodeHabitcion
+                                    <div>
+                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarTipoHabitacion", "Parametros", new { id = tipo.IdTipodeHabitacion })">Modificar</a>
+                                        <form action="@Url.Action("EliminarTipoHabitacion", "Parametros")" method="post" style="display:inline;">
+                                            <input type="hidden" name="IdTipodeHabitacion" value="@tipo.IdTipodeHabitacion" />
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este tipo de habitacion?')">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="list-group-item">No hay datos en la base de datos</li>
+                        }
                     </ul>
                 </div>
                 <!-- Tipos de Moneda -->
@@ -96,21 +105,26 @@
                     <h3>Tipos de Moneda</h3>
                     <button class="btn btn-dark mb-3" data-toggle="modal" data-target="#agregarTipoMonedaModal">Agregar Tipo de Moneda</button>
                     <ul class="list-group" id="listaTiposMoneda">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Dólares
-                            <div>
-                                <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarIdioma", "Parametros")">Modificar</a>
-                                <button class="btn btn-danger btn-sm" type="button" onclick="eliminarTipoMoneda('Dólares')">Eliminar</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Euros
-                            <div>
-                                <button class="btn btn-warning btn-sm" type="button" onclick="modificarTipoMoneda('Euros')">Modificar</button>
-                                <button class="btn btn-danger btn-sm" type="button" onclick="eliminarTipoMoneda('Euros')">Eliminar</button>
-                            </div>
-                        </li>
-                        <!-- Agregar más tipos de moneda según sea necesario -->
+                        @if (Model.TiposMoneda != null && Model.TiposMoneda.Any())
+                        {
+                            foreach (var tipo in Model.TiposMoneda)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    @tipo.NombreMoneda
+                                    <div>
+                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarTipoMoneda", "Parametros", new { id = tipo.IdMoneda })">Modificar</a>
+                                        <form action="@Url.Action("EliminarTipoMoneda", "Parametros")" method="post" style="display:inline;">
+                                            <input type="hidden" name="IdMoneda" value="@tipo.IdMoneda" />
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este metodo?')">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="list-group-item">No hay datos en la base de datos</li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -118,21 +132,21 @@
     </div>
 </div>
 
-<!-- Modal para agregar Idioma -->
-<div class="modal fade" id="agregarIdiomaModal" tabindex="-1" role="dialog" aria-labelledby="agregarIdiomaModalLabel" aria-hidden="true">
+<!-- Modal para agregar Villas -->
+<div class="modal fade" id="agregarVillaModal" tabindex="-1" role="dialog" aria-labelledby="agregarVillaModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregarIdiomaModalLabel">Agregar Idioma</h5>
+                <h5 class="modal-title" id="agregarVillaModalLabel">Agregar Villa</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="agregarIdiomaForm">
+                <form id="agregarVillaForm" method="post" action="@Url.Action("AgregarVilla", "Parametros")">
                     <div class="form-group">
-                        <label for="nuevoIdiomaModal">Nuevo Idioma:</label>
-                        <input type="text" class="form-control" id="nuevoIdiomaModal" name="nuevoIdiomaModal" required>
+                        <label for="nuevoVillaModal">Nombre de la Villa:</label>
+                        <input type="text" class="form-control" id="nuevoVillaModal" name="NombreHabitacion" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -143,7 +157,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para agregar Método de Pago -->
 <div class="modal fade" id="agregarMetodoPagoModal" tabindex="-1" role="dialog" aria-labelledby="agregarMetodoPagoModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -155,10 +168,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="agregarMetodoPagoForm">
+                <form id="agregarMetodoPagoForm" method="post" action="@Url.Action("AgregarMetodoP", "Parametros")">
                     <div class="form-group">
                         <label for="nuevoMetodoPagoModal">Nuevo Método de Pago:</label>
-                        <input type="text" class="form-control" id="nuevoMetodoPagoModal" name="nuevoMetodoPagoModal" required>
+                        <input type="text" class="form-control" id="nuevoMetodoPagoModal" name="NombreMetodoP" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -181,10 +194,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="agregarTipoHabitacionForm">
+                <form id="agregarTipoHabitacionForm" method="post" action="@Url.Action("AgregarTipoHabitacion", "Parametros")">
                     <div class="form-group">
                         <label for="nuevoTipoHabitacionModal">Nuevo Tipo de Habitación:</label>
-                        <input type="text" class="form-control" id="nuevoTipoHabitacionModal" name="nuevoTipoHabitacionModal" required>
+                        <input type="text" class="form-control" id="nuevoTipoHabitacionModal" name="NombreTipodeHabitacion" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -207,10 +220,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="agregarTipoMonedaForm">
+                <form id="agregarTipoMonedaForm" method="post" action="@Url.Action("AgregarTipoMoneda", "Parametros")">
                     <div class="form-group">
                         <label for="nuevoTipoMonedaModal">Nuevo Tipo de Moneda:</label>
-                        <input type="text" class="form-control" id="nuevoTipoMonedaModal" name="nuevoTipoMonedaModal" required>
+                        <input type="text" class="form-control" id="nuevoTipoMonedaModal" name="NombreMoneda" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -221,7 +234,8 @@
         </div>
     </div>
 </div>
-    
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

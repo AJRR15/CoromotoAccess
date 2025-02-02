@@ -1,25 +1,41 @@
-﻿
+﻿@model CoromotoAccess.Models.MetodoPago
+
 @{
     ViewBag.Title = "ModificarMetodoPago";
 }
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Modificar Método de Pago</h2>
-    <form id="modificarMetodoPagoForm">
-        <div class="form-group">
-            <label for="metodoPagoNombre">Nombre del Método de Pago:</label>
-            <input type="text" class="form-control" id="metodoPagoNombre" name="metodoPagoNombre" value="Tarjeta" required>
+    <h2 class="text-center mb-4">Modificar Villa</h2>
+
+    @if (ViewBag.MensajePantalla != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajePantalla
         </div>
-        <br />
-        <div class="modal-footer">
-            <a class="btn btn-secondary btn-sm" href="@Url.Action("HojaDeConfiguracion", "Parametros")">Cancelar</a>
-            <a class="btn btn-primary btn-sm" href="@Url.Action("HojaDeConfiguracion", "Parametros")">Guardar Cambios</a>
+    }
+
+    @using (Html.BeginForm("ModificarMetodoPago", "Parametros", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    {
+        @Html.HiddenFor(m => m.IdMetodoP)
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Nombre del Metodo de Pago:</label>
+            @Html.TextBoxFor(m => m.NombreMetodoP, new { @class = "form-control", required = "required" })
         </div>
-    </form>
+
+        <div class="d-flex justify-content-end gap-2">
+            <a href="@Url.Action("HojaDeConfiguracion", "Parametros")" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+    }
 </div>
 <br />
 <br />
 <br />
+
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

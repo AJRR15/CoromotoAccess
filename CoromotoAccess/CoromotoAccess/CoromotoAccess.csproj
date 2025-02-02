@@ -145,9 +145,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Habitacion.cs" />
+    <Compile Include="Models\InicioSesionEmpleado_Result.cs" />
     <Compile Include="Models\InicioSesionUsuario_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MetodoPago.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -163,6 +165,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Parametros.cs" />
     <Compile Include="Models\Reserva.cs" />
     <Compile Include="Models\tActivos.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -185,6 +188,8 @@
     <Compile Include="Models\tHabitaciones.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TipoHabitacion.cs" />
+    <Compile Include="Models\TipoMoneda.cs" />
     <Compile Include="Models\TiposHabitaciones.cs" />
     <Compile Include="Models\tLimpiezas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -422,7 +427,6 @@
     <Content Include="Views\Empleados\EmpleadoTurno.cshtml" />
     <Content Include="Views\Empleados\EmpleadosMain.cshtml" />
     <Content Include="Views\Reporteria\GestionReporteria.cshtml" />
-    <Content Include="Views\Parametros\ModificarIdioma.cshtml" />
     <Content Include="Views\Parametros\ModificarMetodoPago.cshtml" />
     <Content Include="Views\Parametros\ModificarTipoHabitacion.cshtml" />
     <Content Include="Views\Parametros\ModificarMoneda.cshtml" />
@@ -436,6 +440,7 @@
     <Content Include="Views\Login\MiEvaluacion.cshtml" />
     <Content Include="Views\RecursosHumanos\BoletasPago.cshtml" />
     <Content Include="Views\RecursosHumanos\HistoricoSalarios.cshtml" />
+    <Content Include="Views\Parametros\ModificarVilla.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
