@@ -50,18 +50,19 @@ namespace CoromotoAccess.Controllers
                         IdHabitacion = item.IdHabitacion,
                         NombreHabitacion = item.NombreHabitacion,
                         Descripcion = item.Descripcion,
-                        CheckIn = item.CheckIn,  // Asegúrate de que sea tipo DateTime
-                        CheckOut = item.CheckOut, // Asegúrate de que sea tipo DateTime
-                        Precio = item.Precio,     // Campo crítico agregado
+                        CheckIn = item.CheckIn,
+                        CheckOut = item.CheckOut,
+                        Precio = item.Precio,
                         Estado = item.Estado,
                         IdVilla = item.IdVilla,
                     });
                 }
                 ViewBag.Villas = new SelectList(context.tVillas.ToList(), "IdVilla", "NombreHabitacion");
                 ViewBag.TiposHabitacion = new SelectList(context.tTiposHabitaciones.ToList(), "IdTipodeHabitacion", "NombreTipodeHabitcion");
-                return View(habitaciones); // Ahora la vista recibe una lista
+                return View(habitaciones);
             }
         }
+
 
 
         [HttpGet]
