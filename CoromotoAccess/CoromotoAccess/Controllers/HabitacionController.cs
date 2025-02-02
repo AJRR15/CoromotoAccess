@@ -32,7 +32,7 @@ namespace CoromotoAccess.Controllers
                     });
                 }
                 ViewBag.Villas = context.tVillas.ToList();
-
+                ViewBag.TiposHabitacion = new SelectList(context.tTiposHabitaciones.ToList(), "IdTipodeHabitacion", "NombreTipodeHabitcion");
                 return View(habitaciones);
             }
         }

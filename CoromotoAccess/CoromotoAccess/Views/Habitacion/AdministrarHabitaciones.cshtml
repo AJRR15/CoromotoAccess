@@ -32,9 +32,10 @@
                         <div class="input-group mb-3">
                             <select class="form-control" id="buscarHabitacion">
                                 <option value="" disabled selected>Filtrar por habitación</option>
-                                <option value="Habitación Deluxe">Habitación Deluxe</option>
-                                <option value="Habitación Familiar">Habitación Familiar</option>
-                                <option value="Habitación Económica">Habitación Económica</option>
+                                @foreach (var habitaciones in ViewBag.TiposHabitacion)
+                                {
+                                    <option value="@habitaciones.Value">@habitaciones.Text</option>
+                                }
                             </select>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="button" onclick="filtrarHabitacion()">Filtrar</button>
