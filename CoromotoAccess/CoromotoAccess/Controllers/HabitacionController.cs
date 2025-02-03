@@ -207,6 +207,8 @@ namespace CoromotoAccess.Controllers
             {
                 using (var context = new BDCoromotoEntities())
                 {
+                    ViewBag.Monedas = new SelectList(context.tMonedas.ToList(), "IdMoneda", "NombreMoneda");
+                    ViewBag.MetodosPago = new SelectList(context.tMetodoPago.ToList(), "IdMetodoP", "NombreMetodoP");
                     var habitacion = context.tHabitaciones.Find(id);
 
                     if (habitacion == null)
@@ -229,7 +231,9 @@ namespace CoromotoAccess.Controllers
                     IdVilla = habitacion.IdVilla,
                 }
             };
-                    return View(habitaciones);
+
+                    ViewBag.Habitaciones = habitaciones;
+                    return View(new Reserva { IdHabitacion = habitacion.IdHabitacion });
                 }
             }
             catch (Exception ex)
@@ -238,5 +242,6 @@ namespace CoromotoAccess.Controllers
                 return View("Error");
             }
         }
+
     }
 }

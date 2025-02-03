@@ -1,5 +1,8 @@
-﻿@{
-    ViewBag.Title = "AdministrarReservas";
+﻿@model List<CoromotoAccess.Models.Reserva>
+@{
+    ViewBag.Title = "Administrar Reservas";
+    var usuarios = ViewBag.Usuarios as List<CoromotoAccess.Models.Usuario>;
+    var tiposHabitacion = ViewBag.TiposHabitacion as List<CoromotoAccess.Models.TipoHabitacion>;
 }
 
 <div class="container mt-5">
@@ -13,42 +16,45 @@
         </div>
     </div>
     <br />
-    <table class="table table-bordered">
+    <h3 class="text-left mb-0">Reservas</h3>
+    <br />
+    <table class="table table-bordered" style="border: 2px solid #000;">
         <thead>
             <tr>
+                <th>IdReserva</th>
                 <th>Cliente</th>
                 <th>Teléfono</th>
-                <th>Habitación</th>
-                <th>Fecha de Entrada</th>
-                <th>Fecha de Salida</th>
+                <th>Tipo de Habitación</th>
+                <th>CheckIn</th>
+                <th>CheckOut</th>
                 <th>Estado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Juan Pérez</td>
-                <td>+506 1234 5678</td>
-                <td>Habitación Deluxe</td>
-                <td>2024-12-01</td>
-                <td>2024-12-05</td>
-                <td>Confirmada</td>
-            </tr>
-            <tr>
-                <td>María López</td>
-                <td>+506 8765 4321</td>
-                <td>Habitación Familiar</td>
-                <td>2024-12-10</td>
-                <td>2024-12-15</td>
-                <td>Pendiente</td>
-            </tr>
-            <tr>
-                <td>Carlos García</td>
-                <td>+506 1122 3344</td>
-                <td>Habitación Económica</td>
-                <td>2024-12-20</td>
-                <td>2024-12-25</td>
-                <td>Cancelada</td>
-            </tr>
+            @foreach (var reserva in Model)
+            {
+                var usuario = usuarios.FirstOrDefault(u => u.ConsecutivoCliente == reserva.IdUsuario);
+                var tipoHabitacion = tiposHabitacion.FirstOrDefault(t => t.IdTipodeHabitacion == reserva.IdHabitacion);
+
+                <tr>
+                    <td>@reserva.IdReserva</td>
+                    <td>@usuario.Nombre @usuario.Apellido</td>
+                    <td>@usuario.Telefono</td>
+                    <td>@tipoHabitacion.NombreTipodeHabitcion</td>
+                    <td>@reserva.CheckIn.ToString("yyyy-MM-dd")</td>
+                    <td>@reserva.CheckOut.ToString("yyyy-MM-dd")</td>
+                    <td>@(reserva.Estado ? "Confirmado" : "Pendiente")</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarReserva", "Reservas", new { id = reserva.IdReserva })">Modificar</a>
+                        <form action="@Url.Action("EliminarReserva", "Reservas")" method="post" style="display:inline;">
+                            <input type="hidden" name="IdReserva" value="@reserva.IdReserva" />
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta reserva?')">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
+    <br />
 </div>
