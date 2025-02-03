@@ -23,16 +23,17 @@
                                     <h5 class="text-dark font-weight-bold">Precio:</h5>
                                     <p class="card-text">$@habitacion.Precio.ToString("N2") por noche</p>
 
-                                    <h5 class="text-dark font-weight-bold">Check-in:</h5>
-                                    <p class="card-text">@habitacion.CheckIn.ToString("hh:mm tt")</p>
-
-                                    <h5 class="text-dark font-weight-bold">Check-out:</h5>
-                                    <p class="card-text">@habitacion.CheckOut.ToString("hh:mm tt")</p>
-
                                     <h5 class="text-dark font-weight-bold">Estado:</h5>
                                     <p class="card-text">@(habitacion.Estado ? "Disponible" : "No disponible")</p>
+
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reservarModal" data-habitacion-id="@habitacion.IdHabitacion" data-habitacion-nombre="@habitacion.NombreHabitacion">Reservar</button>
+                                        <button type="button" class="btn btn-primary reservar-btn"
+                                                data-toggle="modal"
+                                                data-target="#reservarModal"
+                                                data-habitacion-id="@habitacion.IdHabitacion"
+                                                data-habitacion-nombre="@habitacion.NombreHabitacion">
+                                            Reservar
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -44,12 +45,12 @@
     </div>
 </section>
 
-<!-- Modal -->
+<!-- Modal de reserva -->
 <div class="modal fade" id="reservarModal" tabindex="-1" role="dialog" aria-labelledby="reservarModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="reservarModalLabel">Reservar Habitación</h5>
+                <h5 class="modal-title font-weight-bold">Reservar Habitación</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -58,29 +59,24 @@
                 @using (Html.BeginForm("AgregarReserva", "Reserva", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.HiddenFor(m => m.IdHabitacion)
+                    @Html.Hidden("CheckIn", "", new { id = "CheckIn" })
+                    @Html.Hidden("CheckOut", "", new { id = "CheckOut" })
+
                     <div class="form-group">
-                        <label for="CheckIn">Fecha de Entrada:</label>
-                        <input type="date" class="form-control" id="CheckIn" name="CheckIn" required>
+                        <label for="fechaReserva">Seleccione las fechas:</label>
+                        <input type="text" class="form-control" id="fechaReserva" name="FechaReserva" required>
                     </div>
-                    <div class="form-group">
-                        <label for="CheckOut">Fecha de Salida:</label>
-                        <input type="date" class="form-control" id="CheckOut" name="CheckOut" required>
-                    </div>
+
                     <div class="form-group">
                         <label for="IdMoneda">Moneda:</label>
                         @Html.DropDownList("IdMoneda", (SelectList)ViewBag.Monedas, "Seleccione una moneda", new { @class = "form-control", required = "required" })
                     </div>
+
                     <div class="form-group">
                         <label for="IdMetodoP">Método de Pago:</label>
                         @Html.DropDownList("IdMetodoP", (SelectList)ViewBag.MetodosPago, "Seleccione un método de pago", new { @class = "form-control", required = "required" })
                     </div>
-                    <div class="form-group">
-                        <label for="Estado">Estado:</label>
-                        <select class="form-control" name="Estado" required>
-                            <option value="true">Confirmado</option>
-                            <option value="false">Pendiente</option>
-                        </select>
-                    </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary">Registrar</button>
@@ -90,6 +86,51 @@
         </div>
     </div>
 </div>
+
+<!-- Estilos adicionales para mejorar el diseño -->
+<style>
+    .modal-header {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+
+    .modal-footer {
+        justify-content: space-between;
+    }
+</style>
+
+<!-- Scripts necesarios -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Inicializar flatpickr con modo rango para seleccionar Check-In y Check-Out
+        flatpickr("#fechaReserva", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            disable: @Html.Raw(Json.Encode(ViewBag.FechasOcupadas ?? new List<string>())),
+            onClose: function (selectedDates, dateStr) {
+                if (selectedDates.length === 2) {
+                    let checkIn = selectedDates[0].toISOString().split("T")[0]; // Primera fecha
+                    let checkOut = selectedDates[1].toISOString().split("T")[0]; // Segunda fecha
+                    $("#CheckIn").val(checkIn);
+                    $("#CheckOut").val(checkOut);
+                } else {
+                    $("#CheckIn").val("");  // Limpiar si no se seleccionan dos fechas
+                    $("#CheckOut").val("");
+                }
+            }
+        });
+
+        // Capturar el ID de la habitación y asignarlo al modal
+        $('.reservar-btn').on('click', function () {
+            let habitacionId = $(this).data('habitacion-id');
+            console.log("ID Habitación seleccionada:", habitacionId); // Depuración
+            $('#IdHabitacion').val(habitacionId);
+        });
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

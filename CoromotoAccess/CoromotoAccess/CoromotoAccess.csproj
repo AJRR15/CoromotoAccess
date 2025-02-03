@@ -194,7 +194,6 @@
     </Compile>
     <Compile Include="Models\TipoHabitacion.cs" />
     <Compile Include="Models\TipoMoneda.cs" />
-    <Compile Include="Models\TiposHabitaciones.cs" />
     <Compile Include="Models\tLimpiezas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

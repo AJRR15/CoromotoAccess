@@ -14,28 +14,35 @@ namespace CoromotoAccess.Controllers
             using (var context = new BDCoromotoEntities())
             {
                 var datos = context.tReservas.ToList();
-                var usuarios = context.tUsuario.ToList();
-                var tiposHabitacion = context.tTiposHabitaciones.ToList();
+                var usuarios = context.tUsuario.Select(u => new Usuario
+                {
+                    ConsecutivoCliente = u.ConsecutivoCliente,
+                    Nombre = u.Nombre,
+                    Apellido = u.Apellido,
+                    Telefono = u.Telefono
+                }).ToList();
+                var habitaciones = context.tHabitaciones.Select(h => new Habitacion
+                {
+                    IdHabitacion = h.IdHabitacion,
+                    NombreHabitacion = h.NombreHabitacion
+                }).ToList();
 
                 ViewBag.Usuarios = usuarios;
-                ViewBag.TiposHabitacion = tiposHabitacion;
+                ViewBag.Habitaciones = habitaciones;
 
-                var listaReservas = new List<Reserva>();
-
-                foreach (var item in datos)
+                var listaReservas = datos.Select(r => new Reserva
                 {
-                    listaReservas.Add(new Reserva
-                    {
-                        IdReserva = item.IdReserva,
-                        IdUsuario = item.IdUsuario,
-                        IdHabitacion = item.IdHabitacion,
-                        CheckIn = item.CheckIn,
-                        CheckOut = item.CheckOut,
-                        Estado = item.Estado,
-                        IdMoneda = item.IdMoneda,
-                        IdMetodoP = item.IdMetodoP
-                    });
-                }
+                    IdReserva = r.IdReserva,
+                    IdUsuario = r.IdUsuario,         // Asegúrate que coincida con tUsuario.ConsecutivoCliente
+                    IdHabitacion = r.IdHabitacion,   // Asegúrate que coincida con tHabitaciones.IdHabitacion
+                    CheckIn = r.CheckIn,
+                    CheckOut = r.CheckOut,
+                    Estado = r.Estado,
+                    IdMoneda = r.IdMoneda,
+                    IdMetodoP = r.IdMetodoP
+                }).ToList();
+
+                
 
                 return View(listaReservas);
             }
@@ -63,14 +70,14 @@ namespace CoromotoAccess.Controllers
                     ModelState.AddModelError("", "La habitación ya está reservada en las fechas seleccionadas.");
                     return RedirectToAction("DatosHabitacion", new { id = model.IdHabitacion });
                 }
-
+                var Estado = true;
                 var reserva = new tReservas
                 {
                     IdUsuario = id,
                     IdHabitacion = model.IdHabitacion,
                     CheckIn = model.CheckIn,
                     CheckOut = model.CheckOut,
-                    Estado = model.Estado,
+                    Estado = Estado,
                     IdMoneda = model.IdMoneda,
                     IdMetodoP = model.IdMetodoP,
                 };

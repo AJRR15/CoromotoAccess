@@ -1,8 +1,8 @@
 ﻿@model List<CoromotoAccess.Models.Reserva>
 @{
     ViewBag.Title = "Administrar Reservas";
-    var usuarios = ViewBag.Usuarios as List<CoromotoAccess.Models.Usuario>;
-    var tiposHabitacion = ViewBag.TiposHabitacion as List<CoromotoAccess.Models.TipoHabitacion>;
+    var usuarios = ViewBag.Usuarios as List<CoromotoAccess.Models.Usuario> ?? new List<CoromotoAccess.Models.Usuario>();
+    var habitaciones = ViewBag.Habitaciones as List<CoromotoAccess.Models.Habitacion> ?? new List<CoromotoAccess.Models.Habitacion>();
 }
 
 <div class="container mt-5">
@@ -24,7 +24,7 @@
                 <th>IdReserva</th>
                 <th>Cliente</th>
                 <th>Teléfono</th>
-                <th>Tipo de Habitación</th>
+                <th>Habitacion</th>
                 <th>CheckIn</th>
                 <th>CheckOut</th>
                 <th>Estado</th>
@@ -32,16 +32,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var reserva in Model)
+            @foreach (var reserva in Model.Where(h => h.Estado))
             {
                 var usuario = usuarios.FirstOrDefault(u => u.ConsecutivoCliente == reserva.IdUsuario);
-                var tipoHabitacion = tiposHabitacion.FirstOrDefault(t => t.IdTipodeHabitacion == reserva.IdHabitacion);
+                var habitacion = habitaciones.FirstOrDefault(h => h.IdHabitacion == reserva.IdHabitacion);
 
                 <tr>
                     <td>@reserva.IdReserva</td>
-                    <td>@usuario.Nombre @usuario.Apellido</td>
-                    <td>@usuario.Telefono</td>
-                    <td>@tipoHabitacion.NombreTipodeHabitcion</td>
+                    <td>@(usuario?.Nombre ?? "N/A") @(usuario?.Apellido ?? "")</td>
+                    <td>@(usuario?.Telefono ?? "N/A")</td>
+                    <td>@(habitacion?.NombreHabitacion ?? "N/A")</td>
                     <td>@reserva.CheckIn.ToString("yyyy-MM-dd")</td>
                     <td>@reserva.CheckOut.ToString("yyyy-MM-dd")</td>
                     <td>@(reserva.Estado ? "Confirmado" : "Pendiente")</td>

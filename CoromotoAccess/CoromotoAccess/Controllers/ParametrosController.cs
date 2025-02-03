@@ -229,7 +229,7 @@ namespace CoromotoAccess.Controllers
 
         //Tipos de Habitaciones
         [HttpPost]
-        public ActionResult AgregarTipoHabitacion(TiposHabitaciones model)
+        public ActionResult AgregarTipoHabitacion(TipoHabitacion model)
         {
             using (var context = new BDCoromotoEntities())
             {
@@ -237,7 +237,7 @@ namespace CoromotoAccess.Controllers
                 {
                     var tipoHabitacion = new tTiposHabitaciones
                     {
-                        NombreTipodeHabitcion = model.NombreTipodeHabitacion
+                        NombreTipodeHabitcion = model.NombreTipodeHabitcion
                     };
                     context.tTiposHabitaciones.Add(tipoHabitacion);
                     context.SaveChanges();
@@ -293,10 +293,10 @@ namespace CoromotoAccess.Controllers
                     return RedirectToAction("HojaDeConfiguracion", "Parametros");
                 }
 
-                var tipoHabitacion = new TiposHabitaciones()
+                var tipoHabitacion = new TipoHabitacion()
                 {
                     IdTipodeHabitacion = model.IdTipodeHabitacion,
-                    NombreTipodeHabitacion = model.NombreTipodeHabitcion,
+                    NombreTipodeHabitcion = model.NombreTipodeHabitcion,
                 };
 
                 return View(tipoHabitacion);
@@ -304,14 +304,14 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
-        public ActionResult ModificarTipoHabitacion(TiposHabitaciones model)
+        public ActionResult ModificarTipoHabitacion(TipoHabitacion model)
         {
             using (var context = new BDCoromotoEntities())
             {
                 var datos = context.tTiposHabitaciones.Where(x => x.IdTipodeHabitacion == model.IdTipodeHabitacion).FirstOrDefault();
                 if (datos != null)
                 {
-                    datos.NombreTipodeHabitcion = model.NombreTipodeHabitacion;
+                    datos.NombreTipodeHabitcion = model.NombreTipodeHabitcion;
 
                     context.SaveChanges();
                     return RedirectToAction("HojaDeConfiguracion", "Parametros");
