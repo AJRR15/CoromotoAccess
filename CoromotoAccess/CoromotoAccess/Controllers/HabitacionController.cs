@@ -27,6 +27,7 @@ namespace CoromotoAccess.Controllers
                         Descripcion = item.Descripcion,
                         CheckIn = item.CheckIn,
                         CheckOut = item.CheckOut,
+                        Precio = item.Precio,
                         Estado = item.Estado,
                         IdVilla = item.IdVilla,
                     });
