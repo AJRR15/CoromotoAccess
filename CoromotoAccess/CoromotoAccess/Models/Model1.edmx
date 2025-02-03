@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BDCoromotoModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tActivos">
           <Key>
             <PropertyRef Name="IdActivo" />
@@ -460,7 +460,7 @@
           <Parameter Name="FotoPerfil" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
         </Function>
-        <EntityContainer Name="BDCoromotoModel1StoreContainer">
+        <EntityContainer Name="BDCoromotoModelStoreContainer">
           <EntitySet Name="tActivos" EntityType="Self.tActivos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tCategorias" EntityType="Self.tCategorias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tContactenos" EntityType="Self.tContactenos" Schema="dbo" store:Type="Tables" />
@@ -565,7 +565,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="BDCoromotoModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="BDCoromotoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="tActivos">
           <Key>
             <PropertyRef Name="IdActivo" />
@@ -1144,11 +1144,11 @@
             <End Role="tRoles" EntitySet="tRoles" />
             <End Role="tUsuario" EntitySet="tUsuario" />
           </AssociationSet>
-          <FunctionImport Name="InicioSesionEmpleado" ReturnType="Collection(BDCoromotoModel1.InicioSesionEmpleado_Result)">
+          <FunctionImport Name="InicioSesionEmpleado" ReturnType="Collection(BDCoromotoModel.InicioSesionEmpleado_Result)">
             <Parameter Name="Identificacion" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="InicioSesionUsuario" ReturnType="Collection(BDCoromotoModel1.InicioSesionUsuario_Result)">
+          <FunctionImport Name="InicioSesionUsuario" ReturnType="Collection(BDCoromotoModel.InicioSesionUsuario_Result)">
             <Parameter Name="Identificacion" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
           </FunctionImport>
@@ -1201,9 +1201,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BDCoromotoModel1StoreContainer" CdmEntityContainer="BDCoromotoEntities">
+        <EntityContainerMapping StorageEntityContainer="BDCoromotoModelStoreContainer" CdmEntityContainer="BDCoromotoEntities">
           <EntitySetMapping Name="tActivos">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tActivos">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tActivos">
               <MappingFragment StoreEntitySet="tActivos">
                 <ScalarProperty Name="IdActivo" ColumnName="IdActivo" />
                 <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />
@@ -1216,7 +1216,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tCategorias">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tCategorias">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tCategorias">
               <MappingFragment StoreEntitySet="tCategorias">
                 <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1224,7 +1224,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tContactenos">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tContactenos">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tContactenos">
               <MappingFragment StoreEntitySet="tContactenos">
                 <ScalarProperty Name="IdContacto" ColumnName="IdContacto" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
@@ -1233,7 +1233,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tEmpleados">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tEmpleados">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tEmpleados">
               <MappingFragment StoreEntitySet="tEmpleados">
                 <ScalarProperty Name="ConsecutivoEmp" ColumnName="ConsecutivoEmp" />
                 <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
@@ -1255,7 +1255,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tEvaluaciones">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tEvaluaciones">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tEvaluaciones">
               <MappingFragment StoreEntitySet="tEvaluaciones">
                 <ScalarProperty Name="IdEvaluacion" ColumnName="IdEvaluacion" />
                 <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
@@ -1266,7 +1266,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tFacturas">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tFacturas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tFacturas">
               <MappingFragment StoreEntitySet="tFacturas">
                 <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
@@ -1278,7 +1278,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tHabitaciones">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tHabitaciones">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tHabitaciones">
               <MappingFragment StoreEntitySet="tHabitaciones">
                 <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />
                 <ScalarProperty Name="NombreHabitacion" ColumnName="NombreHabitacion" />
@@ -1293,7 +1293,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tLimpiezas">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tLimpiezas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tLimpiezas">
               <MappingFragment StoreEntitySet="tLimpiezas">
                 <ScalarProperty Name="IdLimpieza" ColumnName="IdLimpieza" />
                 <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
@@ -1304,7 +1304,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tMetodoPago">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tMetodoPago">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tMetodoPago">
               <MappingFragment StoreEntitySet="tMetodoPago">
                 <ScalarProperty Name="IdMetodoP" ColumnName="IdMetodoP" />
                 <ScalarProperty Name="NombreMetodoP" ColumnName="NombreMetodoP" />
@@ -1312,7 +1312,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tMonedas">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tMonedas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tMonedas">
               <MappingFragment StoreEntitySet="tMonedas">
                 <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
                 <ScalarProperty Name="NombreMoneda" ColumnName="NombreMoneda" />
@@ -1320,7 +1320,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tNominas">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tNominas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tNominas">
               <MappingFragment StoreEntitySet="tNominas">
                 <ScalarProperty Name="IdNomina" ColumnName="IdNomina" />
                 <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
@@ -1332,7 +1332,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tPermisos">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tPermisos">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tPermisos">
               <MappingFragment StoreEntitySet="tPermisos">
                 <ScalarProperty Name="IdPermiso" ColumnName="IdPermiso" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
@@ -1342,7 +1342,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tReservas">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tReservas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tReservas">
               <MappingFragment StoreEntitySet="tReservas">
                 <ScalarProperty Name="IdReserva" ColumnName="IdReserva" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
@@ -1356,7 +1356,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tRoles">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tRoles">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tRoles">
               <MappingFragment StoreEntitySet="tRoles">
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
@@ -1364,7 +1364,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tTiposHabitaciones">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tTiposHabitaciones">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tTiposHabitaciones">
               <MappingFragment StoreEntitySet="tTiposHabitaciones">
                 <ScalarProperty Name="IdTipodeHabitacion" ColumnName="IdTipodeHabitacion" />
                 <ScalarProperty Name="NombreTipodeHabitcion" ColumnName="NombreTipodeHabitcion" />
@@ -1372,7 +1372,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tTurnos">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tTurnos">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tTurnos">
               <MappingFragment StoreEntitySet="tTurnos">
                 <ScalarProperty Name="IdTurno" ColumnName="IdTurno" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1382,7 +1382,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tUsuario">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tUsuario">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tUsuario">
               <MappingFragment StoreEntitySet="tUsuario">
                 <ScalarProperty Name="ConsecutivoCliente" ColumnName="ConsecutivoCliente" />
                 <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
@@ -1400,7 +1400,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tVacaciones">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tVacaciones">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tVacaciones">
               <MappingFragment StoreEntitySet="tVacaciones">
                 <ScalarProperty Name="IdVacacion" ColumnName="IdVacacion" />
                 <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
@@ -1412,16 +1412,16 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tVillas">
-            <EntityTypeMapping TypeName="BDCoromotoModel1.tVillas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tVillas">
               <MappingFragment StoreEntitySet="tVillas">
                 <ScalarProperty Name="IdVilla" ColumnName="IdVilla" />
                 <ScalarProperty Name="NombreHabitacion" ColumnName="NombreHabitacion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="InicioSesionEmpleado" FunctionName="BDCoromotoModel1.Store.InicioSesionEmpleado">
+          <FunctionImportMapping FunctionImportName="InicioSesionEmpleado" FunctionName="BDCoromotoModel.Store.InicioSesionEmpleado">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="BDCoromotoModel1.InicioSesionEmpleado_Result">
+              <ComplexTypeMapping TypeName="BDCoromotoModel.InicioSesionEmpleado_Result">
                 <ScalarProperty Name="ConsecutivoEmp" ColumnName="ConsecutivoEmp" />
                 <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1442,9 +1442,9 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="InicioSesionUsuario" FunctionName="BDCoromotoModel1.Store.InicioSesionUsuario">
+          <FunctionImportMapping FunctionImportName="InicioSesionUsuario" FunctionName="BDCoromotoModel.Store.InicioSesionUsuario">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="BDCoromotoModel1.InicioSesionUsuario_Result">
+              <ComplexTypeMapping TypeName="BDCoromotoModel.InicioSesionUsuario_Result">
                 <ScalarProperty Name="ConsecutivoCliente" ColumnName="ConsecutivoCliente" />
                 <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1461,7 +1461,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="RegistroUsuario" FunctionName="BDCoromotoModel1.Store.RegistroUsuario" />
+          <FunctionImportMapping FunctionImportName="RegistroUsuario" FunctionName="BDCoromotoModel.Store.RegistroUsuario" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -11,5 +11,7 @@ namespace CoromotoAccess.Models
         public List<tTiposHabitaciones> TiposHabitacion { get; set; }
         public List<tMonedas> TiposMoneda { get; set; }
         public List<tVillas> Villas { get; set; }
+
+        public List<tCategorias> Categorias { get; set; }
     }
 }

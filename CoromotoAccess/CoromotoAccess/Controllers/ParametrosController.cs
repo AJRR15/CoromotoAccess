@@ -16,13 +16,15 @@ namespace CoromotoAccess.Controllers
                 var tiposHabitacion = context.tTiposHabitaciones.ToList();
                 var tiposMoneda = context.tMonedas.ToList();
                 var villas = context.tVillas.ToList();
+                var categorias = context.tCategorias.ToList();
 
                 var parametros = new Parametros
                 {
                     MetodosPago = metodosPago,
                     TiposHabitacion = tiposHabitacion,
                     TiposMoneda = tiposMoneda,
-                    Villas = villas
+                    Villas = villas,
+                    Categorias = categorias
                 };
 
                 return View(parametros);
@@ -407,5 +409,96 @@ namespace CoromotoAccess.Controllers
             }
             return View(model);
         }
+
+        [HttpPost]
+        public ActionResult AgregarCategoria(Categoria model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var categoria = new tCategorias
+                {
+                    Nombre = model.Nombre
+                };
+                context.tCategorias.Add(categoria);
+                context.SaveChanges();
+                return RedirectToAction("HojaDeConfiguracion");
+            }
+        }
+        [HttpPost]
+        public ActionResult EliminarCategoria(int IdCategoria)
+        {
+            try
+            {
+                using (var context = new BDCoromotoEntities())
+                {
+                    var categoria = context.tCategorias.Find(IdCategoria);
+
+                    if (categoria == null)
+                    {
+                        TempData["Mensaje"] = "La categoría no existe.";
+                        return RedirectToAction("HojaDeConfiguracion");
+                    }
+
+                    context.tCategorias.Remove(categoria);
+                    context.SaveChanges();
+
+                    TempData["Mensaje"] = "Categoría eliminada exitosamente.";
+                    return RedirectToAction("HojaDeConfiguracion");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = "Error al eliminar la categoría.";
+                return RedirectToAction("HojaDeConfiguracion");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ModificarCategoria(int id)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var model = context.tCategorias.Where(x => x.IdCategoria == id).FirstOrDefault();
+
+                if (model == null)
+                {
+                    ViewBag.MensajePantalla = "No se encontró la categoría.";
+                    return RedirectToAction("HojaDeConfiguracion");
+                }
+
+                var categoria = new Categoria()
+                {
+                    IdCategoria = model.IdCategoria,
+                    Nombre = model.Nombre,
+                };
+
+                return View(categoria);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ModificarCategoria(Categoria model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var datos = context.tCategorias.Where(x => x.IdCategoria == model.IdCategoria).FirstOrDefault();
+                if (datos != null)
+                {
+                    datos.Nombre = model.Nombre;
+
+                    context.SaveChanges();
+                    return RedirectToAction("HojaDeConfiguracion");
+                }
+
+                ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente";
+            }
+            return View(model);
+        }
+
+
+
+
+
+
     }
 }
