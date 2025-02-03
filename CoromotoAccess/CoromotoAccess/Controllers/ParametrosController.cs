@@ -34,18 +34,18 @@ namespace CoromotoAccess.Controllers
         [HttpPost]
         public ActionResult AgregarVilla(Villa model)
         {
-                using (var context = new BDCoromotoEntities())
+            using (var context = new BDCoromotoEntities())
                 try
                 {
                     {
-                    var nuevaVilla = new tVillas
-                    {
-                        NombreHabitacion = model.NombreHabitacion
-                    };
-                    context.tVillas.Add(nuevaVilla);
-                    context.SaveChanges();
-                }
-                return RedirectToAction("HojaDeConfiguracion");
+                        var nuevaVilla = new tVillas
+                        {
+                            NombreHabitacion = model.NombreHabitacion
+                        };
+                        context.tVillas.Add(nuevaVilla);
+                        context.SaveChanges();
+                    }
+                    return RedirectToAction("HojaDeConfiguracion");
                 }
                 catch (Exception ex)
                 {
@@ -99,7 +99,7 @@ namespace CoromotoAccess.Controllers
                 {
                     IdVilla = model.IdVilla,
                     NombreHabitacion = model.NombreHabitacion,
-                   
+
                 };
 
                 return View(villa);
@@ -223,8 +223,8 @@ namespace CoromotoAccess.Controllers
             return View(model);
         }
 
-       
-        
+
+
         //Tipos de Habitaciones
         [HttpPost]
         public ActionResult AgregarTipoHabitacion(TiposHabitaciones model)
@@ -367,7 +367,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
-        public ActionResult ModificarTipoMoneda(long id)
+        public ActionResult ModificarMoneda(long id)
         {
             using (var context = new BDCoromotoEntities())
             {
@@ -390,7 +390,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
-        public ActionResult ModificarTipoMoneda(TipoMoneda model)
+        public ActionResult ModificarMoneda(TipoMoneda model)
         {
             using (var context = new BDCoromotoEntities())
             {
@@ -409,6 +409,3 @@ namespace CoromotoAccess.Controllers
         }
     }
 }
-
-
-

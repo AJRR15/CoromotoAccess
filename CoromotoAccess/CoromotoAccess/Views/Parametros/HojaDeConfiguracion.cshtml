@@ -112,7 +112,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     @tipo.NombreMoneda
                                     <div>
-                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarTipoMoneda", "Parametros", new { id = tipo.IdMoneda })">Modificar</a>
+                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarMoneda", "Parametros", new { id = tipo.IdMoneda })">Modificar</a>
                                         <form action="@Url.Action("EliminarTipoMoneda", "Parametros")" method="post" style="display:inline;">
                                             <input type="hidden" name="IdMoneda" value="@tipo.IdMoneda" />
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este metodo?')">Eliminar</button>
