@@ -46,7 +46,7 @@
                     <td>@reserva.CheckOut.ToString("yyyy-MM-dd")</td>
                     <td>@(reserva.Estado ? "Confirmado" : "Pendiente")</td>
                     <td>
-                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarReserva", "Reservas", new { id = reserva.IdReserva })">Modificar</a>
+                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarReserva", "Reserva", new { id = reserva.IdReserva })">Modificar</a>
                         <form action="@Url.Action("EliminarReserva", "Reservas")" method="post" style="display:inline;">
                             <input type="hidden" name="IdReserva" value="@reserva.IdReserva" />
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta reserva?')">Eliminar</button>

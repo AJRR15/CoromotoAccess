@@ -33,8 +33,8 @@ namespace CoromotoAccess.Controllers
                 var listaReservas = datos.Select(r => new Reserva
                 {
                     IdReserva = r.IdReserva,
-                    IdUsuario = r.IdUsuario,         // Asegúrate que coincida con tUsuario.ConsecutivoCliente
-                    IdHabitacion = r.IdHabitacion,   // Asegúrate que coincida con tHabitaciones.IdHabitacion
+                    IdUsuario = r.IdUsuario,
+                    IdHabitacion = r.IdHabitacion,
                     CheckIn = r.CheckIn,
                     CheckOut = r.CheckOut,
                     Estado = r.Estado,
@@ -92,5 +92,69 @@ namespace CoromotoAccess.Controllers
                 return RedirectToAction("CatalogoHabitaciones", "Habitacion");
             }
         }
+
+        private void CargarListas()
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                ViewBag.MetodosPago = new SelectList(context.tMetodoPago.ToList(), "IdMetodoP", "NombreMetodoP");
+                ViewBag.Monedas = new SelectList(context.tMonedas.ToList(), "IdMoneda", "NombreMoneda");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ModificarReserva(long id)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var model = context.tReservas.Where(x => x.IdReserva == id).FirstOrDefault();
+
+                if (model == null)
+                {
+                    ViewBag.MensajePantalla = "No se encontró la reserva.";
+                    return RedirectToAction("AdministrarReservas", "Reserva");
+                }
+
+                var reserva = new Reserva()
+                {
+                    IdReserva = model.IdReserva,
+                    IdUsuario = model.IdUsuario,
+                    IdHabitacion = model.IdHabitacion,
+                    CheckIn = model.CheckIn,
+                    CheckOut = model.CheckOut,
+                    Estado = model.Estado,
+                    IdMoneda = model.IdMoneda,
+                    IdMetodoP = model.IdMetodoP
+                };
+
+                CargarListas();
+                return View(reserva);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ModificarReserva(Reserva model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var datos = context.tReservas.Where(x => x.IdReserva == model.IdReserva).FirstOrDefault();
+                if (datos != null)
+                {
+                    datos.CheckIn = model.CheckIn;
+                    datos.CheckOut = model.CheckOut;
+                    datos.Estado = model.Estado;
+                    datos.IdMoneda = model.IdMoneda;
+                    datos.IdMetodoP = model.IdMetodoP;
+
+                    context.SaveChanges();
+                    return RedirectToAction("AdministrarReservas", "Reserva");
+                }
+
+                ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente";
+            }
+            CargarListas();
+            return View(model);
+        }
+
     }
 }

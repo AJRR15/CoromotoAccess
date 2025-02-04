@@ -1,0 +1,53 @@
+﻿@model CoromotoAccess.Models.Reserva
+
+@{
+    ViewBag.Title = "Modificar Reserva";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Modificar Reserva</h2>
+
+    @if (ViewBag.MensajePantalla != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajePantalla
+        </div>
+    }
+
+    @using (Html.BeginForm("ModificarReserva", "Reserva", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    {
+        @Html.HiddenFor(m => m.IdReserva)
+        @Html.HiddenFor(m => m.IdUsuario)
+        @Html.HiddenFor(m => m.IdHabitacion)
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">CheckIn:</label>
+            @Html.TextBoxFor(m => m.CheckIn, new { @class = "form-control", type = "datetime-local", required = "required" })
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">CheckOut:</label>
+            @Html.TextBoxFor(m => m.CheckOut, new { @class = "form-control", type = "datetime-local", required = "required" })
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Estado:</label>
+            @Html.CheckBoxFor(m => m.Estado, new { @class = "form-check-input" })
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Moneda:</label>
+            @Html.DropDownList("IdMoneda", (SelectList)ViewBag.Monedas, "Seleccione una moneda", new { @class = "form-control", required = "required" })
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Método de Pago:</label>
+            @Html.DropDownList("IdMetodoP", (SelectList)ViewBag.MetodosPago, "Seleccione un método de pago", new { @class = "form-control", required = "required" })
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+            <a href="@Url.Action("AdministrarReservas", "Reserva")" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+    }
+</div>
