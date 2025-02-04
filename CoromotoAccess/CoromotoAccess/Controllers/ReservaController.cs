@@ -156,5 +156,35 @@ namespace CoromotoAccess.Controllers
             return View(model);
         }
 
+
+        [HttpPost]
+        public ActionResult CancelarReserva(long Id)
+        {
+            try
+            {
+                using (var context = new BDCoromotoEntities())
+                {
+                    var reserva = context.tReservas.Find(Id);
+
+                    if (reserva == null)
+                    {
+                        TempData["Mensaje"] = "La reserva no existe.";
+                        return RedirectToAction("AdministrarReservas");
+                    }
+
+                    reserva.Estado = false;
+                    context.SaveChanges();
+
+                    TempData["Mensaje"] = "Reserva cancelada exitosamente.";
+                    return RedirectToAction("AdministrarReservas");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = "Error al cancelar la reserva.";
+                return RedirectToAction("AdministrarReservas");
+            }
+        }
+
     }
 }
