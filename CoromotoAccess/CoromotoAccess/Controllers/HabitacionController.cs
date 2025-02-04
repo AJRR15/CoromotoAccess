@@ -203,7 +203,7 @@ namespace CoromotoAccess.Controllers
             return View(model);
         }
         [HttpGet]
-        public ActionResult DatosHabitacion(int id)
+        public ActionResult DatosHabitacion(int id, string errorMessage = null)
         {
             try
             {
@@ -220,21 +220,22 @@ namespace CoromotoAccess.Controllers
                     }
 
                     var habitaciones = new List<Habitacion>
-            {
-                new Habitacion
-                {
-                    IdHabitacion = habitacion.IdHabitacion,
-                    NombreHabitacion = habitacion.NombreHabitacion,
-                    Descripcion = habitacion.Descripcion,
-                    Precio = habitacion.Precio,
-                    CheckIn = habitacion.CheckIn,
-                    CheckOut = habitacion.CheckOut,
-                    Estado = habitacion.Estado,
-                    IdVilla = habitacion.IdVilla,
-                }
-            };
+                    {
+                        new Habitacion
+                        {
+                            IdHabitacion = habitacion.IdHabitacion,
+                            NombreHabitacion = habitacion.NombreHabitacion,
+                            Descripcion = habitacion.Descripcion,
+                            Precio = habitacion.Precio,
+                            CheckIn = habitacion.CheckIn,
+                            CheckOut = habitacion.CheckOut,
+                            Estado = habitacion.Estado,
+                            IdVilla = habitacion.IdVilla,
+                        }
+                    };
 
                     ViewBag.Habitaciones = habitaciones;
+                    ViewBag.ErrorMessage = errorMessage;
                     return View(new Reserva { IdHabitacion = habitacion.IdHabitacion });
                 }
             }

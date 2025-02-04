@@ -7,6 +7,13 @@
     <div class="container">
         <div class="wrapper">
             <article class="grid_24">
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+
                 @foreach (var habitacion in ViewBag.Habitaciones)
                 {
                     <h2 class="p17 text-black font-weight-bold">@habitacion.NombreHabitacion</h2>
