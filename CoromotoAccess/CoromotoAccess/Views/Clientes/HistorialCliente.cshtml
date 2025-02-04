@@ -1,5 +1,4 @@
-﻿
-@model List<CoromotoAccess.Models.Reserva>
+﻿@model List<CoromotoAccess.Models.Reserva>
 
 @{
     ViewBag.Title = "Historial de Cliente";
@@ -15,8 +14,20 @@
         </div>
     }
 
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <input type="date" class="form-control" id="fechaInicio" placeholder="Fecha de inicio">
+        </div>
+        <div class="col-md-4">
+            <input type="date" class="form-control" id="fechaFin" placeholder="Fecha de fin">
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-outline-dark" onclick="filtrarReservasPorFecha()">Filtrar</button>
+        </div>
+    </div>
+
     <div class="table-responsive">
-        <table class="table table-bordered">
+        <table id="tablaReservas" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Fecha de Reserva</th>
@@ -31,7 +42,7 @@
                 {
                     var duracionEstancia = (reserva.CheckOut - reserva.CheckIn).TotalDays;
                     <tr>
-                        <td>@reserva.CheckIn.ToString("yyyy-MM-dd")</td>
+                        <td class="fecha-reserva">@reserva.CheckIn.ToString("yyyy-MM-dd")</td>
                         <td>@reserva.IdHabitacion</td>
                         <td>@duracionEstancia noches</td>
                         <td>@(reserva.Estado ? "Completada" : "Cancelada")</td>
@@ -48,3 +59,23 @@
         <a href="@Url.Action("GestionClientes", "Clientes")" class="btn btn-secondary">Volver</a>
     </div>
 </div>
+
+<script>
+    function filtrarReservasPorFecha() {
+        var fechaInicio = document.getElementById("fechaInicio").value;
+        var fechaFin = document.getElementById("fechaFin").value;
+        var tabla = document.getElementById("tablaReservas");
+        var filas = tabla.getElementsByTagName("tr");
+
+        for (var i = 1; i < filas.length; i++) {
+            var fila = filas[i];
+            var fechaReserva = fila.getElementsByClassName("fecha-reserva")[0].innerText;
+
+            if ((fechaInicio === "" || fechaReserva >= fechaInicio) && (fechaFin === "" || fechaReserva <= fechaFin)) {
+                fila.style.display = "";
+            } else {
+                fila.style.display = "none";
+            }
+        }
+    }
+</script>
