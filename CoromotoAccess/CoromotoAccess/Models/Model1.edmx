@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tActivos">
           <Key>
             <PropertyRef Name="IdActivo" />
@@ -141,6 +141,8 @@
           <Property Name="IdHabitacion" Type="int" Nullable="false" />
           <Property Name="CheckIn" Type="datetime" Nullable="false" />
           <Property Name="CheckOut" Type="datetime" Nullable="false" />
+          <Property Name="Comentario" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="PersonasHospedados" Type="int" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="IdMoneda" Type="int" Nullable="false" />
           <Property Name="IdMetodoP" Type="int" Nullable="false" />
@@ -561,8 +563,7 @@
             <End Role="tVacaciones" EntitySet="tVacaciones" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BDCoromotoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -733,6 +734,8 @@
           <NavigationProperty Name="tMetodoPago" Relationship="Self.FK_tReservas_tMetodoPago" FromRole="tReservas" ToRole="tMetodoPago" />
           <NavigationProperty Name="tMonedas" Relationship="Self.FK_tReservas_tMonedas" FromRole="tReservas" ToRole="tMonedas" />
           <NavigationProperty Name="tUsuario" Relationship="Self.FK_tReservas_tUsuario" FromRole="tReservas" ToRole="tUsuario" />
+          <Property Name="Comentario" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PersonasHospedados" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="tRoles">
           <Key>
@@ -1344,6 +1347,8 @@
           <EntitySetMapping Name="tReservas">
             <EntityTypeMapping TypeName="BDCoromotoModel.tReservas">
               <MappingFragment StoreEntitySet="tReservas">
+                <ScalarProperty Name="PersonasHospedados" ColumnName="PersonasHospedados" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
                 <ScalarProperty Name="IdReserva" ColumnName="IdReserva" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />

@@ -12,6 +12,8 @@ namespace CoromotoAccess.Models
         public int IdHabitacion { get; set; }
         public DateTime CheckIn { get; set; }
         public DateTime CheckOut { get; set; }
+        public String Comentario { get; set; }
+        public int PersonasHospedados { get; set; }
         public bool Estado { get; set; }
         public int IdMoneda { get; set; }
         public int IdMetodoP { get; set; }

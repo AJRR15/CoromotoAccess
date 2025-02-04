@@ -22,6 +22,8 @@ namespace CoromotoAccess.Models
         public bool Estado { get; set; }
         public int IdMoneda { get; set; }
         public int IdMetodoP { get; set; }
+        public string Comentario { get; set; }
+        public int PersonasHospedados { get; set; }
     
         public virtual tHabitaciones tHabitaciones { get; set; }
         public virtual tMetodoPago tMetodoPago { get; set; }
