@@ -4,26 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d634d1a211484ccb9d9e2f350fff8e5a" Name="Diagram1">
-        <EntityTypeShape EntityType="BDCoromotoModel.tActivos" Width="1.5" PointX="8.25" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tCategorias" Width="1.5" PointX="6" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tContactenos" Width="1.5" PointX="5.25" PointY="22.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tEmpleados" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tEvaluaciones" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tFacturas" Width="1.5" PointX="5.25" PointY="24.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tHabitaciones" Width="1.5" PointX="6" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tLimpiezas" Width="1.5" PointX="8.25" PointY="12.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tMetodoPago" Width="1.5" PointX="6" PointY="28.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tMonedas" Width="1.5" PointX="6" PointY="30.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tNominas" Width="1.5" PointX="5.25" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tPermisos" Width="1.5" PointX="3" PointY="19.375" IsExpanded="true" />
+      <Diagram DiagramId="025c33434c064ad6ab4c7aa89d9b1e5c" Name="Diagram1">
+        <EntityTypeShape EntityType="BDCoromotoModel.tActivos" Width="1.5" PointX="8.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tCategorias" Width="1.5" PointX="6" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tContactenos" Width="1.5" PointX="5.25" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tEmpleados" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tEvaluaciones" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tFacturas" Width="1.5" PointX="5.25" PointY="24.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tHabitaciones" Width="1.5" PointX="6" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tLimpiezas" Width="1.5" PointX="8.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tMetodoPago" Width="1.5" PointX="6" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tMonedas" Width="1.5" PointX="6" PointY="31.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tNominas" Width="1.5" PointX="5.25" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tPermisos" Width="1.5" PointX="3" PointY="19.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BDCoromotoModel.tReservas" Width="1.5" PointX="8.25" PointY="22.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tRoles" Width="1.5" PointX="0.75" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tTiposHabitaciones" Width="1.5" PointX="3.75" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tTurnos" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tUsuario" Width="1.5" PointX="3" PointY="22.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tVacaciones" Width="1.5" PointX="5.25" PointY="19" IsExpanded="true" />
-        <EntityTypeShape EntityType="BDCoromotoModel.tVillas" Width="1.5" PointX="0.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tRoles" Width="1.5" PointX="0.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tTiposHabitaciones" Width="1.5" PointX="3.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tTurnos" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tUsuario" Width="1.5" PointX="3" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tVacaciones" Width="1.5" PointX="5.25" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BDCoromotoModel.tVillas" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
         <AssociationConnector Association="BDCoromotoModel.FK_tActivos_tCategorias" ManuallyRouted="false" />
         <AssociationConnector Association="BDCoromotoModel.FK_tActivos_tHabitaciones" ManuallyRouted="false" />
         <AssociationConnector Association="BDCoromotoModel.FK_tContactenos_tUsuario" ManuallyRouted="false" />

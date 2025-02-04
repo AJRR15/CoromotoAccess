@@ -30,6 +30,8 @@ namespace CoromotoAccess.Controllers
                         Precio = item.Precio,
                         Estado = item.Estado,
                         IdVilla = item.IdVilla,
+                        IdTipoHabitacion = item.IdTipoHabitacion
+
                     });
                 }
                 ViewBag.Villas = context.tVillas.ToList();

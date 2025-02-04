@@ -12,7 +12,21 @@
                     <a class="btn btn-outline-dark ml-3" href="@Url.Action("AdministrarHabitaciones", "Habitacion")">+ Administrar Habitaciones</a>
                 </div>
                 <br />
-
+                <!-- Filtros -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group mb-3">
+                            <select class="form-control" id="buscarHabitacion" onchange="filtrarHabitacion()">
+                                <option value="">Todos los tipos</option>
+                                @foreach (var tipo in ViewBag.TiposHabitacion)
+                                {
+                                    <option value="@tipo.Value">@tipo.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <br />
                 <!-- Mostrar habitaciones por villa -->
                 @foreach (var villa in ViewBag.Villas)
                 {
@@ -25,7 +39,7 @@
                         {
                             foreach (var habitacion in habitacionesVilla)
                             {
-                                <div class="col-md-4 mb-4">
+                                <div class="col-md-4 mb-4 habitacion-card" data-tipo-habitacion-id="@habitacion.IdTipoHabitacion">
                                     <a href="@Url.Action("DatosHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })" class="text-decoration-none">
                                         <div class="card h-100 text-center border-0 shadow-sm" style="background-color: #f8f9fa;">
                                             <div class="card-body">
@@ -60,3 +74,21 @@
         </div>
     </div>
 </section>
+
+<script>
+    function filtrarHabitacion() {
+        var tipoSeleccionado = document.getElementById("buscarHabitacion").value;
+        var tarjetas = document.getElementsByClassName("habitacion-card");
+
+        for (var i = 0; i < tarjetas.length; i++) {
+            var tarjeta = tarjetas[i];
+            var tipoHabitacionId = tarjeta.getAttribute("data-tipo-habitacion-id");
+
+            if (tipoSeleccionado === "" || tipoSeleccionado === tipoHabitacionId) {
+                tarjeta.style.display = "";
+            } else {
+                tarjeta.style.display = "none";
+            }
+        }
+    }
+</script>

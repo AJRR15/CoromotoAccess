@@ -152,4 +152,25 @@
 </div>
 
 
-<script src="~/Scripts/CoromotoAccess/Habitacion.js"></script>
+<script>
+    function filtrarHabitacion() {
+        var tipoSeleccionado = document.getElementById("buscarHabitacion").value;
+        var tablas = document.getElementsByClassName("villa-table");
+
+        for (var j = 0; j < tablas.length; j++) {
+            var tabla = tablas[j];
+            var filas = tabla.getElementsByTagName("tr");
+
+            for (var i = 1; i < filas.length; i++) {
+                var fila = filas[i];
+                var tipoHabitacionId = fila.getAttribute("data-tipo-habitacion-id");
+
+                if (tipoSeleccionado === "" || tipoSeleccionado === tipoHabitacionId) {
+                    fila.style.display = "";
+                } else {
+                    fila.style.display = "none";
+                }
+            }
+        }
+    }
+</script>

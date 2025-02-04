@@ -1,9 +1,19 @@
 ﻿
+@model List<CoromotoAccess.Models.Reserva>
+
 @{
-    ViewBag.Title = "HistorialCliente";
+    ViewBag.Title = "Historial de Cliente";
 }
+
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Historial de Cliente: Juan Pérez</h2>
+    <h2 class="text-center mb-4">Historial de Cliente: @ViewBag.Usuario</h2>
+
+    @if (ViewBag.MensajePantalla != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajePantalla
+        </div>
+    }
 
     <div class="table-responsive">
         <table class="table table-bordered">
@@ -13,22 +23,28 @@
                     <th>Habitación</th>
                     <th>Duración de la Estancia</th>
                     <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>2024-01-15</td>
-                    <td>101</td>
-                    <td>3 noches</td>
-                    <td>Completada</td>
-                </tr>
-                <tr>
-                    <td>2024-02-20</td>
-                    <td>202</td>
-                    <td>2 noches</td>
-                    <td>Completada</td>
-                </tr>
+                @foreach (var reserva in Model)
+                {
+                    var duracionEstancia = (reserva.CheckOut - reserva.CheckIn).TotalDays;
+                    <tr>
+                        <td>@reserva.CheckIn.ToString("yyyy-MM-dd")</td>
+                        <td>@reserva.IdHabitacion</td>
+                        <td>@duracionEstancia noches</td>
+                        <td>@(reserva.Estado ? "Completada" : "Cancelada")</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("DetallesReservaCliente", "Clientes", new { id = reserva.IdReserva })" role="button">Ver Detalles</a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+        <a href="@Url.Action("GestionClientes", "Clientes")" class="btn btn-secondary">Volver</a>
     </div>
 </div>

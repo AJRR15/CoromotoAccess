@@ -18,7 +18,7 @@
     <br />
     <h3 class="text-left mb-0">Reservas</h3>
     <br />
-    <table class="table table-bordered" style="border: 2px solid #000;">
+    <table id="tablaReservas" class="table table-bordered" style="border: 2px solid #000;">
         <thead>
             <tr>
                 <th>IdReserva</th>
@@ -39,7 +39,7 @@
 
                 <tr>
                     <td>@reserva.IdReserva</td>
-                    <td>@(usuario?.Nombre ?? "N/A") @(usuario?.Apellido ?? "")</td>
+                    <td class="cliente">@((usuario?.Nombre ?? "N/A") + " " + (usuario?.Apellido ?? ""))</td>
                     <td>@(usuario?.Telefono ?? "N/A")</td>
                     <td>@(habitacion?.NombreHabitacion ?? "N/A")</td>
                     <td>@reserva.CheckIn.ToString("yyyy-MM-dd")</td>
@@ -59,3 +59,22 @@
     </table>
     <br />
 </div>
+
+<script>
+    function filtrarReservas() {
+        var input = document.getElementById("buscarCliente").value.toLowerCase();
+        var tabla = document.getElementById("tablaReservas");
+        var filas = tabla.getElementsByTagName("tr");
+
+        for (var i = 1; i < filas.length; i++) {
+            var fila = filas[i];
+            var cliente = fila.getElementsByClassName("cliente")[0].innerText.toLowerCase();
+
+            if (cliente.includes(input)) {
+                fila.style.display = "";
+            } else {
+                fila.style.display = "none";
+            }
+        }
+    }
+</script>

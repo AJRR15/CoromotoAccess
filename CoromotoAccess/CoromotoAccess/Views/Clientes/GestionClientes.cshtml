@@ -1,5 +1,7 @@
-﻿@{
-    ViewBag.Title = "GestionClientes";
+﻿@model IEnumerable<CoromotoAccess.Models.Usuario>
+
+@{
+    ViewBag.Title = "Gestión de Cliente";
 }
 
 <div class="container mt-5">
@@ -25,16 +27,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Juan Pérez</td>
-                    <td>12345</td>
-                    <td>555-1234</td>
-                    <td>juan.perez@example.com</td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarCliente", "Clientes")" role="button">Modificar</a>
-                        <a class="btn btn-info btn-sm" href="@Url.Action("HistorialCliente", "Clientes")" role="button">Historial de Reservas</a>
-                    </td>
-                </tr>
+                @foreach (var cliente in Model)
+                {
+                    <tr>
+                        <td>@cliente.Nombre @cliente.Apellido</td>
+                        <td>@cliente.ConsecutivoCliente</td>
+                        <td>@cliente.Telefono</td>
+                        <td>@cliente.CorreoElectronico</td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarCliente", "Clientes", new { id = cliente.ConsecutivoCliente })" role="button">Modificar</a>
+                            <a class="btn btn-info btn-sm" href="@Url.Action("HistorialCliente", "Clientes", new { id = cliente.ConsecutivoCliente })" role="button">Historial de Reservas</a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
