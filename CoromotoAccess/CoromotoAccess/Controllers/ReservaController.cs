@@ -186,5 +186,45 @@ namespace CoromotoAccess.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult DetallesReserva(long id)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var model = context.tReservas.Where(x => x.IdReserva == id).FirstOrDefault();
+
+                if (model == null)
+                {
+                    ViewBag.MensajePantalla = "No se encontró la reserva.";
+                    return RedirectToAction("AdministrarReservas");
+                }
+
+                var moneda = context.tMonedas.FirstOrDefault(m => m.IdMoneda == model.IdMoneda);
+                var metodoPago = context.tMetodoPago.FirstOrDefault(mp => mp.IdMetodoP == model.IdMetodoP);
+                var usuario = context.tUsuario.FirstOrDefault(u => u.ConsecutivoCliente == model.IdUsuario);
+                var habitacion = context.tHabitaciones.FirstOrDefault(h => h.IdHabitacion == model.IdHabitacion);
+
+                var reserva = new Reserva()
+                {
+                    IdReserva = model.IdReserva,
+                    IdUsuario = model.IdUsuario,
+                    NombreUsuario = usuario?.Nombre + " " + usuario?.Apellido,
+                    IdHabitacion = model.IdHabitacion,
+                    NombreHabitacion = habitacion?.NombreHabitacion,
+                    CheckIn = model.CheckIn,
+                    CheckOut = model.CheckOut,
+                    Estado = model.Estado,
+                    IdMoneda = model.IdMoneda,
+                    NombreMoneda = moneda?.NombreMoneda,
+                    IdMetodoP = model.IdMetodoP,
+                    NombreMetodoPago = metodoPago?.NombreMetodoP,
+                };
+
+                return View(reserva);
+            }
+        }
+
+
+
     }
 }

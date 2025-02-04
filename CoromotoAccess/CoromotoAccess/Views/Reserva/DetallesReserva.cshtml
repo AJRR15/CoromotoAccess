@@ -1,0 +1,32 @@
+﻿@model CoromotoAccess.Models.Reserva
+
+@{
+    ViewBag.Title = "Detalles de la Reserva";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Detalles de la Reserva</h2>
+
+    @if (ViewBag.MensajePantalla != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajePantalla
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Reserva #@Model.IdReserva</h5>
+            <p class="card-text"><strong>Usuario:</strong> @Model.NombreUsuario</p>
+            <p class="card-text"><strong>Habitación:</strong> @Model.NombreHabitacion</p>
+            <p class="card-text"><strong>CheckIn:</strong> @Model.CheckIn.ToString("dd/MM/yyyy HH:mm")</p>
+            <p class="card-text"><strong>CheckOut:</strong> @Model.CheckOut.ToString("dd/MM/yyyy HH:mm")</p>
+            <p class="card-text"><strong>Estado:</strong> @(Model.Estado ? "Activo" : "Cancelado")</p>
+            <p class="card-text"><strong>Moneda:</strong> @Model.NombreMoneda</p>
+            <p class="card-text"><strong>Método de Pago:</strong> @Model.NombreMetodoPago</p>
+            <div class="d-flex justify-content-end gap-2">
+                <a href="@Url.Action("AdministrarReservas", "Reserva")" class="btn btn-secondary">Volver</a>
+            </div>
+        </div>
+    </div>
+</div>

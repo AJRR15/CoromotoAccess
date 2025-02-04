@@ -17,5 +17,9 @@ namespace CoromotoAccess.Models
         public bool Estado { get; set; }
         public int IdMoneda { get; set; }
         public int IdMetodoP { get; set; }
+        public String NombreMoneda { get; set; }
+        public String NombreMetodoPago { get; set; }
+        public String NombreUsuario { get; set; }
+        public String NombreHabitacion { get; set; }
     }
 }

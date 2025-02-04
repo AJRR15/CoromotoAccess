@@ -446,6 +446,7 @@
     <Content Include="Views\Parametros\ModificarVilla.cshtml" />
     <Content Include="Views\Parametros\ModificarCategoria.cshtml" />
     <Content Include="Views\Reserva\ModificarReserva.cshtml" />
+    <Content Include="Views\Reserva\DetallesReserva.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
