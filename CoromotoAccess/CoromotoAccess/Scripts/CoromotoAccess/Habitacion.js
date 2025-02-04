@@ -13,3 +13,20 @@ function eliminarHabitacion(id) {
         window.location.reload();
     }
 }
+
+function filtrarHabitacion() {
+    const tipoId = document.getElementById("buscarHabitacion").value;
+    const tables = document.querySelectorAll(".villa-table");
+
+    tables.forEach(table => {
+        const rows = table.querySelectorAll("tbody tr");
+        rows.forEach(row => {
+            const rowTipoId = row.getAttribute("data-tipo-habitacion-id");
+            if (tipoId === "" || rowTipoId === tipoId) {
+                row.style.display = "table-row";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+}

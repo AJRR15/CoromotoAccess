@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "AdministrarHabitaciones";
 }
-
 <section id="content" class="prod">
     <div class="container_24">
         <div class="wrapper">
@@ -16,30 +15,13 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="input-group mb-3">
-                            <select class="form-control" id="buscarCategoria">
-                                <option value="" disabled selected>Filtrar por villa</option>
-                                @foreach (var villa in ViewBag.Villas)
+                            <select class="form-control" id="buscarHabitacion" onchange="filtrarHabitacion()">
+                                <option value="">Todos los tipos</option>
+                                @foreach (var tipo in ViewBag.TiposHabitacion)
                                 {
-                                    <option value="@villa.Value">@villa.Text</option>
+                                    <option value="@tipo.Value">@tipo.Text</option>
                                 }
                             </select>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" onclick="filtrarCategoria()">Filtrar</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
-                            <select class="form-control" id="buscarHabitacion">
-                                <option value="" disabled selected>Filtrar por habitación</option>
-                                @foreach (var habitaciones in ViewBag.TiposHabitacion)
-                                {
-                                    <option value="@habitaciones.Value">@habitaciones.Text</option>
-                                }
-                            </select>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" onclick="filtrarHabitacion()">Filtrar</button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,7 +30,7 @@
                 @foreach (var villa in ViewBag.Villas)
                 {
                     <h3 class="p17 text-black font-weight-bold">@villa.Text</h3>
-                    <table class="table table-bordered" style="border: 2px solid #000;">
+                    <table class="table table-bordered villa-table" style="border: 2px solid #000;">
                         <thead>
                             <tr>
                                 <th>Habitación</th>
@@ -62,7 +44,7 @@
                         <tbody>
                             @foreach (var habitacion in Model.Where(h => h.IdVilla.ToString() == villa.Value))
                             {
-                                <tr>
+                                <tr data-tipo-habitacion-id="@habitacion.IdTipoHabitacion">
                                     <td>@habitacion.NombreHabitacion</td>
                                     <td>@habitacion.Descripcion</td>
                                     <td>@habitacion.CheckIn.ToString("hh:mm tt")</td>
@@ -169,5 +151,5 @@
     </div>
 </div>
 
-<!-- Llamada al archivo JavaScript externo -->
+
 <script src="~/Scripts/CoromotoAccess/Habitacion.js"></script>
