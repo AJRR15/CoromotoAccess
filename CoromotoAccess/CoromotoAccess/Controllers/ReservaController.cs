@@ -1,8 +1,12 @@
 ﻿using CoromotoAccess.Models;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using System.Xml.Linq;
+
 
 namespace CoromotoAccess.Controllers
 {
@@ -224,7 +228,108 @@ namespace CoromotoAccess.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult MisReservas(long? idUsuario)
+        {
+            if (idUsuario == null)
+            {
+                ViewBag.MensajePantalla = "Por favor, inicie sesión.";
+                return RedirectToAction("Index", "Home");
+            }
 
+            using (var context = new BDCoromotoEntities())
+            {
+                var reservas = context.tReservas
+                    .Where(r => r.IdUsuario == idUsuario)
+                    .Select(r => new Reserva
+                    {
+                        IdReserva = r.IdReserva,
+                        IdUsuario = r.IdUsuario,
+                        IdHabitacion = r.IdHabitacion,
+                        CheckIn = r.CheckIn,
+                        CheckOut = r.CheckOut,
+                        Estado = r.Estado,
+                        IdMoneda = r.IdMoneda,
+                        IdMetodoP = r.IdMetodoP
+                    }).ToList();
+
+                if (!reservas.Any())
+                {
+                    ViewBag.MensajePantalla = "No se encontraron reservaciones.";
+                    return View(reservas); // Se pasa un modelo vacío con el mensaje de error
+                }
+
+                var usuario = context.tUsuario.FirstOrDefault(u => u.ConsecutivoCliente == idUsuario);
+                ViewBag.Usuario = usuario?.Nombre + " " + usuario?.Apellido;
+
+                return View(reservas);
+            }
+        }
+
+
+        [HttpGet]
+        public ActionResult DescargarReserva(long id)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var model = context.tReservas.FirstOrDefault(x => x.IdReserva == id);
+
+                if (model == null)
+                {
+                    ViewBag.MensajePantalla = "No se encontró la reserva.";
+                    return RedirectToAction("MisReservas", new { idUsuario = Session["Consecutivo"] });
+                }
+
+                var moneda = context.tMonedas.FirstOrDefault(m => m.IdMoneda == model.IdMoneda);
+                var metodoPago = context.tMetodoPago.FirstOrDefault(mp => mp.IdMetodoP == model.IdMetodoP);
+                var usuario = context.tUsuario.FirstOrDefault(u => u.ConsecutivoCliente == model.IdUsuario);
+                var habitacion = context.tHabitaciones.FirstOrDefault(h => h.IdHabitacion == model.IdHabitacion);
+
+                var reserva = new Reserva()
+                {
+                    IdReserva = model.IdReserva,
+                    IdUsuario = model.IdUsuario,
+                    NombreUsuario = usuario?.Nombre + " " + usuario?.Apellido,
+                    IdHabitacion = model.IdHabitacion,
+                    NombreHabitacion = habitacion?.NombreHabitacion,
+                    CheckIn = model.CheckIn,
+                    CheckOut = model.CheckOut,
+                    Estado = model.Estado,
+                    IdMoneda = model.IdMoneda,
+                    NombreMoneda = moneda?.NombreMoneda,
+                    IdMetodoP = model.IdMetodoP,
+                    NombreMetodoPago = metodoPago?.NombreMetodoP
+                };
+
+                byte[] pdfContent = GenerarPDFReserva(reserva);
+                return File(pdfContent, "application/pdf", $"Reserva_{reserva.IdReserva}.pdf");
+            }
+        }
+        private byte[] GenerarPDFReserva(Reserva reserva)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                Document document = new Document();
+                PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
+                document.Open();
+
+                document.Add(new Paragraph("Detalles de la Reserva"));
+                document.Add(new Paragraph(" ")); // Espacio en blanco
+
+                document.Add(new Paragraph($"ID Reserva: {reserva.IdReserva}"));
+                document.Add(new Paragraph($"Usuario: {reserva.NombreUsuario}"));
+                document.Add(new Paragraph($"Habitación: {reserva.NombreHabitacion}"));
+                document.Add(new Paragraph($"CheckIn: {reserva.CheckIn:dd/MM/yyyy HH:mm}"));
+                document.Add(new Paragraph($"CheckOut: {reserva.CheckOut:dd/MM/yyyy HH:mm}"));
+                document.Add(new Paragraph($"Estado: {(reserva.Estado ? "Confirmada" : "Cancelada")}"));
+                document.Add(new Paragraph($"Moneda: {reserva.NombreMoneda}"));
+                document.Add(new Paragraph($"Método de Pago: {reserva.NombreMetodoPago}"));
+
+                document.Close();
+                writer.Close();
+                return memoryStream.ToArray();
+            }
+        }
 
     }
 }

@@ -105,6 +105,10 @@
                                     <li>
                                         <a class="dropdown-item" href="@Url.Action("AutoGestion", "RecursosHumanos")">AutoGestión</a>
                                     </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("MisReservas", "Reserva", new { idUsuario = Session["Consecutivo"] })">Mis Reservas</a>
+                                    </li>
+
                                 </ul>
                             </li>
                         </ul>

@@ -1,0 +1,59 @@
+﻿@model List<CoromotoAccess.Models.Reserva>
+
+@{
+    ViewBag.Title = "Ver Estado de las Reservas";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Estado de las Reservas de @ViewBag.Usuario</h2>
+
+    @if (ViewBag.MensajePantalla != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajePantalla
+        </div>
+    }
+    else if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            No se encontraron reservaciones. Por favor, inicie sesión.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID Reserva</th>
+                        <th>Habitación</th>
+                        <th>CheckIn</th>
+                        <th>CheckOut</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reserva in Model)
+                    {
+                        <tr>
+                            <td>@reserva.IdReserva</td>
+                            <td>@reserva.IdHabitacion</td>
+                            <td>@reserva.CheckIn.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@reserva.CheckOut.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@(reserva.Estado ? "Confirmada" : "Cancelada")</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("DescargarReserva", "Reserva", new { id = reserva.IdReserva })" role="button">Descargar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <div class="d-flex justify-content-end gap-2">
+        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+
