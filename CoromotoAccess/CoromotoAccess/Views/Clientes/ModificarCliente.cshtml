@@ -1,51 +1,50 @@
-﻿
+﻿@model CoromotoAccess.Models.Usuario
 @{
     ViewBag.Title = "ModificarCliente";
 }
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">Modificar Cliente</h2>
-    <form class="form-horizontal">
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="NombreCompleto">Nombre Completo:</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" id="NombreCompleto" name="NombreCompleto" value="Juan Pérez" disabled />
-            </div>
-        </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="ID">ID:</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" id="ID" name="ID" value="12345" disabled />
-            </div>
-        </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="Telefono">Teléfono:</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control" id="Telefono" name="Telefono" value="555-1234" required />
-            </div>
-        </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <label class="control-label col-md-2 text-black" for="CorreoElectronico">Correo Electrónico:</label>
-            <div class="col-md-10">
-                <input type="email" class="form-control" id="CorreoElectronico" name="CorreoElectronico" value="juan.perez@example.com" required />
-            </div>
-        </div>
-        <br />
-        <br />
-        <div class="form-group row">
-            <div class="col-md-10 offset-md-2">
-                <a href="@Url.Action("GestionClientes", "Clientes")" class="btn btn-secondary">Cancelar</a>
-                <a href="@Url.Action("GestionClientes", "Clientes")" class="btn btn-primary mr-2">Guardar Cambios</a>
-            </div>
-        </div>
-        <br />
-        <br />
-    </form>
-</div>
 
+    @if (ViewBag.MensajePantalla != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajePantalla
+        </div>
+    }
+
+    @using (Html.BeginForm("ModificarCliente", "Clientes", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    {
+        @Html.HiddenFor(m => m.ConsecutivoCliente)
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Identificación:</label>
+            @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control", required = "required", @disabled = "disabled" })
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Nombre:</label>
+            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", required = "required", @disabled = "disabled" })
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Apellido:</label>
+            @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control", required = "required", @disabled = "disabled" })
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Correo Electrónico:</label>
+            @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", type = "email", required = "required" })
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-semibold">Teléfono:</label>
+            @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control", type = "tel", required = "required" })
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+            <a href="@Url.Action("GestionClientes", "Clientes")" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+    }
+</div>

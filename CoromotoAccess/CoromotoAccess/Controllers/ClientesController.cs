@@ -30,10 +30,52 @@ namespace CoromotoAccess.Controllers
             }
         }
 
-        public ActionResult ModificarCliente()
+        [HttpGet]
+        public ActionResult ModificarCliente(long id)
         {
-            return View();
+            using (var context = new BDCoromotoEntities())
+            {
+                var model = context.tUsuario.Where(x => x.ConsecutivoCliente == id).FirstOrDefault();
+
+                if (model == null)
+                {
+                    TempData["MensajePantalla"] = "No se encontró al cliente.";
+                    return RedirectToAction("GestionClientes", "Clientes");
+                }
+                var usuario = new Usuario()
+                {
+                    ConsecutivoCliente = model.ConsecutivoCliente,
+                    Identificacion = model.Identificacion,
+                    Nombre = model.Nombre,
+                    Apellido = model.Apellido,
+                    CorreoElectronico = model.CorreoElectronico,
+                    Telefono = model.Telefono
+                };
+                return View(usuario);
+            }
         }
+
+        [HttpPost]
+        public ActionResult ModificarCliente(Usuario model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var datos = context.tUsuario.Where(x => x.ConsecutivoCliente == model.ConsecutivoCliente).FirstOrDefault();
+                if (datos != null)
+                {
+                    datos.CorreoElectronico = model.CorreoElectronico;
+                    datos.Telefono = model.Telefono;
+
+                    context.SaveChanges();
+                    TempData["MensajePantalla"] = "La información se ha actualizado correctamente.";
+                    return RedirectToAction("GestionClientes", "Clientes");
+                }
+
+                TempData["MensajePantalla"] = "La información no se ha podido actualizar correctamente.";
+            }
+            return View(model);
+        }
+
 
         [HttpGet]
         public ActionResult AgregarCliente()
