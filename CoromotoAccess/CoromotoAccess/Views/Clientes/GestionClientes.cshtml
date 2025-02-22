@@ -11,10 +11,9 @@
         <div class="input-group w-50">
             <input type="text" class="form-control" id="buscarCliente" placeholder="Buscar cliente por nombre">
             <div class="input-group-append" style="margin-left: 5px;">
-                <button class="btn btn-outline-dark" type="button">Buscar</button>
+                <button class="btn btn-outline-dark" type="button" onclick="filtrarCliente()">Buscar</button>
             </div>
         </div>
-
     </div>
 
     @if (ViewBag.MensajePantalla != null)
@@ -35,10 +34,10 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tablaClientesBody">
                 @foreach (var cliente in Model)
                 {
-                    <tr>
+                    <tr class="cliente-row">
                         <td>@cliente.Nombre @cliente.Apellido</td>
                         <td>@cliente.ConsecutivoCliente</td>
                         <td>@cliente.Telefono</td>
@@ -51,6 +50,7 @@
                 }
             </tbody>
         </table>
+        <p id="noResultsMessage" class="text-center text-muted" style="display:none;">No se ha encontrado al usuario buscado</p>
     </div>
 </div>
 
@@ -131,3 +131,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    function filtrarCliente() {
+        var input = document.getElementById("buscarCliente").value.toLowerCase();
+        var rows = document.getElementsByClassName("cliente-row");
+        var noResultsMessage = document.getElementById("noResultsMessage");
+        var found = false;
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var nombreCompleto = row.getElementsByTagName("td")[0].textContent.toLowerCase();
+
+            if (nombreCompleto.includes(input)) {
+                row.style.display = "";
+                found = true;
+            } else {
+                row.style.display = "none";
+            }
+        }
+
+        noResultsMessage.style.display = found ? "none" : "block";
+    }
+</script>
