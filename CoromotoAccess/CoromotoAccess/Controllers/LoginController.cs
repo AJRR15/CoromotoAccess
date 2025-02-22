@@ -86,6 +86,7 @@ namespace CoromotoAccess.Controllers
                 // Verificar si la identificación o el correo ya existen en la base de datos
                 bool identificacionExiste = context.tUsuario.Any(u => u.Identificacion == model.Identificacion);
                 bool correoExiste = context.tUsuario.Any(u => u.CorreoElectronico == model.CorreoElectronico);
+                bool telefonoExiste = context.tUsuario.Any(u => u.Telefono == model.Telefono);
 
                 if (identificacionExiste || correoExiste)
                 {
@@ -100,6 +101,10 @@ namespace CoromotoAccess.Controllers
                     else if (correoExiste)
                     {
                         ViewBag.MensajePantalla = "El correo ya existe.";
+                    }
+                    else if (telefonoExiste)
+                    {
+                        ViewBag.MensajePantalla = "El numero de telefono ya existe.";
                     }
                     return View(model);
                 }

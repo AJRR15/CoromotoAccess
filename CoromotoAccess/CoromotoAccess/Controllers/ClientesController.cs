@@ -25,6 +25,7 @@ namespace CoromotoAccess.Controllers
                     Telefono = u.Telefono
                 }).ToList();
 
+                ViewBag.MensajePantalla = TempData["MensajePantalla"];
                 return View(usuarios);
             }
         }
@@ -33,6 +34,75 @@ namespace CoromotoAccess.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult AgregarCliente()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AgregarCliente(Usuario model)
+        {
+            if (model == null || !ModelState.IsValid)
+            {
+                TempData["MensajePantalla"] = "Los datos ingresados no son válidos.";
+                return RedirectToAction("GestionClientes");
+            }
+
+            using (var context = new BDCoromotoEntities())
+            {
+                bool identificacionExiste = context.tUsuario.Any(u => u.Identificacion == model.Identificacion);
+                bool correoExiste = context.tUsuario.Any(u => u.CorreoElectronico == model.CorreoElectronico);
+                bool telefonoExiste = context.tUsuario.Any(u => u.Telefono == model.Telefono);
+
+                if (identificacionExiste || correoExiste)
+                {
+                    if (identificacionExiste && correoExiste)
+                    {
+                        TempData["MensajePantalla"] = "La identificación y el correo ya existen.";
+                    }
+                    else if (identificacionExiste)
+                    {
+                        TempData["MensajePantalla"] = "La identificación ya existe.";
+                    }
+                    else if (correoExiste)
+                    {
+                        TempData["MensajePantalla"] = "El correo ya existe.";
+                    }
+                    else if (telefonoExiste)
+                    {
+                        TempData["MensajePantalla"] = "El número de teléfono ya existe.";
+                    }
+                    return RedirectToAction("GestionClientes");
+                }
+
+                if (string.IsNullOrEmpty(model.FotoPerfil))
+                {
+                    model.FotoPerfil = "default.jpg";
+                }
+
+                var respuesta = context.RegistroUsuario(
+                    model.Identificacion,
+                    model.Nombre,
+                    model.Apellido,
+                    model.CorreoElectronico,
+                    model.Telefono,
+                    model.FotoPerfil,
+                    model.Contrasenna
+                );
+
+                if (respuesta > 0)
+                {
+                    return RedirectToAction("InicioSesion", "Login");
+                }
+                else
+                {
+                    TempData["MensajePantalla"] = "No se ha podido registrar el usuario.";
+                    return RedirectToAction("GestionClientes");
+                }
+            }
+        }
+
         [HttpGet]
         public ActionResult HistorialCliente(long id)
         {
