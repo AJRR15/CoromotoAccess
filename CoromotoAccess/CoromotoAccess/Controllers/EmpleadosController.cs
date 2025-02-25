@@ -259,24 +259,26 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
-        public ActionResult AgregarTarea()
+        public ActionResult AgregarTarea(int ConsecutivoEmp)
         {
+            ViewBag.IdEmpleado = ConsecutivoEmp;
             return View();
         }
+
 
         [HttpPost]
         public ActionResult AgregarTarea(Tarea model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Si el modelo no es válido, muestra los errores
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                TempData["MensajePantalla"] = "Error: " + string.Join("; ", errors);
-                return RedirectToAction("GestionEmpleados");
-            }
-
             using (var context = new BDCoromotoEntities())
             {
+                var empleadoExiste = context.tEmpleados.Any(e => e.ConsecutivoEmp == model.IdEmpleado);
+                if (!empleadoExiste)
+                {
+                    ModelState.AddModelError("", "El empleado no existe.");
+                    // Devolver la vista original con el modelo y mensaje de error
+                    return View(model);
+                }
+
                 var nuevaTarea = new tTareas
                 {
                     Descripcion = model.Descripcion,
@@ -291,5 +293,8 @@ namespace CoromotoAccess.Controllers
                 return RedirectToAction("GestionEmpleados");
             }
         }
+
+
+
     }
 }
