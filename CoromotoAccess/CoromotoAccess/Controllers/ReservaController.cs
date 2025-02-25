@@ -370,8 +370,8 @@ public ActionResult AgregarReserva(Reserva model)
             IdHabitacion = model.IdHabitacion,
             CheckIn = model.CheckIn,
             CheckOut = model.CheckOut,
-            Comentario = model.Comentario,
-            PersonasHospedados = model.PersonasHospedados,
+           // Comentario = model.Comentario,
+           // PersonasHospedados = model.PersonasHospedados,
             Estado = Estado,
             IdMoneda = model.IdMoneda,
             IdMetodoP = model.IdMetodoP,
@@ -401,7 +401,7 @@ public ActionResult AgregarReserva(Reserva model)
             contenido = contenido.Replace("@@NombreHabitacion", nombreHabitacion);
             contenido = contenido.Replace("@@CheckIn", reserva.CheckIn.ToString("dd/MM/yyyy HH:mm"));
             contenido = contenido.Replace("@@CheckOut", reserva.CheckOut.ToString("dd/MM/yyyy HH:mm"));
-            contenido = contenido.Replace("@@PersonasHospedadas", reserva.PersonasHospedados.ToString());
+           // contenido = contenido.Replace("@@PersonasHospedadas", reserva.PersonasHospedados.ToString());
 
             return contenido;
         }
