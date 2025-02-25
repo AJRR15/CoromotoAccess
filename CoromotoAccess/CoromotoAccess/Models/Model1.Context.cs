@@ -41,6 +41,7 @@ namespace CoromotoAccess.Models
         public virtual DbSet<tPermisos> tPermisos { get; set; }
         public virtual DbSet<tReservas> tReservas { get; set; }
         public virtual DbSet<tRoles> tRoles { get; set; }
+        public virtual DbSet<tTareas> tTareas { get; set; }
         public virtual DbSet<tTiposHabitaciones> tTiposHabitaciones { get; set; }
         public virtual DbSet<tTurnos> tTurnos { get; set; }
         public virtual DbSet<tUsuario> tUsuario { get; set; }

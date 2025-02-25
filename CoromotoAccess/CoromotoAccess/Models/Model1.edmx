@@ -154,6 +154,15 @@
           <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NombreRol" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="tTareas">
+          <Key>
+            <PropertyRef Name="IdTarea" />
+          </Key>
+          <Property Name="IdTarea" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="IdEmpleado" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="tTiposHabitaciones">
           <Key>
             <PropertyRef Name="IdTipodeHabitacion" />
@@ -421,6 +430,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tTareas_tEmpleados">
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
+          <End Role="tTareas" Type="Self.tTareas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoEmp" />
+            </Principal>
+            <Dependent Role="tTareas">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tUsuario_tRoles">
           <End Role="tRoles" Type="Self.tRoles" Multiplicity="1" />
           <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="*" />
@@ -477,6 +498,7 @@
           <EntitySet Name="tPermisos" EntityType="Self.tPermisos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tReservas" EntityType="Self.tReservas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tRoles" EntityType="Self.tRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tTareas" EntityType="Self.tTareas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tTiposHabitaciones" EntityType="Self.tTiposHabitaciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tTurnos" EntityType="Self.tTurnos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tUsuario" EntityType="Self.tUsuario" Schema="dbo" store:Type="Tables" />
@@ -554,6 +576,10 @@
             <End Role="tUsuario" EntitySet="tUsuario" />
             <End Role="tReservas" EntitySet="tReservas" />
           </AssociationSet>
+          <AssociationSet Name="FK_tTareas_tEmpleados" Association="Self.FK_tTareas_tEmpleados">
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+            <End Role="tTareas" EntitySet="tTareas" />
+          </AssociationSet>
           <AssociationSet Name="FK_tUsuario_tRoles" Association="Self.FK_tUsuario_tRoles">
             <End Role="tRoles" EntitySet="tRoles" />
             <End Role="tUsuario" EntitySet="tUsuario" />
@@ -625,6 +651,7 @@
           <NavigationProperty Name="tEvaluaciones" Relationship="Self.FK_tEvaluaciones_tEmpleados" FromRole="tEmpleados" ToRole="tEvaluaciones" />
           <NavigationProperty Name="tLimpiezas" Relationship="Self.FK_tLimpiezas_tEmpleados" FromRole="tEmpleados" ToRole="tLimpiezas" />
           <NavigationProperty Name="tNominas" Relationship="Self.FK_tNominas_tEmpleados" FromRole="tEmpleados" ToRole="tNominas" />
+          <NavigationProperty Name="tTareas" Relationship="Self.FK_tTareas_tEmpleados" FromRole="tEmpleados" ToRole="tTareas" />
           <NavigationProperty Name="tVacaciones" Relationship="Self.FK_tVacaciones_tEmpleados" FromRole="tEmpleados" ToRole="tVacaciones" />
         </EntityType>
         <EntityType Name="tEvaluaciones">
@@ -747,6 +774,16 @@
           <NavigationProperty Name="tEmpleados" Relationship="Self.FK_tEmpleados_tRoles" FromRole="tRoles" ToRole="tEmpleados" />
           <NavigationProperty Name="tPermisos" Relationship="Self.FK_tPermisos_tRoles" FromRole="tRoles" ToRole="tPermisos" />
           <NavigationProperty Name="tUsuario" Relationship="Self.FK_tUsuario_tRoles" FromRole="tRoles" ToRole="tUsuario" />
+        </EntityType>
+        <EntityType Name="tTareas">
+          <Key>
+            <PropertyRef Name="IdTarea" />
+          </Key>
+          <Property Name="IdTarea" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tEmpleados" Relationship="Self.FK_tTareas_tEmpleados" FromRole="tTareas" ToRole="tEmpleados" />
         </EntityType>
         <EntityType Name="tTiposHabitaciones">
           <Key>
@@ -916,6 +953,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tTareas_tEmpleados">
+          <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
+          <End Role="tTareas" Type="Self.tTareas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tEmpleados">
+              <PropertyRef Name="ConsecutivoEmp" />
+            </Principal>
+            <Dependent Role="tTareas">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tVacaciones_tEmpleados">
           <End Role="tEmpleados" Type="Self.tEmpleados" Multiplicity="1" />
           <End Role="tVacaciones" Type="Self.tVacaciones" Multiplicity="*" />
@@ -1063,6 +1112,7 @@
           <EntitySet Name="tPermisos" EntityType="Self.tPermisos" />
           <EntitySet Name="tReservas" EntityType="Self.tReservas" />
           <EntitySet Name="tRoles" EntityType="Self.tRoles" />
+          <EntitySet Name="tTareas" EntityType="Self.tTareas" />
           <EntitySet Name="tTiposHabitaciones" EntityType="Self.tTiposHabitaciones" />
           <EntitySet Name="tTurnos" EntityType="Self.tTurnos" />
           <EntitySet Name="tUsuario" EntityType="Self.tUsuario" />
@@ -1103,6 +1153,10 @@
           <AssociationSet Name="FK_tNominas_tEmpleados" Association="Self.FK_tNominas_tEmpleados">
             <End Role="tEmpleados" EntitySet="tEmpleados" />
             <End Role="tNominas" EntitySet="tNominas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tTareas_tEmpleados" Association="Self.FK_tTareas_tEmpleados">
+            <End Role="tEmpleados" EntitySet="tEmpleados" />
+            <End Role="tTareas" EntitySet="tTareas" />
           </AssociationSet>
           <AssociationSet Name="FK_tVacaciones_tEmpleados" Association="Self.FK_tVacaciones_tEmpleados">
             <End Role="tEmpleados" EntitySet="tEmpleados" />
@@ -1366,6 +1420,16 @@
               <MappingFragment StoreEntitySet="tRoles">
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tTareas">
+            <EntityTypeMapping TypeName="BDCoromotoModel.tTareas">
+              <MappingFragment StoreEntitySet="tTareas">
+                <ScalarProperty Name="IdTarea" ColumnName="IdTarea" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

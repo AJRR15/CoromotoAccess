@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CoromotoAccess.Models.Tarea>
+@{
+    ViewBag.Title = "Gestión de Tareas";
+    // Convertir ViewBag.Empleados a un diccionario para fácil acceso
+    var empleadosDict = new Dictionary<int, string>();
+    foreach (SelectListItem empleado in ViewBag.Empleados)
+    {
+        empleadosDict.Add(int.Parse(empleado.Value), empleado.Text);
+    }
+}
+
+<div class="container mt-5">
+    @if (TempData["MensajePantalla"] != null)
+    {
+        <div class="alert alert-info">@TempData["MensajePantalla"]</div>
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">Gestión de Tareas</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID Tarea</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                    <th>Empleado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tarea in Model)
+                {
+                    <tr>
+                        <td>@tarea.IdTarea</td>
+                        <td>@tarea.Descripcion</td>
+                        <td>@tarea.Estado</td>
+                        <td>
+                            @if (empleadosDict.ContainsKey(tarea.IdEmpleado))
+                            {
+                                @empleadosDict[tarea.IdEmpleado]
+                            }
+                            else
+                            {
+                                <span class="text-danger">Empleado no encontrado</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

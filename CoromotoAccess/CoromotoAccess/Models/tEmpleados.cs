@@ -20,6 +20,7 @@ namespace CoromotoAccess.Models
             this.tEvaluaciones = new HashSet<tEvaluaciones>();
             this.tLimpiezas = new HashSet<tLimpiezas>();
             this.tNominas = new HashSet<tNominas>();
+            this.tTareas = new HashSet<tTareas>();
             this.tVacaciones = new HashSet<tVacaciones>();
         }
     
@@ -49,6 +50,8 @@ namespace CoromotoAccess.Models
         public virtual ICollection<tLimpiezas> tLimpiezas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tNominas> tNominas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tTareas> tTareas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tVacaciones> tVacaciones { get; set; }
     }

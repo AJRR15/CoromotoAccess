@@ -453,8 +453,26 @@ BEGIN
 		AND Activo = 1
 
 END
+--------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE [dbo].[tTareas](
+    [IdTarea] [int] IDENTITY(1,1) NOT NULL,
+    [Descripcion] [varchar](255) NOT NULL,
+    [Estado] [bit] NOT NULL,
+    [IdEmpleado] [int] NOT NULL,
+ CONSTRAINT [PK_tTareas] PRIMARY KEY CLUSTERED 
+(
+    [IdTarea] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[tTareas]
+ADD CONSTRAINT FK_tTareas_tEmpleados
+FOREIGN KEY ([IdEmpleado])
+REFERENCES [dbo].[tEmpleados]([ConsecutivoEmp]);
+GO
 
 
 --Agregar el insert de las categoria.-- 
 INSERT INTO [BDCoromoto].[dbo].[tCategorias] ( Nombre)
-VALUES ('Categoría 1');
+VALUES ('Categorï¿½a 1');
