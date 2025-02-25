@@ -19,6 +19,8 @@ namespace CoromotoAccess.Models
         public int IdHabitacion { get; set; }
         public System.DateTime FechaLimpieza { get; set; }
         public bool Estado { get; set; }
+        public System.DateTime FechaAsignacion { get; set; }
+        public bool EmailEnviado { get; set; }
     
         public virtual tEmpleados tEmpleados { get; set; }
         public virtual tHabitaciones tHabitaciones { get; set; }

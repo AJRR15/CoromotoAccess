@@ -398,6 +398,7 @@
     <Content Include="Styles\js\PIE.php" />
     <Content Include="Styles\js\script.js" />
     <Content Include="Styles\js\superfish.js" />
+    <Content Include="Styles\TemplateCorreoLimpieza.html" />
     <Content Include="Styles\TemplateCorreoProyecto.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

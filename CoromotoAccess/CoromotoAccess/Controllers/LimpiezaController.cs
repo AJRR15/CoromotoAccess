@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Mail;
+using System.Data.Entity;
 
 namespace CoromotoAccess.Controllers
 {
@@ -17,21 +19,44 @@ namespace CoromotoAccess.Controllers
         {
             using (var context = new BDCoromotoEntities())
             {
-                var datos = context.tLimpiezas.ToList();
-                var limpiezas = new List<Limpieza>();
+                DateTime fechaLimite = DateTime.Now.AddMinutes(1);
 
-                foreach (var d in datos)
+                var tareasPendientes = context.tLimpiezas
+                    .Where(l => l.EmailEnviado == false
+                        && l.FechaAsignacion <= fechaLimite
+                        && l.Estado == false)
+                    .ToList();
+
+                foreach (var tarea in tareasPendientes)
                 {
-                    limpiezas.Add(new Limpieza
+                    var empleado = context.tEmpleados.Find(tarea.IdEmpleado);
+                    var habitacion = context.tHabitaciones.Find(tarea.IdHabitacion);
+
+                    if (empleado != null && habitacion != null)
                     {
-                        IdLimpieza = d.IdLimpieza,
-                        IdEmpleado = d.IdEmpleado,
-                        IdHabitacion = d.IdHabitacion,
-                        FechaLimpieza = d.FechaLimpieza,
-                        Estado = d.Estado
-                    });
+                        string contenido = GenerarContenidoCorreoLimpieza(
+                            empleado.Nombre,
+                            tarea,
+                            habitacion.NombreHabitacion
+                        );
+                        EnviarCorreoEmpleado(empleado.CorreoElectronico, "Limpieza Pendiente", contenido);
+                        tarea.EmailEnviado = true;
+                    }
                 }
 
+                context.SaveChanges();
+                var limpiezas = context.tLimpiezas
+            .Select(l => new Limpieza
+            {
+                IdLimpieza = l.IdLimpieza,
+                IdEmpleado = l.IdEmpleado,
+                IdHabitacion = l.IdHabitacion,
+                FechaLimpieza = l.FechaLimpieza,
+                Estado = l.Estado,
+                FechaAsignacion = l.FechaAsignacion,
+                EmailEnviado = l.EmailEnviado
+            })
+            .ToList();
                 ViewBag.Empleados = new SelectList(context.tEmpleados.ToList(), "ConsecutivoEmp", "Nombre");
                 ViewBag.Habitaciones = new SelectList(context.tHabitaciones.ToList(), "IdHabitacion", "NombreHabitacion");
                 ViewBag.DiccionarioEmpleados = context.tEmpleados.ToDictionary(e => e.ConsecutivoEmp, e => e.Nombre);
@@ -67,7 +92,9 @@ namespace CoromotoAccess.Controllers
                         IdEmpleado = model.IdEmpleado,
                         IdHabitacion = model.IdHabitacion,
                         FechaLimpieza = model.FechaLimpieza,
-                        Estado = model.Estado
+                        Estado = model.Estado,
+                        FechaAsignacion = DateTime.Now,
+                        EmailEnviado = false
                     };
 
                     context.tLimpiezas.Add(nuevaLimpieza);
@@ -111,7 +138,6 @@ namespace CoromotoAccess.Controllers
             {
                 using (var context = new BDCoromotoEntities())
                 {
-                    // Si se solicita un reporte detallado
                     if (incluirDetalles)
                     {
                         var limpiezas = context.tLimpiezas.ToList();
@@ -153,12 +179,10 @@ namespace CoromotoAccess.Controllers
                         workStream.Write(byteInfo, 0, byteInfo.Length);
                         workStream.Position = 0;
 
-                        // Establecer mensaje de éxito en TempData
                         TempData["Message"] = "Se descargó exitosamente el reporte.";
 
                         return File(workStream, "application/pdf", "Reporte_Limpieza.pdf");
                     }
-                    // Si solo se quiere un reporte básico
                     else
                     {
                         using (MemoryStream ms = new MemoryStream())
@@ -173,7 +197,6 @@ namespace CoromotoAccess.Controllers
                             document.Close();
                             writer.Close();
 
-                            // Establecer mensaje de éxito en TempData
                             TempData["Message"] = "Se descargó exitosamente el reporte.";
 
                             return File(ms.ToArray(), "application/pdf", "Reporte_Limpieza.pdf");
@@ -186,6 +209,37 @@ namespace CoromotoAccess.Controllers
                 ViewBag.MensajePantalla = $"Error al generar el PDF: {ex.Message}";
                 return RedirectToAction("ControlDeLimpieza");
             }
+        }
+
+        private string GenerarContenidoCorreoLimpieza(string nombreEmpleado, tLimpiezas limpieza, string nombreHabitacion)
+        {
+            string ruta = AppDomain.CurrentDomain.BaseDirectory + "\\Styles\\TemplateCorreoLimpieza.html";
+            string contenido = System.IO.File.ReadAllText(ruta);
+
+            contenido = contenido.Replace("@@NombreEmpleado", nombreEmpleado);
+            contenido = contenido.Replace("@@NombreHabitacion", nombreHabitacion);
+            contenido = contenido.Replace("@@FechaLimpieza", limpieza.FechaLimpieza.ToString("dd/MM/yyyy HH:mm") ?? "");
+            contenido = contenido.Replace("@@FechaAsignacion", limpieza.FechaAsignacion.ToString("dd/MM/yyyy HH:mm") ?? "");
+
+            return contenido;
+        }
+
+        private void EnviarCorreoEmpleado(string destino, string asunto, string contenido)
+        {
+            string cuenta = "julloa60694@ufide.ac.cr";
+            string contrasenna = "#1DEGT89";
+
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(cuenta);
+            message.To.Add(new MailAddress(destino));
+            message.Subject = asunto;
+            message.Body = contenido;
+            message.IsBodyHtml = true;
+
+            SmtpClient client = new SmtpClient("smtp.office365.com", 587);
+            client.Credentials = new System.Net.NetworkCredential(cuenta, contrasenna);
+            client.EnableSsl = true;
+            client.Send(message);
         }
 
     }

@@ -51,54 +51,7 @@ namespace CoromotoAccess.Controllers
                 return View(listaReservas);
             }
         }
-        /*
-        [HttpPost]
-        public ActionResult AgregarReserva(Reserva model)
-        {
-            using (var context = new BDCoromotoEntities())
-            {
-                var idUsuario = int.Parse(Session["Consecutivo"].ToString());
-
-                var habitacion = context.tHabitaciones.Find(model.IdHabitacion);
-                if (habitacion == null)
-                {
-                    return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion, errorMessage = "La habitación seleccionada no existe." });
-                }
-
-                var usuario = context.tUsuario.Find(idUsuario);
-                if (usuario == null)
-                {
-                    return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion, errorMessage = "El usuario seleccionado no existe." });
-                }
-
-                var reservasExistentes = context.tReservas.Where(r => r.IdHabitacion == model.IdHabitacion && ((model.CheckIn >= r.CheckIn && model.CheckIn <= r.CheckOut) || (model.CheckOut >= r.CheckIn && model.CheckOut <= r.CheckOut))).ToList();
-
-                if (reservasExistentes.Any())
-                {
-                    return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion, errorMessage = "La habitación ya está reservada en las fechas seleccionadas." });
-                }
-
-                var Estado = true;
-                var reserva = new tReservas
-                {
-                    IdUsuario = idUsuario,
-                    IdHabitacion = model.IdHabitacion,
-                    CheckIn = model.CheckIn,
-                    CheckOut = model.CheckOut,
-                    Comentario = model.Comentario,
-                    PersonasHospedados = model.PersonasHospedados,
-                    Estado = Estado,
-                    IdMoneda = model.IdMoneda,
-                    IdMetodoP = model.IdMetodoP,
-                };
-
-                context.tReservas.Add(reserva);
-                context.SaveChanges();
-
-                return RedirectToAction("CatalogoHabitaciones", "Habitacion");
-            }
-        }
-        */
+        
         private void CargarListas()
         {
             using (var context = new BDCoromotoEntities())
@@ -371,7 +324,7 @@ public ActionResult AgregarReserva(Reserva model)
             CheckIn = model.CheckIn,
             CheckOut = model.CheckOut,
             Comentario = model.Comentario,
-            PersonasHospedados = model.PersonasHospedados,
+            PersonasHospedadas = model.PersonasHospedados,
             Estado = Estado,
             IdMoneda = model.IdMoneda,
             IdMetodoP = model.IdMetodoP,
@@ -401,7 +354,7 @@ public ActionResult AgregarReserva(Reserva model)
             contenido = contenido.Replace("@@NombreHabitacion", nombreHabitacion);
             contenido = contenido.Replace("@@CheckIn", reserva.CheckIn.ToString("dd/MM/yyyy HH:mm"));
             contenido = contenido.Replace("@@CheckOut", reserva.CheckOut.ToString("dd/MM/yyyy HH:mm"));
-            contenido = contenido.Replace("@@PersonasHospedadas", reserva.PersonasHospedados.ToString());
+            contenido = contenido.Replace("@@PersonasHospedadas", reserva.PersonasHospedadas.ToString());
 
             return contenido;
         }

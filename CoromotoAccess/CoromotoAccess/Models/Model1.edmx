@@ -97,6 +97,8 @@
           <Property Name="IdHabitacion" Type="int" Nullable="false" />
           <Property Name="FechaLimpieza" Type="datetime" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="FechaAsignacion" Type="datetime" Nullable="false" />
+          <Property Name="EmailEnviado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tMetodoPago">
           <Key>
@@ -141,8 +143,8 @@
           <Property Name="IdHabitacion" Type="int" Nullable="false" />
           <Property Name="CheckIn" Type="datetime" Nullable="false" />
           <Property Name="CheckOut" Type="datetime" Nullable="false" />
+          <Property Name="PersonasHospedadas" Type="int" Nullable="false" />
           <Property Name="Comentario" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="PersonasHospedados" Type="int" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="IdMoneda" Type="int" Nullable="false" />
           <Property Name="IdMetodoP" Type="int" Nullable="false" />
@@ -705,6 +707,8 @@
           <Property Name="IdHabitacion" Type="Int32" Nullable="false" />
           <Property Name="FechaLimpieza" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="FechaAsignacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EmailEnviado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tEmpleados" Relationship="Self.FK_tLimpiezas_tEmpleados" FromRole="tLimpiezas" ToRole="tEmpleados" />
           <NavigationProperty Name="tHabitaciones" Relationship="Self.FK_tLimpiezas_tHabitaciones" FromRole="tLimpiezas" ToRole="tHabitaciones" />
         </EntityType>
@@ -755,8 +759,8 @@
           <Property Name="IdHabitacion" Type="Int32" Nullable="false" />
           <Property Name="CheckIn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CheckOut" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PersonasHospedadas" Type="Int32" Nullable="false" />
           <Property Name="Comentario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PersonasHospedados" Type="Int32" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdMoneda" Type="Int32" Nullable="false" />
           <Property Name="IdMetodoP" Type="Int32" Nullable="false" />
@@ -1358,6 +1362,8 @@
                 <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />
                 <ScalarProperty Name="FechaLimpieza" ColumnName="FechaLimpieza" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="FechaAsignacion" ColumnName="FechaAsignacion" />
+                <ScalarProperty Name="EmailEnviado" ColumnName="EmailEnviado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1407,8 +1413,8 @@
                 <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />
                 <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
                 <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+                <ScalarProperty Name="PersonasHospedadas" ColumnName="PersonasHospedadas" />
                 <ScalarProperty Name="Comentario" ColumnName="Comentario" />
-                <ScalarProperty Name="PersonasHospedados" ColumnName="PersonasHospedados" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
                 <ScalarProperty Name="IdMetodoP" ColumnName="IdMetodoP" />

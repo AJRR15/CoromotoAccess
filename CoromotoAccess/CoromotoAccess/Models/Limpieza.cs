@@ -12,5 +12,7 @@ namespace CoromotoAccess.Models
         public int IdHabitacion { get; set; }
         public DateTime FechaLimpieza { get; set; }
         public bool Estado { get; set; }
+        public DateTime? FechaAsignacion { get; set; }
+        public bool EmailEnviado { get; set; }
     }
 }

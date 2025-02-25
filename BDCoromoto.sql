@@ -91,6 +91,8 @@ CREATE TABLE [dbo].[tReservas](
 	[IdHabitacion] [int] NOT NULL,
 	[CheckIn] [datetime] NOT NULL,
 	[CheckOut] [datetime] NOT NULL,
+	[PersonasHospedadas] [int] NOT NULL,
+	[Comentario] [varchar] (255) NOT NULL,
 	[Estado] [bit] NOT NULL,
 	[IdMoneda] [int] NOT NULL,
 	[IdMetodoP] [int] NOT NULL
@@ -476,3 +478,7 @@ GO
 --Agregar el insert de las categoria.-- 
 INSERT INTO [BDCoromoto].[dbo].[tCategorias] ( Nombre)
 VALUES ('Categor�a 1');
+
+ALTER TABLE tLimpiezas
+ADD FechaAsignacion DATETIME NOT NULL,
+    EmailEnviado BIT DEFAULT 0 NOT NULL;
