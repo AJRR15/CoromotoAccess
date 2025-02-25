@@ -21,6 +21,8 @@
     }
     else
     {
+        <h4>El cliente @ViewBag.Usuario ha reservado una cantidad de @Model.Count reservas.</h4>
+
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -50,10 +52,10 @@
                 </tbody>
             </table>
         </div>
+        
     }
 
     <div class="d-flex justify-content-end gap-2">
         <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Volver</a>
     </div>
 </div>
-
