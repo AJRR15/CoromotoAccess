@@ -141,6 +141,8 @@
           <Property Name="IdHabitacion" Type="int" Nullable="false" />
           <Property Name="CheckIn" Type="datetime" Nullable="false" />
           <Property Name="CheckOut" Type="datetime" Nullable="false" />
+          <Property Name="Comentario" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="PersonasHospedados" Type="int" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="IdMoneda" Type="int" Nullable="false" />
           <Property Name="IdMetodoP" Type="int" Nullable="false" />
@@ -753,6 +755,8 @@
           <Property Name="IdHabitacion" Type="Int32" Nullable="false" />
           <Property Name="CheckIn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CheckOut" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Comentario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PersonasHospedados" Type="Int32" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdMoneda" Type="Int32" Nullable="false" />
           <Property Name="IdMetodoP" Type="Int32" Nullable="false" />
@@ -1403,6 +1407,8 @@
                 <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />
                 <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
                 <ScalarProperty Name="CheckOut" ColumnName="CheckOut" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="PersonasHospedados" ColumnName="PersonasHospedados" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
                 <ScalarProperty Name="IdMetodoP" ColumnName="IdMetodoP" />
