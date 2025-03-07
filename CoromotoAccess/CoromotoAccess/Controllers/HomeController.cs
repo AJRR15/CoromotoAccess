@@ -26,5 +26,16 @@ namespace CoromotoAccess.Controllers
 
             return View();
         }
+
+        //cambiar idioma 7 marzo
+        
+        public ActionResult ChangeLanguage(string lang)
+        {
+            HttpCookie langCookie = new HttpCookie("Language", lang);
+            langCookie.Expires = DateTime.Now.AddYears(1);
+            Response.Cookies.Add(langCookie);
+
+            return Redirect(Request.UrlReferrer.ToString());
+        }
     }
 }
