@@ -20,14 +20,35 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Pedro Sanchez</td>
-                <td>Empleado</td>
-                <td>160</td>
-                <td>Buen desempeño</td>
-                <td>Excelente</td>
-                <td><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#evaluarEmpleadoModal">Evaluar</button></td>
-            </tr>
+            @{
+                int calificacion = 0;
+                string nombreEmpleado = "", nombreRol = "", comentario = "", nombreCalificacion = "";
+
+                foreach (var empleado in Model)
+                {
+                    calificacion = ViewBag.Calificaciones.ContainsKey(empleado.ConsecutivoEmp) ?
+                        ViewBag.Calificaciones[empleado.ConsecutivoEmp] : 0;
+                    nombreEmpleado = empleado.Nombre + " " + empleado.Apellido;
+                    nombreRol = ViewBag.DiccionarioRoles[empleado.IdRol];
+                    comentario = ViewBag.Comentarios.ContainsKey(empleado.ConsecutivoEmp) ?
+                        ViewBag.Comentarios[empleado.ConsecutivoEmp] : "-";
+                    nombreCalificacion = ViewBag.DiccionarioCalificaciones[calificacion];
+
+                    <tr>
+                        <td>@nombreEmpleado</td>
+                        <td>@nombreRol</td>
+                        <td>@empleado.HorasTrabajadas</td>
+                        <td>@comentario</td>
+                        <td>@nombreCalificacion</td>
+                        <td>
+                            <button type="button" onclick="document.getElementById('IdEmpleado').value='@empleado.ConsecutivoEmp'"
+                                    class="btn btn-success" data-bs-toggle="modal" data-bs-target="#evaluarEmpleadoModal">
+                                Evaluar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 
@@ -39,26 +60,27 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="comentario" class="form-label">Comentario:</label>
-                            <textarea class="form-control" id="comentario" rows="3"></textarea>
-                        </div>
-                        <div class="mb-3">
+                    @using (Html.BeginForm("AsignarEvaluacion", "RecursosHumanos", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        <input type="hidden" class="form-control" id="IdEmpleado" name="IdEmpleado" required />
+
+                        <div class="form-group">
                             <label for="calificacion" class="form-label">Calificación:</label>
-                            <select class="form-select" id="calificacion">
-                                <option selected>Excelente</option>
-                                <option>Bueno</option>
-                                <option>Regular</option>
-                                <option>Pobre</option>
-                            </select>
+                            @Html.DropDownList("Calificacion", (SelectList)ViewBag.OpcionesCalificacion, "Seleccione una calificación", new { @class = "form-control", required = "required" })
                         </div>
-                    </form>
+                        <div class="form-group">
+                            <label for="Comentario">Comentario:</label>
+                            <textarea class="form-control" id="Comentario" name="Comentario" rows="3" required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar evaluación</button>
+                        </div>
+                    }
+
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-outline-dark">Guardar Evaluación</button>
-                </div>
+               
             </div>
         </div>
     </div>
