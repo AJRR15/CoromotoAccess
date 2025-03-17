@@ -295,6 +295,155 @@ namespace CoromotoAccess.Controllers
         }
 
 
+        public ActionResult EmpleadoTurno()
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var turnos = context.tTurnos.ToList();
+                return View(turnos);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CrearTurno()
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var turnos = context.tTurnos.Select(t => new Turnos
+                {
+                    IdTurno = t.IdTurno,
+                    Nombre = t.Nombre,
+                    HoraInicio = t.HoraInicio,
+                    HoraSalida = t.HoraSalida
+                }).ToList();
+
+                ViewBag.Empleados = context.tEmpleados.ToList();
+                return View(turnos);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CrearTurno(Turnos turno)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                if (ModelState.IsValid)
+                {
+                    var nuevoTurno = new tTurnos
+                    {
+                        IdTurno = turno.IdTurno,
+                        Nombre = turno.Nombre,
+                        HoraInicio = turno.HoraInicio,
+                        HoraSalida = turno.HoraSalida
+                    };
+
+                    context.tTurnos.Add(nuevoTurno);
+                    context.SaveChanges();
+                    return RedirectToAction("CrearTurno");
+                }
+                return RedirectToAction("CrearTurno");
+            }
+        }
+
+        public ActionResult AsignarTurno()
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var empleados = context.tEmpleados.Select(e => new Empleado
+                {
+                    ConsecutivoEmp = e.ConsecutivoEmp,
+                    Nombre = e.Nombre,
+                    Apellido = e.Apellido,
+                    IdTurno = e.IdTurno,
+                    Activo = e.Activo
+                }).ToList();
+
+                ViewBag.Turnos = new SelectList(context.tTurnos.ToList(), "IdTurno", "Nombre");
+                ViewBag.DiccionarioTurnos = context.tTurnos.ToDictionary(t => t.IdTurno, t => t.Nombre);
+
+                return View(empleados);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AsignarTurno(Empleado model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var empleado = context.tEmpleados.Find(model.ConsecutivoEmp);
+
+                if (empleado != null)
+                {
+                    empleado.IdTurno = model.IdTurno;
+                    empleado.Activo = true;
+
+                    context.SaveChanges();
+
+                    TempData["MensajePantalla"] = "Turno asignado correctamente.";
+                }
+
+                return RedirectToAction("AsignarTurno");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DesasignarTurno(Empleado model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var empleado = context.tEmpleados.Find(model.ConsecutivoEmp);
+
+                if (empleado != null)
+                {
+                    empleado.Activo = false;
+
+                    context.SaveChanges();
+
+                    TempData["MensajePantalla"] = "Turno desasignado correctamente.";
+                }
+
+                return RedirectToAction("AsignarTurno");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EliminarTurno(int id)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var turno = context.tTurnos.Find(id);
+
+                if (turno != null)
+                {
+                    context.tTurnos.Remove(turno);
+                    context.SaveChanges();
+                    TempData["MensajePantalla"] = "Turno eliminado correctamente.";
+                }
+
+                return RedirectToAction("CrearTurno");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ModificarTurno(Turnos model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var turno = context.tTurnos.Find(model.IdTurno);
+
+                if (turno != null)
+                {
+                    turno.Nombre = model.Nombre;
+                    turno.HoraInicio = model.HoraInicio;
+                    turno.HoraSalida = model.HoraSalida;
+
+                    context.SaveChanges();
+                    TempData["MensajePantalla"] = "Turno modificado correctamente.";
+                }
+
+                return RedirectToAction("CrearTurno");
+            }
+        }
 
     }
 }

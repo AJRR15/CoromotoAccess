@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<CoromotoAccess.Models.Empleado>
+@{
     ViewBag.Title = "AsignarTurno";
 }
 
@@ -19,15 +20,32 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Pedro Sanchez</td>
-                <td>Asignado</td>
-                <td>Mañana</td>
-                <td>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#asignarTurnoModal">Editar Turno</button>
-                    <button type="button" class="btn btn-danger">Eliminar Turno</button>
-                </td>
-            </tr>
+            @foreach (var empleado in Model)
+            {
+                var nombreCompleto = empleado.Nombre + " " + empleado.Apellido;
+                var turnoEmpleado = empleado.Activo ? ViewBag.DiccionarioTurnos[empleado.IdTurno] : "";
+
+                <tr>
+                    <td>@nombreCompleto</td>
+                    <td>@(empleado.Activo ? "Asignado" : "No asignado")</td>
+                    <td>@turnoEmpleado</td>
+                    <td>
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#asignarTurnoModal"
+                                onclick="document.getElementById('idEmpleado').value = @empleado.ConsecutivoEmp;
+                            document.getElementById('targetName').value = '@nombreCompleto';">
+                            Editar Turno
+                        </button>
+                        @if (empleado.Activo)
+                        {
+                            using (Html.BeginForm("DesasignarTurno", "Empleados", FormMethod.Post))
+                            {
+                                @Html.Hidden("ConsecutivoEmp", empleado.ConsecutivoEmp)
+                                <button type="submit" class="btn btn-danger">Eliminar Turno</button>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 
@@ -40,27 +58,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
+                    @using (Html.BeginForm("AsignarTurno", "Empleados", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        <input id="idEmpleado" type="hidden" name="ConsecutivoEmp">
+
+                        <div class="form-group">
                             <label for="empleado" class="form-label">Empleado:</label>
-                            <select class="form-select" id="empleado">
-                                <option selected>Pedro Sanchez</option>
-                                <!-- Agregar más opciones según sea necesario -->
-                            </select>
+                            <input id="targetName" type="text" class="form-control" readonly>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="turno" class="form-label">Turno:</label>
-                            <select class="form-select" id="turno">
-                                <option selected>Mañana</option>
-                                <option>Tarde</option>
-                                <option>Noche</option>
-                            </select>
+                            @Html.DropDownList("IdTurno", (SelectList)ViewBag.Turnos, "Seleccione un turno", new { @class = "form-control", required = "required" })
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-outline-dark">Asignar Turno</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-outline-dark">Asignar Turno</button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

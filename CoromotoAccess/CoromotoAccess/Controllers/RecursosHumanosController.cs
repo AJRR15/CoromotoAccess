@@ -16,7 +16,86 @@ namespace CoromotoAccess.Controllers
         }
         public ActionResult GestionarVacaciones()
         {
-            return View();
+            using (var context = new BDCoromotoEntities())
+            {
+                var vacaciones = context.tVacaciones.Select(e => new Vacaciones
+                {
+                    IdVacacion = e.IdVacacion,
+                    IdEmpleado = e.IdEmpleado,
+                    DiasSolicitados = e.DiasSolicitados,
+                    FechaInicio = e.fechaInicio,
+                    FechaFin = e.fechaFin,
+                    Estado = e.Estado
+                }).ToList();
+
+                ViewBag.Empleados = new SelectList(context.tEmpleados.ToList(), "ConsecutivoEmp", "Nombre");
+                ViewBag.DiccionarioEmpleados = context.tEmpleados.ToDictionary(e => e.ConsecutivoEmp, e => e);
+
+                return View(vacaciones);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CrearVacaciones(Vacaciones model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                if (ModelState.IsValid)
+                {
+                    var nuevaVacacion = new tVacaciones
+                    {
+                        IdVacacion = model.IdVacacion,
+                        IdEmpleado = model.IdEmpleado,
+                        DiasSolicitados = (model.FechaFin - model.FechaInicio).TotalDays.ToString(),
+                        fechaInicio = model.FechaInicio,
+                        fechaFin = model.FechaFin,
+                        Estado = model.Estado
+                    };
+
+                    context.tVacaciones.Add(nuevaVacacion);
+                    context.SaveChanges();
+
+                    return RedirectToAction("GestionarVacaciones");
+                }
+
+                return RedirectToAction("GestionarVacaciones");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AprobarVacaciones(int id)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var vacacion = context.tVacaciones.Find(id);
+
+                if (vacacion != null)
+                {
+                    vacacion.Estado = 1;
+                    context.SaveChanges();
+                    TempData["MensajePantalla"] = "Vacaciones aprobadas.";
+                }
+
+                return RedirectToAction("GestionarVacaciones");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RechazarVacaciones(int id)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var vacacion = context.tVacaciones.Find(id);
+
+                if (vacacion != null)
+                {
+                    vacacion.Estado = 2;
+                    context.SaveChanges();
+                    TempData["MensajePantalla"] = "Vacaciones rechazadas.";
+                }
+
+                return RedirectToAction("GestionarVacaciones");
+            }
         }
         public ActionResult AutoGestion()
         {
@@ -26,13 +105,93 @@ namespace CoromotoAccess.Controllers
         {
             return View();
         }
-        public ActionResult AprobarVacaciones()
-        {
-            return View();
-        }
+        [HttpGet]
         public ActionResult GestionNomina()
         {
-            return View();
+            using (var context = new BDCoromotoEntities())
+            {
+                var nominas = context.tNominas.Select(e => new Nomina
+                {
+                    IdNomina = e.IdNomina,
+                    IdEmpleado = e.IdEmpleado,
+                    Salario = e.Salario,
+                    Bono = e.Bono,
+                    Multa = e.Multa,
+                    Total = e.Total
+                }).ToList();
+
+                ViewBag.Empleados = new SelectList(context.tEmpleados.ToList(), "ConsecutivoEmp", "Nombre");
+                ViewBag.DiccionarioEmpleados = context.tEmpleados.ToDictionary(e => e.ConsecutivoEmp, e => e);
+                ViewBag.DiccionarioRoles = context.tRoles.ToDictionary(r => r.IdRol, r => r.NombreRol);
+
+                return View(nominas);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CrearNomina(Nomina model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                if (ModelState.IsValid)
+                {
+                    var nuevaNomina = new tNominas
+                    {
+                        IdNomina = model.IdNomina,
+                        IdEmpleado = model.IdEmpleado,
+                        Salario = model.Salario,
+                        Bono = model.Bono,
+                        Multa = model.Multa,
+                        Total = model.Total
+                    };
+
+                    context.tNominas.Add(nuevaNomina);
+                    context.SaveChanges();
+
+                    return RedirectToAction("GestionNomina");
+                }
+
+                return RedirectToAction("GestionNomina");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ModificarNomina(Nomina model)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var nomina = context.tNominas.Find(model.IdNomina);
+
+                if (nomina != null)
+                {
+                    nomina.Salario = model.Salario;
+                    nomina.Bono = model.Bono;
+                    nomina.Multa = model.Multa;
+
+                    context.SaveChanges();
+                    TempData["MensajePantalla"] = "Nomina modificada correctamente.";
+                }
+
+                return RedirectToAction("GestionNomina");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EliminarNomina(int id)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var nomina = context.tNominas.Find(id);
+
+                if (nomina != null)
+                {
+                    context.tNominas.Remove(nomina);
+                    context.SaveChanges();
+                    TempData["MensajePantalla"] = "Nomina eliminada correctamente.";
+                }
+
+                return RedirectToAction("GestionNomina");
+            }
         }
         [HttpGet]
         public ActionResult EvaluacionEmpleados()

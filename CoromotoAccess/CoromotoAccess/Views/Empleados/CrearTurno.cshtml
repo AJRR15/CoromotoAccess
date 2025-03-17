@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<CoromotoAccess.Models.Turnos>
+@{
     ViewBag.Title = "CrearTurno";
 }
 
@@ -21,36 +22,32 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Mañana</td>
-                <td>08:00</td>
-                <td>16:00</td>
-                <td>
-                    <button type="button" class="btn btn-warning">Modificar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Tarde</td>
-                <td>16:00</td>
-                <td>00:00</td>
-                <td>
-                    <button type="button" class="btn btn-warning">Modificar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Noche</td>
-                <td>00:00</td>
-                <td>08:00</td>
-                <td>
-                    <button type="button" class="btn btn-warning">Modificar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>
-                </td>
-            </tr>
+            @{
+                if (Model != null)
+                {
+                    foreach (var turno in Model)
+                    {
+                        <tr>
+                            <td>@turno.IdTurno</td>
+                            <td>@turno.Nombre</td>
+                            <td>@turno.HoraInicio</td>
+                            <td>@turno.HoraSalida</td>
+                            <td>
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarTurnoModal"
+                                        onclick="document.getElementById('idTurno').value = @turno.IdTurno">
+                                    Modificar
+                                </button>
+                                @using (Html.BeginForm("EliminarTurno", "Empleados", FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", turno.IdTurno)
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                }
+            }
         </tbody>
     </table>
 
@@ -63,28 +60,66 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
+                    @using (Html.BeginForm("CrearTurno", "Empleados", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        <div class="form-group">
                             <label for="nombreTurno" class="form-label">Nombre:</label>
-                            <input type="text" class="form-control" id="nombreTurno">
+                            <input type="text" class="form-control" id="nombreTurno" name="Nombre" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="horaInicio" class="form-label">Hora de Inicio:</label>
-                            <input type="time" class="form-control" id="horaInicio">
+                            <input type="time" class="form-control" id="horaInicio" name="HoraInicio" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="horaFinal" class="form-label">Hora de Final:</label>
-                            <input type="time" class="form-control" id="horaFinal">
+                            <input type="time" class="form-control" id="horaFinal" name="HoraSalida" required>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-outline-dark">Crear Turno</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-outline-dark">Crear Turno</button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
+
+
+    <!-- Modal Modificar -->
+    <div class="modal fade" id="modificarTurnoModal" tabindex="-1" aria-labelledby="modificarTurnoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modificarTurnoModalLabel">Modificar Turno</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("ModificarTurno", "Empleados", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        <input type="hidden" id="idTurno" name="IdTurno">
+
+                        <div class="form-group">
+                            <label for="nombreTurno" class="form-label">Nombre:</label>
+                            <input type="text" class="form-control" id="nombreTurno" name="Nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="horaInicio" class="form-label">Hora de Inicio:</label>
+                            <input type="time" class="form-control" id="horaInicio" name="HoraInicio" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="horaFinal" class="form-label">Hora de Final:</label>
+                            <input type="time" class="form-control" id="horaFinal" name="HoraSalida" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-outline-dark">Modificar Turno</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

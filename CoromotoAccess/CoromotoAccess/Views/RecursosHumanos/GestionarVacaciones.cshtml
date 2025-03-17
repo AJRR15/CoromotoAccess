@@ -1,4 +1,5 @@
-﻿@{ ViewBag.Title = "GestionarVacaciones"; }
+﻿@model IEnumerable<CoromotoAccess.Models.Vacaciones>
+@{ ViewBag.Title = "GestionarVacaciones"; }
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Gestión de Vacaciones</h1>
@@ -16,16 +17,55 @@
                 <th>Fecha de Inicio</th>
                 <th>Fecha de Fin</th>
                 <th>Estado</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>12345</td>
-                <td>10</td>
-                <td>2024-12-20</td>
-                <td>2024-12-30</td>
-                <td>Pendiente</td>
-            </tr>
+            @if (Model != null)
+            {
+                foreach (var vacacion in Model)
+                {
+                    var empleado = ViewBag.DiccionarioEmpleados[vacacion.IdEmpleado];
+
+                    var estadoVacacion = "-";
+
+                    if (vacacion.Estado == 0)
+                    {
+                        estadoVacacion = "Pendiente";
+                    }
+                    else if (vacacion.Estado == 1)
+                    {
+                        estadoVacacion = "Aprobada";
+                    }
+                    else if (vacacion.Estado == 2)
+                    {
+                        estadoVacacion = "Rechazada";
+                    }
+
+                    <tr>
+                        <td>@vacacion.IdEmpleado</td>
+                        <td>@empleado.Vacaciones</td>
+                        <td>@vacacion.FechaInicio.ToString("dd/MM/yyyy")</td>
+                        <td>@vacacion.FechaFin.ToString("dd/MM/yyyy")</td>
+                        <td>@estadoVacacion</td>
+                        <td>
+                            @if (vacacion.Estado == 0)
+                            {
+                                using (Html.BeginForm("AprobarVacaciones", "RecursosHumanos", FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", vacacion.IdVacacion)
+                                    <button type="submit" class="btn btn-success">Aprobar</button>
+                                }
+                                using (Html.BeginForm("RechazarVacaciones", "RecursosHumanos", FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", vacacion.IdVacacion)
+                                    <button type="submit" class="btn btn-danger">Rechazar</button>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 
@@ -38,28 +78,37 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="idEmpleado" class="form-label">ID Empleado:</label>
-                            <input type="text" class="form-control" id="idEmpleado" value="12345" readonly>
+                    @using (Html.BeginForm("CrearVacaciones", "RecursosHumanos", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        <div class="form-group">
+                            <label for="IdEmpleado" class="form-label">Empleado:</label>
+                            @Html.DropDownList("IdEmpleado", (SelectList)ViewBag.Empleados, "Seleccione un empleado", new
+                            {
+                                @class = "form-control",
+                                required = "required",
+                                @onchange = "document.getElementById('diasDisponibles').value = '';"
+                            })
                         </div>
-                        <div class="mb-3">
-                            <label for="diasDisponibles" class="form-label">Días de Vacaciones Disponibles:</label>
-                            <input type="number" class="form-control" id="diasDisponibles" value="10" readonly>
+                        <div class="form-group">
+                            <label class="form-label">Días de vacaciones disponibles:</label>
+                            <input id="diasDisponibles" type="number" class="form-control" readonly>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
-                            <input type="date" class="form-control" id="fechaInicio">
+                            <input id="fechaInicio" name="FechaInicio" type="date" class="form-control" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="fechaFin" class="form-label">Fecha de Fin:</label>
-                            <input type="date" class="form-control" id="fechaFin">
+                            <input id="fechaFin" name="FechaFin" type="date" class="form-control" required>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-secondary ml-3" href="@Url.Action("GestionarVacaciones", "RecursosHumanos")">Cerrar</a>
-                    <a class="btn btn-outline-dark ml-3" href="@Url.Action("GestionarVacaciones", "RecursosHumanos")">Solicitar Vacaciones</a>
+
+                        <input name="Estado" type="hidden" value="0">
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-outline-dark">Solicitar Vacaciones</button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
