@@ -178,6 +178,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Nomina.cs" />
     <Compile Include="Models\Parametros.cs" />
     <Compile Include="Models\Reserva.cs" />
     <Compile Include="Models\tActivos.cs">
@@ -234,6 +235,7 @@
     <Compile Include="Models\tTurnos.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Turnos.cs" />
     <Compile Include="Models\tUsuario.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -244,6 +246,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\Vacaciones.cs" />
     <Compile Include="Models\Villa.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
