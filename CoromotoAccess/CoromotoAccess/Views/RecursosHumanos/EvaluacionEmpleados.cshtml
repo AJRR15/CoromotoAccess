@@ -5,87 +5,85 @@
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Evaluación de Empleados</h2>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="button-addon2">
-        <button class="btn btn-info" type="button" id="button-addon2">Buscar</button>
-    </div>
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Nombre</th>
-                <th>Rol</th>
-                <th>Horas Trabajadas</th>
-                <th>Comentario</th>
-                <th>Calificación</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                int calificacion = 0;
-                string nombreEmpleado = "", nombreRol = "", comentario = "", nombreCalificacion = "";
 
-                foreach (var empleado in Model)
-                {
-                    calificacion = ViewBag.Calificaciones.ContainsKey(empleado.ConsecutivoEmp) ?
-                        ViewBag.Calificaciones[empleado.ConsecutivoEmp] : 0;
-                    nombreEmpleado = empleado.Nombre + " " + empleado.Apellido;
-                    nombreRol = ViewBag.DiccionarioRoles[empleado.IdRol];
-                    comentario = ViewBag.Comentarios.ContainsKey(empleado.ConsecutivoEmp) ?
-                        ViewBag.Comentarios[empleado.ConsecutivoEmp] : "-";
-                    nombreCalificacion = ViewBag.DiccionarioCalificaciones[calificacion];
-
-                    <tr>
-                        <td>@nombreEmpleado</td>
-                        <td>@nombreRol</td>
-                        <td>@empleado.HorasTrabajadas</td>
-                        <td>@comentario</td>
-                        <td>@nombreCalificacion</td>
-                        <td>
-                            <button type="button" onclick="document.getElementById('IdEmpleado').value='@empleado.ConsecutivoEmp'"
-                                    class="btn btn-success" data-bs-toggle="modal" data-bs-target="#evaluarEmpleadoModal">
-                                Evaluar
-                            </button>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-
-    <div class="modal fade" id="evaluarEmpleadoModal" tabindex="-1" aria-labelledby="evaluarEmpleadoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="evaluarEmpleadoModalLabel">Evaluar Empleado</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @using (Html.BeginForm("AsignarEvaluacion", "RecursosHumanos", FormMethod.Post, new { @class = "form-horizontal" }))
-                    {
-                        <input type="hidden" class="form-control" id="IdEmpleado" name="IdEmpleado" required />
-
-                        <div class="form-group">
-                            <label for="calificacion" class="form-label">Calificación:</label>
-                            @Html.DropDownList("Calificacion", (SelectList)ViewBag.OpcionesCalificacion, "Seleccione una calificación", new { @class = "form-control", required = "required" })
-                        </div>
-                        <div class="form-group">
-                            <label for="Comentario">Comentario:</label>
-                            <textarea class="form-control" id="Comentario" name="Comentario" rows="3" required></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Guardar evaluación</button>
-                        </div>
-                    }
-
-
-                </div>
-
-            </div>
+    <div class="d-flex justify-content-end mb-3">
+        <div class="input-group" style="width: 250px;">
+            <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar empleado..." aria-label="Buscar">
+            <button class="btn btn-info btn-sm" type="button" id="searchButton">Buscar</button>
         </div>
     </div>
+
+    <div class="table-responsive" style="max-width: 800px; margin: auto;">
+        <table class="table table-sm table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Rol</th>
+                    <th>Horas</th>
+                    <th>Comentario</th>
+                    <th>Calificación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="empleadosTable">
+                @{
+                    int calificacion = 0;
+                    string nombreEmpleado = "", nombreRol = "", comentario = "", nombreCalificacion = "";
+
+                    foreach (var empleado in Model)
+                    {
+                        calificacion = ViewBag.Calificaciones.ContainsKey(empleado.ConsecutivoEmp) ?
+                            ViewBag.Calificaciones[empleado.ConsecutivoEmp] : 0;
+                        nombreEmpleado = empleado.Nombre + " " + empleado.Apellido;
+                        nombreRol = ViewBag.DiccionarioRoles[empleado.IdRol];
+                        comentario = ViewBag.Comentarios.ContainsKey(empleado.ConsecutivoEmp) ?
+                            ViewBag.Comentarios[empleado.ConsecutivoEmp] : "-";
+                        nombreCalificacion = ViewBag.DiccionarioCalificaciones[calificacion];
+
+                        <tr class="empleadoRow">
+                            <td class="nombreEmpleado">@nombreEmpleado</td>
+                            <td>@nombreRol</td>
+                            <td>@empleado.HorasTrabajadas</td>
+                            <td>@comentario</td>
+                            <td>@nombreCalificacion</td>
+                            <td>
+                                <button type="button" onclick="document.getElementById('IdEmpleado').value='@empleado.ConsecutivoEmp'"
+                                        class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#evaluarEmpleadoModal">
+                                    Evaluar
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<script>
+    function buscarEmpleado() {
+        var searchValue = document.getElementById("searchInput").value.trim().toLowerCase();
+        var rows = document.querySelectorAll(".empleadoRow");
+
+        rows.forEach(function (row) {
+            var nombreEmpleado = row.querySelector(".nombreEmpleado").textContent.toLowerCase();
+            if (nombreEmpleado.includes(searchValue)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    document.getElementById("searchInput").addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+            buscarEmpleado();
+        }
+    });
+
+    document.getElementById("searchButton").addEventListener("click", buscarEmpleado);
+</script>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
