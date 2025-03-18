@@ -31,6 +31,7 @@
                         <th>Fecha</th>
                         <th>Total</th>
                         <th>Estado</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,11 +43,13 @@
                             <td>@factura.total</td>
                             <td>@(factura.Estado ? "Pagada" : "Sin Pagar")</td>
 
-                            @if (factura.Estado == false)
+                            @if (factura.Estado == true)
                             {
-                                <a class="btn btn-primary btn-sm" href="@Url.Action("DescargarReserva", "Reserva", new { id = factura.IdFactura })" role="button">Descargar</a>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" href="@Url.Action("DescargarFactura", "Facturas", new { id = factura.IdFactura })" role="button">Descargar</a>
+                                </td>
                             }
-                            
+
                         </tr>
                     }
                 </tbody>
