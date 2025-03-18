@@ -9,9 +9,10 @@
         <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#crearNominaModal">Crear Nómina</button>
     </div>
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="button-addon2">
+        <input type="text" class="form-control" id="searchInput" placeholder="Buscar empleado..." aria-label="Buscar" aria-describedby="button-addon2">
         <button class="btn btn-info" type="button" id="button-addon2">Buscar</button>
     </div>
+
     <table class="table table-striped">
         <thead class="table-dark">
             <tr>
@@ -22,29 +23,28 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="nominaTable">
             @if (Model != null)
             {
                 foreach (var nomina in Model)
                 {
                     var empleado = ViewBag.DiccionarioEmpleados[nomina.IdEmpleado];
-
                     var nombreCompleto = empleado.Nombre + " " + empleado.Apellido;
                     var rolEmpleado = ViewBag.DiccionarioRoles[empleado.ConsecutivoRol];
 
-                    <tr>
-                        <td>@nombreCompleto</td>
+                    <tr class="nominaRow">
+                        <td class="nombreEmpleado">@nombreCompleto</td>
                         <td>@rolEmpleado</td>
                         <td>@nomina.Salario</td>
                         <td>@empleado.HorasTrabajadas</td>
                         <td>
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarNominaModal"
                                     onclick="document.getElementById('modificarIdNomina').value = @nomina.IdNomina;
-                             document.getElementById('modificarTotalNomina').value = @nomina.Total;
-                             document.getElementById('targetName').value='@nombreCompleto';
-                             document.getElementById('modificarSalario').value = @nomina.Salario;
-                             document.getElementById('modificarBono').value = @nomina.Bono;
-                             document.getElementById('modificarMulta').value = @nomina.Multa;">
+                         document.getElementById('modificarTotalNomina').value = @nomina.Total;
+                         document.getElementById('targetName').value='@nombreCompleto';
+                         document.getElementById('modificarSalario').value = @nomina.Salario;
+                         document.getElementById('modificarBono').value = @nomina.Bono;
+                         document.getElementById('modificarMulta').value = @nomina.Multa;">
                                 Modificar
                             </button>
                             @using (Html.BeginForm("EliminarNomina", "RecursosHumanos", FormMethod.Post))
@@ -143,5 +143,20 @@
 
 </div>
 
+<script>
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        var searchValue = this.value.toLowerCase();
+        var rows = document.querySelectorAll(".nominaRow");
+
+        rows.forEach(function (row) {
+            var nombreEmpleado = row.querySelector(".nombreEmpleado").textContent.toLowerCase();
+            if (nombreEmpleado.includes(searchValue)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
