@@ -12,7 +12,9 @@ namespace CoromotoAccess.Models
         public DateTime FechaEmision { get; set; }
         public string imagen { get; set; }
         public string total { get; set; }
-        public bool Estado { get; set; } 
+        public bool Estado { get; set; }
+        public string CedulaCliente { get; set; }
+
 
     }
 }

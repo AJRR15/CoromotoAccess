@@ -12,9 +12,6 @@
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarFacturaModal">
             <i class="fas fa-plus"></i> Nueva Factura
         </button>
-        <button class="btn btn-secondary" onclick="descargarXML()">
-            <i class="fas fa-download"></i> Descargar Factura (XML)
-        </button>
         <button class="btn btn-info" onclick="verDashboard()">
             <i class="fas fa-chart-pie"></i> Ver Dashboard
         </button>
@@ -34,8 +31,8 @@
                     <input type="date" class="form-control" id="filtroFechaFin" name="filtroFechaFin">
                 </div>
                 <div class="col-md-12">
-                    <label for="filtroCliente" class="form-label">Cliente</label>
-                    <input type="text" class="form-control" id="filtroCliente" name="filtroCliente" placeholder="Nombre del Cliente">
+                    <label for="cedulaCliente" class="form-label">Cédula del Cliente</label>
+                    <input type="text" class="form-control" id="cedulaCliente" name="cedulaCliente" placeholder="Cédula del cliente">
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-success">Aplicar Filtros</button>
@@ -50,6 +47,7 @@
             <tr>
                 <th>#</th>
                 <th>Cliente</th>
+                <th>Cédula Cliente</th>
                 <th>Fecha de Emisión</th>
                 <th>Total</th>
                 <th>Estado</th>
@@ -64,12 +62,30 @@
                     <tr>
                         <td>@factura.IdFactura</td>
                         <td>@factura.IdUsuario</td>
-                        <td>@factura.FechaEmision</td>
+                        <td>@factura.CedulaCliente</td>
+                        <td>@factura.FechaEmision.ToString("dd/MM/yyyy")</td>
                         <td>@factura.total</td>
-                        <td>@factura.Estado</td>
                         <td>
-                            <button class="btn btn-info btn-sm" onclick="verFactura(@factura.IdFactura)">Ver</button>
+                            @if (factura.Estado == true)
+                            {
+                                <span class="badge bg-success">Pago</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Sin Pagar</span>
+                            }
+                        </td>
+                        <td>
+                            <button class="btn btn-info btn-sm" onclick="verFactura(@factura.IdFactura)">Descargar Factura</button>
                             <button class="btn btn-danger btn-sm" onclick="eliminarFactura(@factura.IdFactura)">Eliminar</button>
+                            @if (factura.Estado == false)
+                            {
+                                using (Html.BeginForm("MarcarComoPagado", "Facturas", FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", factura.IdFactura)
+                                    <button type="submit" class="btn btn-success btn-sm mt-1">Marcar como Pagado</button>
+                                }
+                            }
                         </td>
                     </tr>
                 }
@@ -96,8 +112,8 @@
                 @using (Html.BeginForm("AgregarFactura", "Facturas", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     <div class="mb-3">
-                        <label for="IdUsuario" class="form-label">Cliente</label>
-                        <input type="text" class="form-control" id="IdUsuario" name="IdUsuario" required />
+                        <label class="form-label fw-semibold">Cliente:</label>
+                        @Html.DropDownList("IdUsuario", (SelectList)ViewBag.Usuarios, "Seleccione el cliente", new { @class = "form-control", required = "required" })
                     </div>
                     <div class="mb-3">
                         <label for="FechaEmision" class="form-label">Fecha de Emisión</label>
@@ -107,14 +123,11 @@
                         <label for="total" class="form-label">Monto Total</label>
                         <input type="number" step="0.01" class="form-control" id="total" name="total" required />
                     </div>
-                    <div class="mb-3">
-                        <label for="Estado" class="form-label">Estado</label>
-                        <select class="form-select" id="Estado" name="Estado" required>
-                            <option value="Pagada">Pagada</option>
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="Anulada">Anulada</option>
-                        </select>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="Estado" name="Estado" value="true" />
+                        <label class="form-check-label" for="Estado">Pagado</label>
                     </div>
+                    <input type="hidden" name="Estado" value="false" />
                     <button type="submit" class="btn btn-primary">Guardar Factura</button>
                 }
             </div>
@@ -124,7 +137,7 @@
 
 <script>
     function verFactura(id) {
-        alert('Visualizando factura con ID: ' + id);
+        window.location.href = '@Url.Action("DescargarFactura", "Facturas")/' + id;
     }
 
     function eliminarFactura(id) {
