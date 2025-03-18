@@ -32,7 +32,7 @@ namespace CoromotoAccess.Controllers
                     var empleado = context.tEmpleados.Find(tarea.IdEmpleado);
                     var habitacion = context.tHabitaciones.Find(tarea.IdHabitacion);
 
-                    if (empleado != null && habitacion != null)
+                    if (empleado != null && habitacion != null) 
                     {
                         string contenido = GenerarContenidoCorreoLimpieza(
                             empleado.Nombre,

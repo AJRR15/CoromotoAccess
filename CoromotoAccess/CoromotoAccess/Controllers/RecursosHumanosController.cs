@@ -61,6 +61,11 @@ namespace CoromotoAccess.Controllers
                 return RedirectToAction("GestionarVacaciones");
             }
         }
+        [HttpGet]
+        public ActionResult AprobarVacaciones   ()
+        {
+            return View();
+        }
 
         [HttpPost]
         public ActionResult AprobarVacaciones(int id)
