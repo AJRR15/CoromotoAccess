@@ -468,6 +468,7 @@
     <Content Include="Views\Clientes\DetallesReservaCliente.cshtml" />
     <Content Include="Views\Reserva\MisReservas.cshtml" />
     <Content Include="Views\Empleados\GestionTareas.cshtml" />
+    <Content Include="Views\Facturas\MisFacturas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

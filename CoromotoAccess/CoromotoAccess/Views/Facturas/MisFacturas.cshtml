@@ -1,0 +1,61 @@
+﻿@model List<CoromotoAccess.Models.Factura>
+
+@{
+    ViewBag.Title = "Ver Mis Facturas";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Estado de las Reservas de @ViewBag.Usuario</h2>
+
+    @if (ViewBag.MensajePantalla != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajePantalla
+        </div>
+    }
+    else if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            No se encontraron facturas. Por favor, inicie sesión.
+        </div>
+    }
+    else
+    {
+        <h4>El cliente @ViewBag.Usuario ha reservado una cantidad de @Model.Count reservas.</h4>
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID Factura</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var factura in Model)
+                    {
+                        <tr>
+                            <td>@factura.IdFactura</td>
+                            <td>@factura.FechaEmision</td>
+                            <td>@factura.total</td>
+                            <td>@(factura.Estado ? "Pagada" : "Sin Pagar")</td>
+
+                            @if (factura.Estado == false)
+                            {
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("DescargarReserva", "Reserva", new { id = factura.IdFactura })" role="button">Descargar</a>
+                            }
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+
+    <div class="d-flex justify-content-end gap-2">
+        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Volver</a>
+    </div>
+</div>

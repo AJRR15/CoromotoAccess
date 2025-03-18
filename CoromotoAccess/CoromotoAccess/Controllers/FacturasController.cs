@@ -171,5 +171,41 @@
             }
 
 
+
+        [HttpGet]
+        public ActionResult MisFacturas(long? idUsuario)
+        {
+            if (idUsuario == null)
+            {
+                ViewBag.MensajePantalla = "Por favor, inicie sesión.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            using (var context = new BDCoromotoEntities())
+            {
+                var facturas = context.tFacturas
+                    .Where(r => r.IdUsuario == idUsuario)
+                    .Select(r => new Factura
+                    {
+                        IdFactura = r.IdFactura,
+                        IdUsuario = r.IdUsuario,
+                        FechaEmision = r.FechaEmision,
+                        imagen = r.Imagen,
+                        total = r.Total,
+                        Estado = r.Estado
+                    }).ToList();
+
+                if (!facturas.Any())
+                {
+                    ViewBag.MensajePantalla = "No se encontraron facturas.";
+                    return View(facturas);
+                }
+
+                var usuario = context.tUsuario.FirstOrDefault(u => u.ConsecutivoCliente == idUsuario);
+                ViewBag.Usuario = usuario?.Nombre + " " + usuario?.Apellido;
+
+                return View(facturas);
+            }
         }
+    }
     }
