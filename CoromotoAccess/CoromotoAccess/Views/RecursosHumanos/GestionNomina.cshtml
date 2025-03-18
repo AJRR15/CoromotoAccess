@@ -8,144 +8,72 @@
         <h2 class="text-center mb-4">Gestión de Nómina</h2>
         <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#crearNominaModal">Crear Nómina</button>
     </div>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" id="searchInput" placeholder="Buscar empleado..." aria-label="Buscar" aria-describedby="button-addon2">
-        <button class="btn btn-info" type="button" id="button-addon2">Buscar</button>
+
+    <!-- Buscador alineado a la derecha y más pequeño -->
+    <div class="d-flex justify-content-end mb-3">
+        <div class="input-group" style="width: 250px;">
+            <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar empleado..." aria-label="Buscar">
+            <button class="btn btn-info btn-sm" type="button" id="searchButton">Buscar</button>
+        </div>
     </div>
 
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Empleado</th>
-                <th>Rol</th>
-                <th>Salario</th>
-                <th>Turnos Trabajados (Horas)</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="nominaTable">
-            @if (Model != null)
-            {
-                foreach (var nomina in Model)
+    <!-- Tabla más compacta -->
+    <div class="table-responsive" style="max-width: 900px; margin: auto;">
+        <table class="table table-sm table-striped text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Empleado</th>
+                    <th>Rol</th>
+                    <th>Salario</th>
+                    <th>Bono</th>
+                    <th>Multa</th>
+                    <th>Turnos Trabajados (Horas)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="nominaTable">
+                @if (Model != null)
                 {
-                    var empleado = ViewBag.DiccionarioEmpleados[nomina.IdEmpleado];
-                    var nombreCompleto = empleado.Nombre + " " + empleado.Apellido;
-                    var rolEmpleado = ViewBag.DiccionarioRoles[empleado.ConsecutivoRol];
+                    foreach (var nomina in Model)
+                    {
+                        var empleado = ViewBag.DiccionarioEmpleados[nomina.IdEmpleado];
+                        var nombreCompleto = empleado.Nombre + " " + empleado.Apellido;
+                        var rolEmpleado = ViewBag.DiccionarioRoles[empleado.ConsecutivoRol];
 
-                    <tr class="nominaRow">
-                        <td class="nombreEmpleado">@nombreCompleto</td>
-                        <td>@rolEmpleado</td>
-                        <td>@nomina.Salario</td>
-                        <td>@empleado.HorasTrabajadas</td>
-                        <td>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarNominaModal"
-                                    onclick="document.getElementById('modificarIdNomina').value = @nomina.IdNomina;
-                         document.getElementById('modificarTotalNomina').value = @nomina.Total;
-                         document.getElementById('targetName').value='@nombreCompleto';
-                         document.getElementById('modificarSalario').value = @nomina.Salario;
-                         document.getElementById('modificarBono').value = @nomina.Bono;
-                         document.getElementById('modificarMulta').value = @nomina.Multa;">
-                                Modificar
-                            </button>
-                            @using (Html.BeginForm("EliminarNomina", "RecursosHumanos", FormMethod.Post))
-                            {
-                                @Html.Hidden("id", nomina.IdNomina);
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            }
-                        </td>
-                    </tr>
+                        <tr class="nominaRow">
+                            <td class="nombreEmpleado">@nombreCompleto</td>
+                            <td>@rolEmpleado</td>
+                            <td>@nomina.Salario</td>
+                            <td>@nomina.Bono</td>
+                            <td>@nomina.Multa</td>
+                            <td>@empleado.HorasTrabajadas</td>
+                            <td>
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modificarNominaModal"
+                                        onclick="document.getElementById('modificarIdNomina').value = @nomina.IdNomina;
+                                 document.getElementById('modificarTotalNomina').value = @nomina.Total;
+                                 document.getElementById('targetName').value='@nombreCompleto';
+                                 document.getElementById('modificarSalario').value = @nomina.Salario;
+                                 document.getElementById('modificarBono').value = @nomina.Bono;
+                                 document.getElementById('modificarMulta').value = @nomina.Multa;">
+                                    Modificar
+                                </button>
+                                @using (Html.BeginForm("EliminarNomina", "RecursosHumanos", FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", nomina.IdNomina);
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                }
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
-
-    <!-- Modal Crear Nomina -->
-    <div class="modal fade" id="crearNominaModal" tabindex="-1" aria-labelledby="crearNominaModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="crearNominaModalLabel">Crear Nomina</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @using (Html.BeginForm("CrearNomina", "RecursosHumanos", FormMethod.Post, new { @class = "form-horizontal" }))
-                    {
-                        <div class="form-group">
-                            <label for="IdEmpleado" class="form-label">Empleado:</label>
-                            @Html.DropDownList("IdEmpleado", (SelectList)ViewBag.Empleados, "Seleccione un empleado", new { @class = "form-control", required = "required" })
-                        </div>
-                        <div class="form-group">
-                            <label for="Salario" class="form-label">Salario:</label>
-                            <input name="Salario" type="number" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="Bono" class="form-label">Bono:</label>
-                            <input name="Bono" type="number" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="Multa" class="form-label">Multa:</label>
-                            <input name="Multa" type="number" class="form-control" required>
-                        </div>
-
-                        <input name="Total" type="hidden" value="0">
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-outline-dark">Crear</button>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
+            </tbody>
+        </table>
     </div>
-
-    <!-- Modal Modificar Nomina -->
-    <div class="modal fade" id="modificarNominaModal" tabindex="-1" aria-labelledby="modificarNominaModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modificarNominaModalLabel">Modificar Nomina</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @using (Html.BeginForm("ModificarNomina", "RecursosHumanos", FormMethod.Post, new { @class = "form-horizontal" }))
-                    {
-                        <input id="modificarIdNomina" name="IdNomina" type="hidden">
-
-                        <div class="form-group">
-                            <input id="targetName" type="text" class="form-control" readonly>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="Salario" class="form-label">Salario:</label>
-                            <input id="modificarSalario" name="Salario" type="number" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="Bono" class="form-label">Bono:</label>
-                            <input id="modificarBono" name="Bono" type="number" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="Multa" class="form-label">Multa:</label>
-                            <input id="modificarMulta" name="Multa" type="number" class="form-control" required>
-                        </div>
-
-                        <input id="modificarTotalNomina" name="Total" type="hidden">
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-outline-dark">Modificar</button>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <script>
-    document.getElementById("searchInput").addEventListener("keyup", function () {
-        var searchValue = this.value.toLowerCase();
+    function buscarEmpleado() {
+        var searchValue = document.getElementById("searchInput").value.trim().toLowerCase();
         var rows = document.querySelectorAll(".nominaRow");
 
         rows.forEach(function (row) {
@@ -156,7 +84,15 @@
                 row.style.display = "none";
             }
         });
+    }
+
+    document.getElementById("searchInput").addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+            buscarEmpleado();
+        }
     });
+
+    document.getElementById("searchButton").addEventListener("click", buscarEmpleado);
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
