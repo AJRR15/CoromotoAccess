@@ -28,35 +28,37 @@ namespace CoromotoAccess.Controllers
 
                 if (resultadoUsuario != null)
                 {
+                    var rol = context.tRoles.FirstOrDefault(r => r.IdRol == resultadoUsuario.ConsecutivoRol); 
+
                     if (resultadoUsuario.TieneContrasennaTemp && resultadoUsuario.FechaVencimientoTemp < DateTime.Now)
                     {
                         ViewBag.MensajePantalla = "Credenciales Expiradas";
                         return View();
                     }
-                    else
-                    {
-                        Session["Consecutivo"] = resultadoUsuario.ConsecutivoCliente;
-                        Session["IdUsuario"] = resultadoUsuario.Identificacion;
-                        Session["NombreUsuario"] = resultadoUsuario.Nombre;
-                        Session["Rol"] = resultadoUsuario.ConsecutivoRol;
-                        return RedirectToAction("Index", "Home");
-                    }
+
+                    Session["Consecutivo"] = resultadoUsuario.ConsecutivoCliente;
+                    Session["IdUsuario"] = resultadoUsuario.Identificacion;
+                    Session["NombreUsuario"] = resultadoUsuario.Nombre;
+                    Session["Rol"] = resultadoUsuario.ConsecutivoRol;
+                    Session["NombreRol"] = rol != null ? rol.NombreRol : "Rol desconocido"; 
+                    return RedirectToAction("Index", "Home");
                 }
                 else if (resultadoEmpleado != null)
                 {
+                    var rol = context.tRoles.FirstOrDefault(r => r.IdRol == resultadoEmpleado.ConsecutivoRol); 
+
                     if (resultadoEmpleado.TieneContrasennaTemp && resultadoEmpleado.FechaVencimientoTemp < DateTime.Now)
                     {
                         ViewBag.MensajePantalla = "Credenciales Expiradas";
                         return View();
                     }
-                    else
-                    {
-                        Session["Consecutivo"] = resultadoEmpleado.ConsecutivoEmp;
-                        Session["IdUsuario"] = resultadoEmpleado.Identificacion;
-                        Session["NombreUsuario"] = resultadoEmpleado.Nombre;
-                        Session["Rol"] = resultadoEmpleado.ConsecutivoRol;
-                        return RedirectToAction("Index", "Home");
-                    }
+
+                    Session["Consecutivo"] = resultadoEmpleado.ConsecutivoEmp;
+                    Session["IdUsuario"] = resultadoEmpleado.Identificacion;
+                    Session["NombreUsuario"] = resultadoEmpleado.Nombre;
+                    Session["Rol"] = resultadoEmpleado.ConsecutivoRol;
+                    Session["NombreRol"] = rol != null ? rol.NombreRol : "Rol desconocido"; 
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -64,6 +66,14 @@ namespace CoromotoAccess.Controllers
                     return View();
                 }
             }
+        }
+
+        [HttpGet]
+        public ActionResult CerrarSesion()
+        {
+            Session.Clear(); 
+
+            return RedirectToAction("Index", "Home"); 
         }
 
 

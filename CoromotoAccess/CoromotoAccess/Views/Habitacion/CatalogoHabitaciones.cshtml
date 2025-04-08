@@ -9,8 +9,12 @@
             <article class="grid_24">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <h2 class="p17 text-black font-weight-bold mb-0">Nuestras Habitaciones</h2>
-                    <a class="btn btn-outline-dark ml-3" href="@Url.Action("AdministrarHabitaciones", "Habitacion")">+ Administrar Habitaciones</a>
-                </div>
+                    @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
+                    {
+
+                        <a class="btn btn-outline-dark ml-3" href="@Url.Action("AdministrarHabitaciones", "Habitacion")">+ Administrar Habitaciones</a>
+                    }
+                    </div>
                 <br />
                 <!-- Filtros -->
                 <div class="row mb-3">

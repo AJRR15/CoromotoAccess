@@ -220,21 +220,25 @@
                                     <i class="fas fa-bed me-2"></i>Catálogo Habitaciones
                                 </a>
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("ControlDeLimpieza", "Limpieza")">
-                                    <i class="fas fa-broom me-2"></i>Control de Limpieza
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("AdministrarReservas", "Reserva")">
-                                    <i class="fas fa-calendar-check me-2"></i>Reservas
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("AdministrarActivos", "Activos")">
-                                    <i class="fas fa-boxes me-2"></i>Activos
-                                </a>
-                            </li>
+                            @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador" || Session["NombreRol"].ToString() == "Empleado")
+                            {
+
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("ControlDeLimpieza", "Limpieza")">
+                                        <i class="fas fa-broom me-2"></i>Control de Limpieza
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("AdministrarReservas", "Reserva")">
+                                        <i class="fas fa-calendar-check me-2"></i>Reservas
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("AdministrarActivos", "Activos")">
+                                        <i class="fas fa-boxes me-2"></i>Activos
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </li>
 
@@ -252,83 +256,106 @@
                     </li>
 
                     <!-- Menú desplegable Procesos -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-cogs me-2"></i>Procesos
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("EmpleadosMain", "Empleados")">
-                                    <i class="fas fa-users me-2"></i>Gestión de Empleados
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("GestionClientes", "Clientes")">
-                                    <i class="fas fa-user-tie me-2"></i>Gestión de Clientes
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("GestiondeRRHH", "RecursosHumanos")">
-                                    <i class="fas fa-briefcase me-2"></i>Gestión de RRHH
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("Historico", "Facturas")">
-                                    <i class="fas fa-file-invoice me-2"></i>Facturación
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("GestionReporteria", "Reporteria")">
-                                    <i class="fas fa-chart-bar me-2"></i>Reportería
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("Configuracion", "Seguridad")">
-                                    <i class="fas fa-wrench me-2"></i>Configuración
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-cogs me-2"></i>Procesos
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("EmpleadosMain", "Empleados")">
+                                        <i class="fas fa-users me-2"></i>Gestión de Empleados
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("GestionClientes", "Clientes")">
+                                        <i class="fas fa-user-tie me-2"></i>Gestión de Clientes
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("GestiondeRRHH", "RecursosHumanos")">
+                                        <i class="fas fa-briefcase me-2"></i>Gestión de RRHH
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("Historico", "Facturas")">
+                                        <i class="fas fa-file-invoice me-2"></i>Facturación
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("GestionReporteria", "Reporteria")">
+                                        <i class="fas fa-chart-bar me-2"></i>Reportería
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="@Url.Action("Configuracion", "Seguridad")">
+                                        <i class="fas fa-wrench me-2"></i>Configuración
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
 
-                    <!-- Menú desplegable Perfil -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-2"></i>Mi Perfil
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("MiPerfil", "Login")">
-                                    <i class="fas fa-id-card me-2"></i>Mi Perfil
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("InicioSesion", "Login")">
-                                    <i class="fas fa-sign-in-alt me-2"></i>Ingresar
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("ActualizarPerfil", "Login")">
-                                    <i class="fas fa-sync me-2"></i>Actualizar Perfil
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("AutoGestion", "RecursosHumanos")">
-                                    <i class="fas fa-user-edit me-2"></i>AutoGestión
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("MisReservas", "Reserva", new { idUsuario = Session["Consecutivo"] })">
-                                    <i class="fas fa-calendar-alt me-2"></i>Mis Reservas
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="@Url.Action("MisFacturas", "Facturas", new { idUsuario = Session["Consecutivo"] })">
-                                    <i class="fas fa-receipt me-2"></i>Mis Facturas
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                        <!-- Menú desplegable Perfil -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-2"></i>Mi Perfil
+                            </a>
+                            <ul class="dropdown-menu">
+                                @if (Session["NombreRol"] == null)
+                                {
+
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("InicioSesion", "Login")">
+                                            <i class="fas fa-sign-in-alt me-2"></i>Ingresar
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("CerrarSesion", "Login")">
+                                            <i class="fas fa-sign-in-alt me-2"></i>Cerrar Sesión
+                                        </a>
+                                    </li>
+                                }
+                                @if (Session["NombreRol"] != null)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("MiPerfil", "Login")">
+                                            <i class="fas fa-id-card me-2"></i>Mi Perfil
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("ActualizarPerfil", "Login")">
+                                            <i class="fas fa-sync me-2"></i>Actualizar Perfil
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("MisReservas", "Reserva", new { idUsuario = Session["Consecutivo"] })">
+                                            <i class="fas fa-calendar-alt me-2"></i>Mis Reservas
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("MisFacturas", "Facturas", new { idUsuario = Session["Consecutivo"] })">
+                                            <i class="fas fa-receipt me-2"></i>Mis Facturas
+                                        </a>
+                                    </li>
+                                }
+                                @if (Session["NombreRol"] != null && (Session["NombreRol"].ToString() == "Administrador" || Session["NombreRol"].ToString() == "Empleado"))
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("AutoGestion", "RecursosHumanos")">
+                                            <i class="fas fa-user-edit me-2"></i>AutoGestión
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
             </div>
         </div>
     </nav>

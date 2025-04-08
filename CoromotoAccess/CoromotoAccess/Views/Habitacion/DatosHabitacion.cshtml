@@ -33,15 +33,24 @@
                                     <h5 class="text-dark font-weight-bold">Estado:</h5>
                                     <p class="card-text">@(habitacion.Estado ? "Disponible" : "No disponible")</p>
 
-                                    <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-primary reservar-btn"
-                                                data-toggle="modal"
-                                                data-target="#reservarModal"
-                                                data-habitacion-id="@habitacion.IdHabitacion"
-                                                data-habitacion-nombre="@habitacion.NombreHabitacion">
-                                            Reservar
-                                        </button>
-                                    </div>
+                                    @if (Session["NombreRol"] != null)
+                                    {
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-primary reservar-btn"
+                                                    data-toggle="modal"
+                                                    data-target="#reservarModal"
+                                                    data-habitacion-id="@habitacion.IdHabitacion"
+                                                    data-habitacion-nombre="@habitacion.NombreHabitacion">
+                                                Reservar
+                                            </button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-warning" role="alert">
+                                            Por favor, inicie sesión para poder realizar una reserva.
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
