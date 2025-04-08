@@ -2,38 +2,42 @@
 @{
     ViewBag.Title = "GestionPermisos";
 }
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Gestión de Permisos</h2>
+
+<div class="villa-container">
+    <h3 class="villa-title text-center">Gestión de Permisos</h3>
     <div class="d-flex justify-content-end mb-3">
         <button class="btn btn-outline-dark" data-toggle="modal" data-target="#permisoModal">Agregar Permiso</button>
     </div>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Rol</th>
-                <th>Permisos</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Administrador</td>
-                <td>Crear Usuarios, Eliminar Usuarios, Modificar Configuraciones, Ver Reportes</td>
-            </tr>
-            <tr>
-                <td>Editor</td>
-                <td>Crear Contenido, Editar Contenido, Publicar Contenido</td>
-            </tr>
-            <tr>
-                <td>Usuario</td>
-                <td>Ver Contenido, Comentar en Contenido</td>
-            </tr>
-            <tr>
-                <td>Invitado</td>
-                <td>Ver Contenido Público</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Rol</th>
+                    <th>Permisos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Administrador</td>
+                    <td>Crear Usuarios, Eliminar Usuarios, Modificar Configuraciones, Ver Reportes</td>
+                </tr>
+                <tr>
+                    <td>Editor</td>
+                    <td>Crear Contenido, Editar Contenido, Publicar Contenido</td>
+                </tr>
+                <tr>
+                    <td>Usuario</td>
+                    <td>Ver Contenido, Comentar en Contenido</td>
+                </tr>
+                <tr>
+                    <td>Invitado</td>
+                    <td>Ver Contenido Público</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 
 <!-- Modal para agregar/modificar permiso -->
 <div class="modal fade" id="permisoModal" tabindex="-1" role="dialog" aria-labelledby="permisoModalLabel" aria-hidden="true">

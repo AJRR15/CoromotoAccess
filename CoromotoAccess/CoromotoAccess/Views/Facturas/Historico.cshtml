@@ -4,6 +4,8 @@
     ViewBag.Title = "Historico";
 }
 
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">Gestión de Facturas</h2>
 
@@ -41,101 +43,109 @@
         </div>
     </div>
 
+    <br />
     <!-- Tabla de facturas -->
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Cliente</th>
-                <th>Cédula Cliente</th>
-                <th>Fecha de Emisión</th>
-                <th>Total</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null && Model.Count > 0)
-            {
-                foreach (var factura in Model)
-                {
+    <div class="villa-container">
+        <h3 class="villa-title">Facturas</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-dark">
                     <tr>
-                        <td>@factura.IdFactura</td>
-                        <td>@factura.IdUsuario</td>
-                        <td>@factura.CedulaCliente</td>
-                        <td>@factura.FechaEmision.ToString("dd/MM/yyyy")</td>
-                        <td>@factura.total</td>
-                        <td>
-                            @if (factura.Estado == true)
-                            {
-                                <span class="badge bg-success">Pago</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-danger">Sin Pagar</span>
-                            }
-                        </td>
-                        <td>
-                            <button class="btn btn-info btn-sm" onclick="verFactura(@factura.IdFactura)">Descargar Factura</button>
-                            <button class="btn btn-danger btn-sm" onclick="eliminarFactura(@factura.IdFactura)">Eliminar</button>
-                            @if (factura.Estado == false)
-                            {
-                                using (Html.BeginForm("MarcarComoPagado", "Facturas", FormMethod.Post))
-                                {
-                                    @Html.Hidden("id", factura.IdFactura)
-                                    <button type="submit" class="btn btn-success btn-sm mt-1">Marcar como Pagado</button>
-                                }
-                            }
-                        </td>
+                        <th>#</th>
+                        <th>Cliente</th>
+                        <th>Cédula Cliente</th>
+                        <th>Fecha de Emisión</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="6" class="text-center">No hay facturas disponibles.</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<!-- Modal para agregar factura -->
-<div class="modal fade" id="agregarFacturaModal" tabindex="-1" aria-labelledby="agregarFacturaLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="agregarFacturaLabel">Agregar Factura</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @using (Html.BeginForm("AgregarFactura", "Facturas", FormMethod.Post, new { @class = "form-horizontal" }))
-                {
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Cliente:</label>
-                        @Html.DropDownList("IdUsuario", (SelectList)ViewBag.Usuarios, "Seleccione el cliente", new { @class = "form-control", required = "required" })
-                    </div>
-                    <div class="mb-3">
-                        <label for="FechaEmision" class="form-label">Fecha de Emisión</label>
-                        <input type="date" class="form-control" id="FechaEmision" name="FechaEmision" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="total" class="form-label">Monto Total</label>
-                        <input type="number" step="0.01" class="form-control" id="total" name="total" required />
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="Estado" name="Estado" value="true" />
-                        <label class="form-check-label" for="Estado">Pagado</label>
-                    </div>
-                    <input type="hidden" name="Estado" value="false" />
-                    <button type="submit" class="btn btn-primary">Guardar Factura</button>
-                }
-            </div>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var factura in Model)
+                        {
+                            <tr>
+                                <td>@factura.IdFactura</td>
+                                <td>@factura.IdUsuario</td>
+                                <td>@factura.CedulaCliente</td>
+                                <td>@factura.FechaEmision.ToString("dd/MM/yyyy")</td>
+                                <td>@factura.total</td>
+                                <td>
+                                    @if (factura.Estado == true)
+                                    {
+                                        <span class="badge bg-success">Pago</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Sin Pagar</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-info btn-sm" onclick="verFactura(@factura.IdFactura)">Descargar Factura</button>
+                                        <button class="btn btn-danger btn-sm" onclick="eliminarFactura(@factura.IdFactura)">Eliminar</button>
+                                        @if (factura.Estado == false)
+                                        {
+                                            using (Html.BeginForm("MarcarComoPagado", "Facturas", FormMethod.Post))
+                                            {
+                                                @Html.Hidden("id", factura.IdFactura)
+                                                <button type="submit" class="btn btn-success btn-sm mt-1">Marcar como Pagado</button>
+                                            }
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center">No hay facturas disponibles.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-<script>
+    <!-- Modal para agregar factura -->
+    <div class="modal fade" id="agregarFacturaModal" tabindex="-1" aria-labelledby="agregarFacturaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregarFacturaLabel">Agregar Factura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("AgregarFactura", "Facturas", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Cliente:</label>
+                            @Html.DropDownList("IdUsuario", (SelectList)ViewBag.Usuarios, "Seleccione el cliente", new { @class = "form-control", required = "required" })
+                        </div>
+                        <div class="mb-3">
+                            <label for="FechaEmision" class="form-label">Fecha de Emisión</label>
+                            <input type="date" class="form-control" id="FechaEmision" name="FechaEmision" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="total" class="form-label">Monto Total</label>
+                            <input type="number" step="0.01" class="form-control" id="total" name="total" required />
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="Estado" name="Estado" value="true" />
+                            <label class="form-check-label" for="Estado">Pagado</label>
+                        </div>
+                        <input type="hidden" name="Estado" value="false" />
+                        <button type="submit" class="btn btn-primary">Guardar Factura</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
     function verFactura(id) {
         window.location.href = '@Url.Action("DescargarFactura", "Facturas")/' + id;
     }
@@ -153,4 +163,4 @@
     function verDashboard() {
         alert('Visualizando el dashboard de facturas.');
     }
-</script>
+    </script>

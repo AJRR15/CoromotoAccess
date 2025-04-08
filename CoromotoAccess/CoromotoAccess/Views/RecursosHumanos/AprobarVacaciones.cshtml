@@ -42,13 +42,11 @@
                                 @if (vacacion.Estado == 0)
                                 {
                                     <div class="btn-group" role="group">
-                                        // Formulario para aprobar vacaciones
                                         @using (Html.BeginForm("AprobarVacaciones", "RecursosHumanos", FormMethod.Post))
                                         {
                                             @Html.Hidden("id", vacacion.IdVacacion)
                                             <button type="submit" class="btn btn-success btn-sm">Aprobar</button>
                                         }
-                                        // Formulario para rechazar vacaciones
                                         @using (Html.BeginForm("RechazarVacaciones", "RecursosHumanos", FormMethod.Post))
                                         {
                                             @Html.Hidden("id", vacacion.IdVacacion)
