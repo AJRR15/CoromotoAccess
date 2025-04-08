@@ -3,71 +3,78 @@
     ViewBag.Title = "GestionNomina";
 }
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-center mb-4">Gestión de Nómina</h2>
-        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#crearNominaModal">Crear Nómina</button>
-    </div>
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
 
-    <!-- Buscador alineado a la derecha y más pequeño -->
-    <div class="d-flex justify-content-end mb-3">
-        <div class="input-group" style="width: 250px;">
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">Gestión de Nómina</h2>
+        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#crearNominaModal">Crear Nómina</button>
+        <div class="input-group w-50">
             <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar empleado..." aria-label="Buscar">
-            <button class="btn btn-info btn-sm" type="button" id="searchButton">Buscar</button>
+            <div class="input-group-append" style="margin-left: 5px;">
+                <button class="btn btn-info btn-sm" type="button" id="searchButton">Buscar</button>
+            </div>
         </div>
     </div>
 
+    <!-- Buscador alineado a la derecha y más pequeño -->
     <!-- Tabla más compacta -->
-    <div class="table-responsive" style="max-width: 900px; margin: auto;">
-        <table class="table table-sm table-striped text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>Empleado</th>
-                    <th>Rol</th>
-                    <th>Salario</th>
-                    <th>Bono</th>
-                    <th>Multa</th>
-                    <th>Turnos Trabajados (Horas)</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="nominaTable">
-                @if (Model != null)
-                {
-                    foreach (var nomina in Model)
+    <div class="villa-container">
+        <h3 class="villa-title">Nomina de Empleados</h3>
+        <div class="table-responsive">
+            <table class="villa-table table table-sm table-striped text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Empleado</th>
+                        <th>Rol</th>
+                        <th>Salario</th>
+                        <th>Bono</th>
+                        <th>Multa</th>
+                        <th>Turnos Trabajados (Horas)</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="nominaTable">
+                    @if (Model != null)
                     {
-                        var empleado = ViewBag.DiccionarioEmpleados[nomina.IdEmpleado];
-                        var nombreCompleto = empleado.Nombre + " " + empleado.Apellido;
-                        var rolEmpleado = ViewBag.DiccionarioRoles[empleado.ConsecutivoRol];
+                        foreach (var nomina in Model)
+                        {
+                            var empleado = ViewBag.DiccionarioEmpleados[nomina.IdEmpleado];
+                            var nombreCompleto = empleado.Nombre + " " + empleado.Apellido;
+                            var rolEmpleado = ViewBag.DiccionarioRoles[empleado.ConsecutivoRol];
 
-                        <tr class="nominaRow">
-                            <td class="nombreEmpleado">@nombreCompleto</td>
-                            <td>@rolEmpleado</td>
-                            <td>@nomina.Salario</td>
-                            <td>@nomina.Bono</td>
-                            <td>@nomina.Multa</td>
-                            <td>@empleado.HorasTrabajadas</td>
-                            <td>
-                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modificarNominaModal"
-                                        onclick="document.getElementById('modificarIdNomina').value = @nomina.IdNomina;
-                                 document.getElementById('modificarTotalNomina').value = @nomina.Total;
-                                 document.getElementById('targetName').value='@nombreCompleto';
-                                 document.getElementById('modificarSalario').value = @nomina.Salario;
-                                 document.getElementById('modificarBono').value = @nomina.Bono;
-                                 document.getElementById('modificarMulta').value = @nomina.Multa;">
-                                    Modificar
-                                </button>
-                                @using (Html.BeginForm("EliminarNomina", "RecursosHumanos", FormMethod.Post))
-                                {
-                                    @Html.Hidden("id", nomina.IdNomina);
-                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                }
-                            </td>
-                        </tr>
+                            <tr class="nominaRow">
+                                <td class="nombreEmpleado">@nombreCompleto</td>
+                                <td>@rolEmpleado</td>
+                                <td>@nomina.Salario</td>
+                                <td>@nomina.Bono</td>
+                                <td>@nomina.Multa</td>
+                                <td>@empleado.HorasTrabajadas</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modificarNominaModal"
+                                                onclick="document.getElementById('modificarIdNomina').value = @nomina.IdNomina;
+                                                 document.getElementById('modificarTotalNomina').value = @nomina.Total;
+                                                 document.getElementById('targetName').value='@nombreCompleto';
+                                                 document.getElementById('modificarSalario').value = @nomina.Salario;
+                                                 document.getElementById('modificarBono').value = @nomina.Bono;
+                                                 document.getElementById('modificarMulta').value = @nomina.Multa;">
+                                            Modificar
+                                        </button>
+                                        @using (Html.BeginForm("EliminarNomina", "RecursosHumanos", FormMethod.Post))
+                                        {
+                                            @Html.Hidden("id", nomina.IdNomina)
+                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

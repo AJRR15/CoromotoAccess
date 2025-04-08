@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<CoromotoAccess.Models.Vacaciones>
 @{ ViewBag.Title = "GestionarVacaciones"; }
 
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+
 <div class="container mt-5">
     <h1 class="text-center mb-4">Gestión de Vacaciones</h1>
 
@@ -9,65 +11,73 @@
         <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#solicitarVacacionesModal">Solicitar Vacaciones</button>
     </div>
 
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>ID Empleado</th>
-                <th>Días de Vacaciones Disponibles</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha de Fin</th>
-                <th>Estado</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null)
-            {
-                foreach (var vacacion in Model)
-                {
-                    var empleado = ViewBag.DiccionarioEmpleados[vacacion.IdEmpleado];
-
-                    var estadoVacacion = "-";
-
-                    if (vacacion.Estado == 0)
-                    {
-                        estadoVacacion = "Pendiente";
-                    }
-                    else if (vacacion.Estado == 1)
-                    {
-                        estadoVacacion = "Aprobada";
-                    }
-                    else if (vacacion.Estado == 2)
-                    {
-                        estadoVacacion = "Rechazada";
-                    }
-
+    <div class="villa-container">
+        <h3 class="villa-title">Vacaciones de Empleados</h3>
+        <div class="table-responsive">
+            <table class="villa-table table table-striped">
+                <thead class="table-dark">
                     <tr>
-                        <td>@vacacion.IdEmpleado</td>
-                        <td>@empleado.Vacaciones</td>
-                        <td>@vacacion.FechaInicio.ToString("dd/MM/yyyy")</td>
-                        <td>@vacacion.FechaFin.ToString("dd/MM/yyyy")</td>
-                        <td>@estadoVacacion</td>
-                        <td>
-                            @if (vacacion.Estado == 0)
-                            {
-                                using (Html.BeginForm("AprobarVacaciones", "RecursosHumanos", FormMethod.Post))
-                                {
-                                    @Html.Hidden("id", vacacion.IdVacacion)
-                                    <button type="submit" class="btn btn-success">Aprobar</button>
-                                }
-                                using (Html.BeginForm("RechazarVacaciones", "RecursosHumanos", FormMethod.Post))
-                                {
-                                    @Html.Hidden("id", vacacion.IdVacacion)
-                                    <button type="submit" class="btn btn-danger">Rechazar</button>
-                                }
-                            }
-                        </td>
+                        <th>ID Empleado</th>
+                        <th>Días de Vacaciones Disponibles</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Fin</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
-                }
-            }
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var vacacion in Model)
+                        {
+                            var empleado = ViewBag.DiccionarioEmpleados[vacacion.IdEmpleado];
+
+                            var estadoVacacion = "-";
+
+                            if (vacacion.Estado == 0)
+                            {
+                                estadoVacacion = "Pendiente";
+                            }
+                            else if (vacacion.Estado == 1)
+                            {
+                                estadoVacacion = "Aprobada";
+                            }
+                            else if (vacacion.Estado == 2)
+                            {
+                                estadoVacacion = "Rechazada";
+                            }
+
+                            <tr>
+                                <td>@vacacion.IdEmpleado</td>
+                                <td>@empleado.Vacaciones</td>
+                                <td>@vacacion.FechaInicio.ToString("dd/MM/yyyy")</td>
+                                <td>@vacacion.FechaFin.ToString("dd/MM/yyyy")</td>
+                                <td>@estadoVacacion</td>
+                                <td>
+                                    @if (vacacion.Estado == 0)
+                                    {
+                                        <div class="btn-group" role="group">
+                                            @using (Html.BeginForm("AprobarVacaciones", "RecursosHumanos", FormMethod.Post))
+                                            {
+                                                @Html.Hidden("id", vacacion.IdVacacion)
+                                                <button type="submit" class="btn btn-success btn-sm">Aprobar</button>
+                                            }
+                                            @using (Html.BeginForm("RechazarVacaciones", "RecursosHumanos", FormMethod.Post))
+                                            {
+                                                @Html.Hidden("id", vacacion.IdVacacion)
+                                                <button type="submit" class="btn btn-danger btn-sm">Rechazar</button>
+                                            }
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 
     <!-- Modal Solicitar Vacaciones -->
     <div class="modal fade" id="solicitarVacacionesModal" tabindex="-1" aria-labelledby="solicitarVacacionesModalLabel" aria-hidden="true">

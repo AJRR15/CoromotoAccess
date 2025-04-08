@@ -3,6 +3,8 @@
     ViewBag.Title = "CrearTurno";
 }
 
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-center mb-4">Crear Turno</h2>
@@ -10,46 +12,51 @@
             <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#crearTurnoModal">Crear Turno</button>
         </div>
     </div>
-
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>ID del Turno</th>
-                <th>Nombre</th>
-                <th>Hora de Inicio</th>
-                <th>Hora de Final</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                if (Model != null)
-                {
-                    foreach (var turno in Model)
-                    {
-                        <tr>
-                            <td>@turno.IdTurno</td>
-                            <td>@turno.Nombre</td>
-                            <td>@turno.HoraInicio</td>
-                            <td>@turno.HoraSalida</td>
-                            <td>
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarTurnoModal"
-                                        onclick="document.getElementById('idTurno').value = @turno.IdTurno">
-                                    Modificar
-                                </button>
-                                @using (Html.BeginForm("EliminarTurno", "Empleados", FormMethod.Post))
-                                {
-                                    @Html.Hidden("id", turno.IdTurno)
-                                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                                }
-
-                            </td>
-                        </tr>
+    <div class="villa-container">
+        <h3 class="villa-title">Turnos Registrados</h3>
+        <div class="table-responsive">
+            <table class="villa-table table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID del Turno</th>
+                        <th>Nombre</th>
+                        <th>Hora de Inicio</th>
+                        <th>Hora de Final</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model != null)
+                        {
+                            foreach (var turno in Model)
+                            {
+                                <tr>
+                                    <td>@turno.IdTurno</td>
+                                    <td>@turno.Nombre</td>
+                                    <td>@turno.HoraInicio</td>
+                                    <td>@turno.HoraSalida</td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modificarTurnoModal"
+                                                onclick="document.getElementById('idTurno').value = @turno.IdTurno">
+                                            Modificar
+                                        </button>
+                                        @using (Html.BeginForm("EliminarTurno", "Empleados", FormMethod.Post))
+                                        {
+                                            @Html.Hidden("id", turno.IdTurno)
+                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
                     }
-                }
-            }
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
 
     <!-- Modal Crear Turno -->
     <div class="modal fade" id="crearTurnoModal" tabindex="-1" aria-labelledby="crearTurnoModalLabel" aria-hidden="true">
@@ -122,5 +129,5 @@
 
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

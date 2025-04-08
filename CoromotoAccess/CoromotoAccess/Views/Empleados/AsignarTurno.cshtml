@@ -3,6 +3,8 @@
     ViewBag.Title = "AsignarTurno";
 }
 
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-center mb-4">Asignar Turno</h2>
@@ -10,44 +12,50 @@
             <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#asignarTurnoModal">Asignar Turno</button>
         </div>
     </div>
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Empleado</th>
-                <th>Disponibilidad</th>
-                <th>Turno</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var empleado in Model)
-            {
-                var nombreCompleto = empleado.Nombre + " " + empleado.Apellido;
-                var turnoEmpleado = empleado.Activo ? ViewBag.DiccionarioTurnos[empleado.IdTurno] : "";
+    <div class="villa-container">
+        <h3 class="villa-title">Empleados y Turnos</h3>
+        <div class="table-responsive">
+            <table class="villa-table table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Empleado</th>
+                        <th>Disponibilidad</th>
+                        <th>Turno</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var empleado in Model)
+                    {
+                        var nombreCompleto = empleado.Nombre + " " + empleado.Apellido;
+                        var turnoEmpleado = empleado.Activo ? ViewBag.DiccionarioTurnos[empleado.IdTurno] : "";
 
-                <tr>
-                    <td>@nombreCompleto</td>
-                    <td>@(empleado.Activo ? "Asignado" : "No asignado")</td>
-                    <td>@turnoEmpleado</td>
-                    <td>
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#asignarTurnoModal"
-                                onclick="document.getElementById('idEmpleado').value = @empleado.ConsecutivoEmp;
-                            document.getElementById('targetName').value = '@nombreCompleto';">
-                            Editar Turno
-                        </button>
-                        @if (empleado.Activo)
-                        {
-                            using (Html.BeginForm("DesasignarTurno", "Empleados", FormMethod.Post))
-                            {
-                                @Html.Hidden("ConsecutivoEmp", empleado.ConsecutivoEmp)
-                                <button type="submit" class="btn btn-danger">Eliminar Turno</button>
-                            }
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                        <tr>
+                            <td>@nombreCompleto</td>
+                            <td>@(empleado.Activo ? "Asignado" : "No asignado")</td>
+                            <td>@turnoEmpleado</td>
+                            <td>
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#asignarTurnoModal"
+                                        onclick="document.getElementById('idEmpleado').value = @empleado.ConsecutivoEmp;
+                                             document.getElementById('targetName').value = '@nombreCompleto';">
+                                    Editar Turno
+                                </button>
+                                @if (empleado.Activo)
+                                {
+                                    using (Html.BeginForm("DesasignarTurno", "Empleados", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("ConsecutivoEmp", empleado.ConsecutivoEmp)
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar Turno</button>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 
     <!-- Modal Asignar Turno -->
     <div class="modal fade" id="asignarTurnoModal" tabindex="-1" aria-labelledby="asignarTurnoModalLabel" aria-hidden="true">

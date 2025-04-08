@@ -3,6 +3,8 @@
     ViewBag.Title = "Gestión de Empleados";
 }
 
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+
 <div class="container mt-5">
     @if (TempData["MensajePantalla"] != null)
     {
@@ -18,38 +20,42 @@
         </div>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Identificación</th>
-                    <th>Nombre Completo</th>
-                    <th>Correo Electrónico</th>
-                    <th>Teléfono</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var empleado in Model)
-                {
+    <div class="villa-container">
+        <h3 class="villa-title">Empleados Registrados</h3>
+        <div class="table-responsive">
+            <table class="villa-table">
+                <thead>
                     <tr>
-                        <td>@empleado.Identificacion</td>
-                        <td>@empleado.Nombre @empleado.Apellido</td>
-                        <td>@empleado.CorreoElectronico</td>
-                        <td>@empleado.Telefono</td>
-                        <td>
-                            <a href="@Url.Action("ModificarEmpleado", new { id = empleado.ConsecutivoEmp })"
-                               class="btn btn-warning btn-sm">Modificar</a>
-                            <a href="@Url.Action("EliminarEmpleado", new { id = empleado.ConsecutivoEmp })"
-                               class="btn btn-danger btn-sm"
-                               onclick="return confirm('¿Está seguro de eliminar este empleado?');">Eliminar</a>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarTareaModal" data-emp-id="@empleado.ConsecutivoEmp">Agregar Tarea</button>
-                        </td>
+                        <th>Identificación</th>
+                        <th>Nombre Completo</th>
+                        <th>Correo Electrónico</th>
+                        <th>Teléfono</th>
+                        <th>Acciones</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var empleado in Model)
+                    {
+                        <tr>
+                            <td>@empleado.Identificacion</td>
+                            <td>@empleado.Nombre @empleado.Apellido</td>
+                            <td>@empleado.CorreoElectronico</td>
+                            <td>@empleado.Telefono</td>
+                            <td>
+                                <a href="@Url.Action("ModificarEmpleado", new { id = empleado.ConsecutivoEmp })"
+                                   class="btn btn-warning btn-sm">Modificar</a>
+                                <a href="@Url.Action("EliminarEmpleado", new { id = empleado.ConsecutivoEmp })"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('¿Está seguro de eliminar este empleado?');">Eliminar</a>
+                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#agregarTareaModal" data-emp-id="@empleado.ConsecutivoEmp">Agregar Tarea</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </div>
 
 <!-- Modal Agregar/Editar Empleado -->

@@ -9,6 +9,8 @@
     }
 }
 
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+
 <div class="container mt-5">
     @if (TempData["MensajePantalla"] != null)
     {
@@ -19,37 +21,40 @@
         <h2 class="text-center">Gestión de Tareas</h2>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID Tarea</th>
-                    <th>Descripción</th>
-                    <th>Estado</th>
-                    <th>Empleado</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var tarea in Model)
-                {
+    <div class="villa-container">
+        <h3 class="villa-title">Tareas Asignadas</h3>
+        <div class="table-responsive">
+            <table class="villa-table">
+                <thead>
                     <tr>
-                        <td>@tarea.IdTarea</td>
-                        <td>@tarea.Descripcion</td>
-                        <td>@tarea.Estado</td>
-                        <td>
-                            @if (empleadosDict.ContainsKey(tarea.IdEmpleado))
-                            {
-                                @empleadosDict[tarea.IdEmpleado]
-                            }
-                            else
-                            {
-                                <span class="text-danger">Empleado no encontrado</span>
-                            }
-                        </td>
+                        <th>ID Tarea</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Empleado</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var tarea in Model)
+                    {
+                        <tr>
+                            <td>@tarea.IdTarea</td>
+                            <td>@tarea.Descripcion</td>
+                            <td>@tarea.Estado</td>
+                            <td>
+                                @if (empleadosDict.ContainsKey(tarea.IdEmpleado))
+                                {
+                                    @empleadosDict[tarea.IdEmpleado]
+                                }
+                                else
+                                {
+                                    <span class="text-danger">Empleado no encontrado</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

@@ -64,7 +64,23 @@ namespace CoromotoAccess.Controllers
         [HttpGet]
         public ActionResult AprobarVacaciones   ()
         {
-            return View();
+            using (var context = new BDCoromotoEntities())
+            {
+                var vacaciones = context.tVacaciones.Select(e => new Vacaciones
+                {
+                    IdVacacion = e.IdVacacion,
+                    IdEmpleado = e.IdEmpleado,
+                    DiasSolicitados = e.DiasSolicitados,
+                    FechaInicio = e.fechaInicio,
+                    FechaFin = e.fechaFin,
+                    Estado = e.Estado
+                }).ToList();
+
+                ViewBag.Empleados = new SelectList(context.tEmpleados.ToList(), "ConsecutivoEmp", "Nombre");
+                ViewBag.DiccionarioEmpleados = context.tEmpleados.ToDictionary(e => e.ConsecutivoEmp, e => e);
+
+                return View(vacaciones);
+            }
         }
 
         [HttpPost]

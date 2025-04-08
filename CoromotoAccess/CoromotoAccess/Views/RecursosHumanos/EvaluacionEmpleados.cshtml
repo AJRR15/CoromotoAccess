@@ -3,60 +3,69 @@
     ViewBag.Title = "EvaluacionEmpleados";
 }
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Evaluación de Empleados</h2>
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
 
-    <div class="d-flex justify-content-end mb-3">
-        <div class="input-group" style="width: 250px;">
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">Evaluación de Empleados</h2>
+        <div class="input-group w-50">
             <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar empleado..." aria-label="Buscar">
-            <button class="btn btn-info btn-sm" type="button" id="searchButton">Buscar</button>
+            <div class="input-group-append" style="margin-left: 5px;">
+                <button class="btn btn-info btn-sm" type="button" id="searchButton">Buscar</button>
+            </div>
         </div>
     </div>
 
-    <div class="table-responsive" style="max-width: 800px; margin: auto;">
-        <table class="table table-sm table-striped text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Rol</th>
-                    <th>Horas</th>
-                    <th>Comentario</th>
-                    <th>Calificación</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="empleadosTable">
-                @{
-                    int calificacion = 0;
-                    string nombreEmpleado = "", nombreRol = "", comentario = "", nombreCalificacion = "";
+    <div class="villa-container">
+        <h3 class="villa-title">Evaluación de Empleados</h3>
+        <div class="table-responsive">
+            <table class="villa-table table table-sm table-striped text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Rol</th>
+                        <th>Horas</th>
+                        <th>Comentario</th>
+                        <th>Calificación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="empleadosTable">
+                    @{
+                        int calificacion = 0;
+                        string nombreEmpleado = "", nombreRol = "", comentario = "", nombreCalificacion = "";
 
-                    foreach (var empleado in Model)
-                    {
-                        calificacion = ViewBag.Calificaciones.ContainsKey(empleado.ConsecutivoEmp) ?
-                            ViewBag.Calificaciones[empleado.ConsecutivoEmp] : 0;
-                        nombreEmpleado = empleado.Nombre + " " + empleado.Apellido;
-                        nombreRol = ViewBag.DiccionarioRoles[empleado.IdRol];
-                        comentario = ViewBag.Comentarios.ContainsKey(empleado.ConsecutivoEmp) ?
-                            ViewBag.Comentarios[empleado.ConsecutivoEmp] : "-";
-                        nombreCalificacion = ViewBag.DiccionarioCalificaciones[calificacion];
+                        foreach (var empleado in Model)
+                        {
+                            calificacion = ViewBag.Calificaciones.ContainsKey(empleado.ConsecutivoEmp) ?
+                                ViewBag.Calificaciones[empleado.ConsecutivoEmp] : 0;
+                            nombreEmpleado = empleado.Nombre + " " + empleado.Apellido;
+                            nombreRol = ViewBag.DiccionarioRoles[empleado.IdRol];
+                            comentario = ViewBag.Comentarios.ContainsKey(empleado.ConsecutivoEmp) ?
+                                ViewBag.Comentarios[empleado.ConsecutivoEmp] : "-";
+                            nombreCalificacion = ViewBag.DiccionarioCalificaciones[calificacion];
 
-                        <tr class="empleadoRow">
-                            <td class="nombreEmpleado">@nombreEmpleado</td>
-                            <td>@nombreRol</td>
-                            <td>@empleado.HorasTrabajadas</td>
-                            <td>@comentario</td>
-                            <td>@nombreCalificacion</td>
-                            <td>
-                                <button type="button" onclick="document.getElementById('IdEmpleado').value='@empleado.ConsecutivoEmp'"
-                                        class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#evaluarEmpleadoModal">
-                                    Evaluar
-                                </button>
-                            </td>
-                        </tr>
+                            <tr class="empleadoRow">
+                                <td class="nombreEmpleado">@nombreEmpleado</td>
+                                <td>@nombreRol</td>
+                                <td>@empleado.HorasTrabajadas</td>
+                                <td>@comentario</td>
+                                <td>@nombreCalificacion</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" onclick="document.getElementById('IdEmpleado').value='@empleado.ConsecutivoEmp'"
+                                                class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#evaluarEmpleadoModal">
+                                            Evaluar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

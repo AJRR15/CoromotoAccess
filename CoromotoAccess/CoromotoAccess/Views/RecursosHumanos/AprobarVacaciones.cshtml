@@ -1,37 +1,69 @@
-﻿@{
+﻿@model IEnumerable<CoromotoAccess.Models.Vacaciones>
+
+@{
     ViewBag.Title = "AprobarVacaciones";
 }
+
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Aprobar Vacaciones</h2>
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="button-addon2">
-        <button class="btn btn-info" type="button" id="button-addon2">Buscar</button>
+        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="button-addon2" id="buscarInput">
+        <button class="btn btn-info" type="button" id="button-addon2" onclick="filtrarTabla()">Buscar</button>
     </div>
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>ID Empleado</th>
-                <th>Días de Vacaciones Disponibles</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha de Fin</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>12345</td>
-                <td>10</td>
-                <td>2024-12-20</td>
-                <td>2024-12-30</td>
-                <td>Pendiente</td>
-                <td>
-                    <button class="btn btn-success btn-sm" onclick="aprobarVacaciones(12345)">Aprobar</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <br />
+    <div class="villa-container">
+        <h3 class="villa-title">Vacaciones de Empleados</h3>
+        <div class="table-responsive">
+            <table class="villa-table table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID Empleado</th>
+                        <th>Días de Vacaciones Disponibles</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Fin</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaVacacionesBody">
+                    @foreach (var vacacion in Model)
+                    {
+                        var empleado = ViewBag.DiccionarioEmpleados[vacacion.IdEmpleado];
+
+                        <tr>
+                            <td>@vacacion.IdEmpleado</td>
+                            <td>@empleado.Vacaciones</td>
+                            <td>@vacacion.FechaInicio.ToString("dd/MM/yyyy")</td>
+                            <td>@vacacion.FechaFin.ToString("dd/MM/yyyy")</td>
+                            <td>@vacacion.Estado</td>
+                            <td>
+                                @if (vacacion.Estado == 0)
+                                {
+                                    <div class="btn-group" role="group">
+                                        // Formulario para aprobar vacaciones
+                                        @using (Html.BeginForm("AprobarVacaciones", "RecursosHumanos", FormMethod.Post))
+                                        {
+                                            @Html.Hidden("id", vacacion.IdVacacion)
+                                            <button type="submit" class="btn btn-success btn-sm">Aprobar</button>
+                                        }
+                                        // Formulario para rechazar vacaciones
+                                        @using (Html.BeginForm("RechazarVacaciones", "RecursosHumanos", FormMethod.Post))
+                                        {
+                                            @Html.Hidden("id", vacacion.IdVacacion)
+                                            <button type="submit" class="btn btn-danger btn-sm">Rechazar</button>
+                                        }
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
 <script>

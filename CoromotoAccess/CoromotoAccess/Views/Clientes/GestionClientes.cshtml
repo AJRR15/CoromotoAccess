@@ -4,6 +4,8 @@
     ViewBag.Title = "Gestión de Cliente";
 }
 
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-center">Gestión de Cliente</h2>
@@ -23,35 +25,39 @@
         </div>
     }
 
-    <div class="table-responsive">
-        <table class="table table-bordered" id="tablaClientes">
-            <thead>
-                <tr>
-                    <th>Nombre Completo</th>
-                    <th>ID</th>
-                    <th>Teléfono</th>
-                    <th>Correo Electrónico</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tablaClientesBody">
-                @foreach (var cliente in Model)
-                {
-                    <tr class="cliente-row">
-                        <td>@cliente.Nombre @cliente.Apellido</td>
-                        <td>@cliente.ConsecutivoCliente</td>
-                        <td>@cliente.Telefono</td>
-                        <td>@cliente.CorreoElectronico</td>
-                        <td>
-                            <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarCliente", "Clientes", new { id = cliente.ConsecutivoCliente })" role="button">Modificar</a>
-                            <a class="btn btn-info btn-sm" href="@Url.Action("HistorialCliente", "Clientes", new { id = cliente.ConsecutivoCliente })" role="button">Historial de Reservas</a>
-                        </td>
+    <div class="villa-container">
+        <h3 class="villa-title">Clientes Registrados</h3>
+        <div class="table-responsive">
+            <table class="villa-table table table-bordered" id="tablaClientes">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre Completo</th>
+                        <th>ID</th>
+                        <th>Teléfono</th>
+                        <th>Correo Electrónico</th>
+                        <th>Acciones</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-        <p id="noResultsMessage" class="text-center text-muted" style="display:none;">No se ha encontrado al usuario buscado</p>
+                </thead>
+                <tbody id="tablaClientesBody">
+                    @foreach (var cliente in Model)
+                    {
+                        <tr class="cliente-row">
+                            <td>@cliente.Nombre @cliente.Apellido</td>
+                            <td>@cliente.ConsecutivoCliente</td>
+                            <td>@cliente.Telefono</td>
+                            <td>@cliente.CorreoElectronico</td>
+                            <td>
+                                <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarCliente", "Clientes", new { id = cliente.ConsecutivoCliente })" role="button">Modificar</a>
+                                <a class="btn btn-info btn-sm" href="@Url.Action("HistorialCliente", "Clientes", new { id = cliente.ConsecutivoCliente })" role="button">Historial de Reservas</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <p id="noResultsMessage" class="text-center text-muted" style="display:none;">No se ha encontrado al usuario buscado</p>
+        </div>
     </div>
+
 </div>
 
 <!-- Modal -->
