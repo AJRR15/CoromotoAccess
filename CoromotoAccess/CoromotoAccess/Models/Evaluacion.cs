@@ -12,5 +12,10 @@ namespace CoromotoAccess.Models
         public string Comentario { get; set; }
         public int Calificacion { get; set; }
         public DateTime? FechaEvaluacion { get; set; }
+
+        public string NombreEmpleado { get; set; }
+        public string ApellidoEmpleado { get; set; }
+        public string RolEmpleado { get; set; }
+        public int HorasTrabajadas { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model List<CoromotoAccess.Models.Empleado>
+﻿@model List<CoromotoAccess.Models.Evaluacion>
 @{
     ViewBag.Title = "EvaluacionEmpleados";
 }
@@ -6,7 +6,6 @@
 <link href="~/Styles/css/tabla.css" rel="stylesheet" />
 
 <div class="container mt-5">
-
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-center">Evaluación de Empleados</h2>
         <div class="input-group w-50">
@@ -14,55 +13,52 @@
             <div class="input-group-append" style="margin-left: 5px;">
                 <button class="btn btn-info btn-sm" type="button" id="searchButton">Buscar</button>
             </div>
+            <button class="btn btn-outline-dark ml-3" data-bs-toggle="modal" data-bs-target="#agregarEvaluacionModal">
+                Agregar Evaluación
+            </button>
         </div>
     </div>
 
-    <br />
+    <!-- Filtro por calificación -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <select class="form-control" id="filtroCalificacion" onchange="filtrarCalificacion()">
+                <option value="">Todas las calificaciones</option>
+                @foreach (var calificacion in ViewBag.DiccionarioCalificaciones)
+                {
+                    <option value="@calificacion.Key">@calificacion.Value</option>
+                }
+            </select>
+        </div>
+    </div>
+
     <div class="villa-container">
-        <h3 class="villa-title">Evaluación de Empleados</h3>
+        <h3 class="villa-title">Registro de Evaluaciones</h3>
         <div class="table-responsive">
             <table class="villa-table table table-sm table-striped text-center">
                 <thead class="table-dark">
                     <tr>
-                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Empleado</th>
                         <th>Rol</th>
-                        <th>Horas</th>
                         <th>Comentario</th>
                         <th>Calificación</th>
-                        <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="empleadosTable">
-                    @{
-                        int calificacion = 0;
-                        string nombreEmpleado = "", nombreRol = "", comentario = "", nombreCalificacion = "";
-
-                        foreach (var empleado in Model)
-                        {
-                            calificacion = ViewBag.Calificaciones.ContainsKey(empleado.ConsecutivoEmp) ?
-                                ViewBag.Calificaciones[empleado.ConsecutivoEmp] : 0;
-                            nombreEmpleado = empleado.Nombre + " " + empleado.Apellido;
-                            nombreRol = ViewBag.DiccionarioRoles[empleado.IdRol];
-                            comentario = ViewBag.Comentarios.ContainsKey(empleado.ConsecutivoEmp) ?
-                                ViewBag.Comentarios[empleado.ConsecutivoEmp] : "-";
-                            nombreCalificacion = ViewBag.DiccionarioCalificaciones[calificacion];
-
-                            <tr class="empleadoRow">
-                                <td class="nombreEmpleado">@nombreEmpleado</td>
-                                <td>@nombreRol</td>
-                                <td>@empleado.HorasTrabajadas</td>
-                                <td>@comentario</td>
-                                <td>@nombreCalificacion</td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" onclick="document.getElementById('IdEmpleado').value='@empleado.ConsecutivoEmp'"
-                                                class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#evaluarEmpleadoModal">
-                                            Evaluar
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
+                <tbody id="evaluacionesTable">
+                    @foreach (var evaluacion in Model)
+                    {
+                        <tr class="evaluacionRow"
+                            data-calificacion="@evaluacion.Calificacion"
+                            data-empleado="@($"{evaluacion.NombreEmpleado} {evaluacion.ApellidoEmpleado}")">
+                            <td>
+                                @(evaluacion.FechaEvaluacion?.ToString("dd/MM/yyyy") ?? "Sin fecha")
+                            </td>
+                            <td class="nombreEmpleado">@($"{evaluacion.NombreEmpleado} {evaluacion.ApellidoEmpleado}")</td>
+                            <td>@evaluacion.RolEmpleado</td>
+                            <td>@evaluacion.Comentario</td>
+                            <td>@ViewBag.DiccionarioCalificaciones[evaluacion.Calificacion]</td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -70,30 +66,66 @@
     </div>
 </div>
 
-<script>
-    function buscarEmpleado() {
-        var searchValue = document.getElementById("searchInput").value.trim().toLowerCase();
-        var rows = document.querySelectorAll(".empleadoRow");
+<!-- Modal Agregar Evaluación -->
+<div class="modal fade" id="agregarEvaluacionModal" tabindex="-1" aria-labelledby="agregarEvaluacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva Evaluación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            @using (Html.BeginForm("AsignarEvaluacion", "RecursosHumanos", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Empleado</label>
+                        @Html.DropDownList("IdEmpleado", ViewBag.Empleados as SelectList,
+                            new { @class = "form-select", required = "required" })
+                    </div>
 
-        rows.forEach(function (row) {
-            var nombreEmpleado = row.querySelector(".nombreEmpleado").textContent.toLowerCase();
-            if (nombreEmpleado.includes(searchValue)) {
-                row.style.display = "";
+                    <div class="mb-3">
+                        <label class="form-label">Calificación</label>
+                        @Html.DropDownList("Calificacion", ViewBag.OpcionesCalificacion as SelectList,
+                            new { @class = "form-select", required = "required" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Comentario</label>
+                        <textarea name="Comentario" class="form-control" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Evaluación</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    // Función para filtrar por calificación
+    function filtrarCalificacion() {
+        const valor = document.getElementById('filtroCalificacion').value;
+        const filas = document.querySelectorAll('.evaluacionRow');
+
+        filas.forEach(fila => {
+            const calificacion = fila.getAttribute('data-calificacion');
+            if (valor === "" || calificacion === valor) {
+                fila.style.display = '';
             } else {
-                row.style.display = "none";
+                fila.style.display = 'none';
             }
         });
     }
 
-    document.getElementById("searchInput").addEventListener("keyup", function (event) {
-        if (event.key === "Enter") {
-            buscarEmpleado();
-        }
+    document.getElementById('searchButton').addEventListener('click', function () {
+        const searchValue = document.getElementById('searchInput').value.toLowerCase();
+        const filas = document.querySelectorAll('.evaluacionRow');
+
+        filas.forEach(fila => {
+            const nombre = fila.getAttribute('data-empleado').toLowerCase();
+            fila.style.display = nombre.includes(searchValue) ? '' : 'none';
+        });
     });
-
-    document.getElementById("searchButton").addEventListener("click", buscarEmpleado);
 </script>
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

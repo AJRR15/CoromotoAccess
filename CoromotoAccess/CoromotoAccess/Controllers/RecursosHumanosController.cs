@@ -62,7 +62,7 @@ namespace CoromotoAccess.Controllers
             }
         }
         [HttpGet]
-        public ActionResult AprobarVacaciones   ()
+        public ActionResult AprobarVacaciones()
         {
             using (var context = new BDCoromotoEntities())
             {
@@ -219,24 +219,40 @@ namespace CoromotoAccess.Controllers
         {
             using (var context = new BDCoromotoEntities())
             {
-                var empleados = context.tEmpleados.Select(e => new Empleado
-                {
-                    ConsecutivoEmp = e.ConsecutivoEmp,
-                    Nombre = e.Nombre,
-                    Apellido = e.Apellido,
-                    IdRol = e.ConsecutivoRol,
-                    HorasTrabajadas = e.HorasTrabajadas
-                }).ToList();
+                var evaluaciones = context.tEvaluaciones
+                    .Join(context.tEmpleados,
+                        e => e.IdEmpleado,
+                        emp => emp.ConsecutivoEmp,
+                        (e, emp) => new { Evaluacion = e, Empleado = emp })
+                    .Join(context.tRoles,
+                        combined => combined.Empleado.ConsecutivoRol,
+                        r => r.IdRol,
+                        (combined, r) => new Evaluacion
+                        {
+                            IdEvaluacion = combined.Evaluacion.IdEvaluacion,
+                            IdEmpleado = combined.Evaluacion.IdEmpleado,
+                            Comentario = combined.Evaluacion.Comentario,
+                            Calificacion = combined.Evaluacion.Calificacion,
+                            FechaEvaluacion = combined.Evaluacion.FechaEvaluacion,
+                            NombreEmpleado = combined.Empleado.Nombre,
+                            ApellidoEmpleado = combined.Empleado.Apellido,
+                            RolEmpleado = r.NombreRol,
+                            HorasTrabajadas = combined.Empleado.HorasTrabajadas
+                        })
+                    .OrderByDescending(e => e.FechaEvaluacion)
+                    .ToList();
 
-                ViewBag.Comentarios = context.tEvaluaciones.ToDictionary(c => c.IdEmpleado, c => c.Comentario);
-                ViewBag.Calificaciones = context.tEvaluaciones.ToDictionary(c => c.IdEmpleado, c => c.Calificacion);
-                ViewBag.DiccionarioRoles = context.tRoles.ToDictionary(r => r.IdRol, r => r.NombreRol);
-                ViewBag.DiccionarioCalificaciones = new Dictionary<int, string> { { 0, "Sin calificar" }, { 1, "Pobre" }, { 2, "Regular" }, { 3, "Bueno" }, { 4, "Excelente" } };
+                ViewBag.DiccionarioCalificaciones = new Dictionary<int, string> {
+            { 1, "Pobre" },
+            { 2, "Regular" },
+            { 3, "Bueno" },
+            { 4, "Excelente" }
+        };
+
                 ViewBag.OpcionesCalificacion = new SelectList(ViewBag.DiccionarioCalificaciones, "Key", "Value");
+                ViewBag.Empleados = new SelectList(context.tEmpleados.ToList(), "ConsecutivoEmp", "Nombre");
 
-                ViewBag.TargetEmpleado = -1;
-
-                return View(empleados);
+                return View(evaluaciones);
             }
         }
 
@@ -247,16 +263,6 @@ namespace CoromotoAccess.Controllers
             {
                 try
                 {
-                    var evaluacion = context.tEvaluaciones.FirstOrDefault(e => e.IdEmpleado == model.IdEmpleado);
-
-                    if (evaluacion != null)
-                    {
-                        evaluacion.Calificacion = model.Calificacion;
-                        evaluacion.Comentario = model.Comentario;
-                        evaluacion.FechaEvaluacion = DateTime.Now;
-                    }
-                    else
-                    {
                         var nuevaEvaluacion = new tEvaluaciones
                         {
                             IdEmpleado = model.IdEmpleado,
@@ -266,7 +272,7 @@ namespace CoromotoAccess.Controllers
                         };
 
                         context.tEvaluaciones.Add(nuevaEvaluacion);
-                    }
+                    
 
                     context.SaveChanges();
 
@@ -290,4 +296,4 @@ namespace CoromotoAccess.Controllers
     }
 
 
-    }
+}
