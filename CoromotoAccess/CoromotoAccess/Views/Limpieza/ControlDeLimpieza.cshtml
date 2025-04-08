@@ -8,7 +8,10 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-center">Control de Limpieza</h2>
-        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#asignarLimpiezaModal">Asignar Limpieza</button>
+        @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
+        {
+            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#asignarLimpiezaModal">Asignar Limpieza</button>
+        }
     </div>
 
     <script>
@@ -34,10 +37,15 @@
             <thead>
                 <tr>
                     <th colspan="4" class="text-left">Limpiezas</th>
+                    
                     <th class="text-right">
-                        <button class="btn btn-light" onclick="descargarPDF()">Generar Reporte</button>
-                    </th>
-                </tr>
+                        @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
+                        {
+                            <button class="btn btn-light" onclick="descargarPDF()">Generar Reporte</button>
+                        }
+                        </th>
+                    
+                    </tr>
                 <tr>
                     <th>Empleado</th>
                     <th>Fecha de Limpieza</th>

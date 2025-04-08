@@ -33,7 +33,7 @@
                                     <h5 class="text-dark font-weight-bold">Estado:</h5>
                                     <p class="card-text">@(habitacion.Estado ? "Disponible" : "No disponible")</p>
 
-                                    @if (Session["NombreRol"] != null)
+                                    @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() != "Empleado")
                                     {
                                         <div class="d-flex justify-content-end">
                                             <button type="button" class="btn btn-primary reservar-btn"

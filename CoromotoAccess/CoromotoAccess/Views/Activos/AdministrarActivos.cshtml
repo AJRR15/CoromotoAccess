@@ -5,7 +5,10 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center">
         <h2>Administar Activos</h2>
-        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#activoModal" onclick="agregarActivo()">Agregar Activo</button>
+        @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
+        {
+            <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#activoModal" onclick="agregarActivo()">Agregar Activo</button>
+        }
     </div>
 
     <br />
@@ -64,8 +67,11 @@
                         <th>NumeroSerie</th>
                         <th>Descripcion</th>
                         <th>IdCategoria</th>
-                        <th>Acciones</th>
-                    </tr>
+                        @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
+                        {
+                            <th>Acciones</th>
+                        }
+                        </tr>
                 </thead>
                 <tbody>
                     @foreach (var activo in Model.Where(h => h.IdHabitacion.ToString() == habitacion.Value))
@@ -77,14 +83,21 @@
                             <td>@activo.NumeroSerie</td>
                             <td>@activo.Descripcion</td>
                             <td>@activo.IdCategoria</td>
-                            <td>
-                                <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarActivo", "Activos", new { id = activo.IdActivo })">Modificar</a>
-                                <form action="@Url.Action("EliminarActivo", "Activos")" method="post" style="display:inline;">
-                                    <input type="hidden" name="IdActivo" value="@activo.IdActivo" />
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este activo?')">Eliminar</button>
-                                </form>
-                            </td>
-                        </tr>
+                            @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
+                            {
+                                <td>
+
+                                    <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarActivo", "Activos", new { id = activo.IdActivo })">Modificar</a>
+                                    <form action="@Url.Action("EliminarActivo", "Activos")" method="post" style="display:inline;">
+                                        <input type="hidden" name="IdActivo" value="@activo.IdActivo" />
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este activo?')">Eliminar</button>
+                                    </form>
+
+                                    
+
+                                </td>
+                            }
+                            </tr>
                     }
                 </tbody>
             </table>
