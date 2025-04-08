@@ -1,119 +1,331 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Coromoto Access - Inicio";
 }
 
-<section id="content" class="p6">
-    <div class="container_24 p7">
-        <article class="grid_8">
-            <div class="page1-box1 maxheight2">
-                <div class="inner1">
-                    <strong></strong>
-                    <span class="text1">Comodas</span>
-                    <span class="text2">Habitaciones</span>
-                </div>
-                <div class="inner2">
-                    <figure class="page1-img1">
-                        <img src="~/Styles/imagenes/habitacionVilla.jpg" alt="Habitacion Villa" style="width: 100%; height: auto;">
-                    </figure>
-                    <p>Relájate en nuestras cómodas habitaciones, diseñadas para ofrecerte el máximo confort y tranquilidad. Cada detalle ha sido cuidadosamente pensado para que disfrutes de una estancia placentera y acogedora.</p>
-                    <a class="button1" href="@Url.Action("CatalogoHabitaciones","Habitacion") ">más</a>
-                </div>
-                <i></i>
+<!-- Hero Section -->
+<section class="hero-section position-relative overflow-hidden">
+    <div class="container">
+        <div class="row align-items-center min-vh-80 py-5">
+            <div class="col-lg-6 text-white">
+                <h1 class="display-4 fw-bold mb-4">CoromotoAccess</h1>
+                <p class="lead mb-4">Innovación en cada acceso. Descubre la perfecta combinación de lujo, naturaleza y tecnología.</p>
+                <a href="@Url.Action("CatalogoHabitaciones","Habitacion")" class="btn btn-primary btn-lg px-4 me-2">Ver Habitaciones</a>
+                <a href="@Url.Action("Contact","Home")" class="btn btn-outline-light btn-lg px-4">Contacto</a>
             </div>
-        </article>
-        <article class="grid_8">
-            <div class="page1-box1 maxheight2">
-                <div class="inner1">
-                    <strong></strong>
-                    <span class="text1">Moderno y</span>
-                    <span class="text2">Elegante</span>
-                </div>
-                <div class="inner2">
-                    <figure class="page1-img1">
-                        <img src="~/Styles/imagenes/AfuerasVilla.jpg" alt="Afueras de la Villa" style="width: 100%; height: auto;">
-                    </figure>
-                    <p>Lujo y naturaleza en un solo lugar: "Disfruta del equilibrio perfecto entre lujo y naturaleza. Nuestras habitaciones están diseñadas para ofrecerte una experiencia de hospedaje inolvidable, con vistas espectaculares y una ubicación estratégica que te permitirá explorar los rincones más hermosos de la región. Ideal para quienes buscan desconectar y sumergirse en un entorno natural."</p>
-                    <a class="button1" href="@Url.Action("CatalogoHabitaciones","Habitacion") ">más</a>
-                </div>
-                <i></i>
-            </div>
-        </article>
-        <article class="grid_8">
-            <div class="page1-box1 maxheight2">
-                <div class="inner1">
-                    <strong></strong>
-                    <span class="text1">Hermosos</span>
-                    <span class="text2">Paisajes</span>
-                </div>
-                <div class="inner2">
-                    <figure class="page1-img1">
-                        <img src="~/Styles/imagenes/paisaje.jpg" alt="Acceso único" style="width: 100%; height: auto;">
-                    </figure>
-                    <p>Despierta con vistas impresionantes: "Imagina despertar cada mañana con una vista panorámica que te deja sin aliento. Nuestro Airbnb te ofrece la escapada perfecta con habitaciones acogedoras que combinan confort y estilo, todo en una ubicación inmejorable. Rodeado de naturaleza, disfruta de la tranquilidad y la belleza del paisaje desde la comodidad de tu cama."</p>
-                    <a class="button1" href="@Url.Action("CatalogoHabitaciones","Habitacion") ">más</a>
-                </div>
-                <i></i>
-            </div>
-        </article>
-        <div class="clear"></div>
-        <div class="p8">
-            <article class="grid_14 maxheight1">
-                <span class="text3">Bienvenidos</span>
-                <span class="text4">CoromotoAccess: Innovación en cada acceso.</span>
-                <p class="p9">
-                    En CoromotoAccess, nos enorgullece ofrecer soluciones de acceso que combinan tradición e innovación. Cada producto está diseñado para proporcionar seguridad y comodidad, adaptándose a las necesidades de nuestros clientes. Desde accesos tradicionales hasta los más modernos, garantizamos calidad y eficiencia en cada uno de nuestros productos.
+        </div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-image"></div>
+</section>
 
-                    Gracias por confiar en nosotros para proteger y facilitar el acceso a sus espacios. ¡Esperamos seguir acompañándolos con nuestras soluciones innovadoras!
-                </p>
-                <!--Inicio mitad B parte izquierda-->
-                <article class="grid_14 maxheight1">
-                    <span class="text3">Comentarios</span>
-                    <span class="text4">De nuestros Clientes</span>
-                    <div class="page1-box3">
-                        <a class="link1" href="#">Marco Fernández,  23 años. </a>
-                        <p class="last2">“CoromotoAccess siempre es una garantía de seguridad y calidad. ¡No los cambiaría por nada!”</p>
-                        <time class="time1" datetime="2022-09-05T15:31">junio 30, 2024</time>
+<!-- Features Section -->
+<section class="py-5 py-lg-7 bg-light">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Habitación 1 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm overflow-hidden hover-scale">
+                    <div class="position-relative">
+                        <img src="~/Styles/imagenes/habitacionVilla.jpg" class="card-img-top" alt="Habitación Villa">
+                        <div class="card-img-overlay d-flex flex-column p-0">
+                            <div class="feature-label bg-primary text-white p-3">
+                                <h3 class="h5 mb-0">Comodas Habitaciones</h3>
+                            </div>
+                        </div>
                     </div>
-                    <div class="page1-box3 last3">
-                        <a class="link1" href="#">Julia Martínez,  22 años.</a>
-                        <p class="last2">“Nos encanta la innovación y la eficiencia de sus productos. ¡Siempre confiamos en CoromotoAccess!”</p>
-                        <time class="time1" datetime="2023-05-15T05:21">marzo 15, 2023</time>
+                    <div class="card-body">
+                        <p class="card-text">Relájate en nuestras cómodas habitaciones, diseñadas para ofrecerte el máximo confort y tranquilidad. Cada detalle ha sido cuidadosamente pensado para que disfrutes de una estancia placentera y acogedora.</p>
                     </div>
-                </article>
-                <div class="clear"></div>
-            </article>
-
-            <!--Columna top productos lado derecho-->
-
-            <article class="grid_8 prefix_2 maxheight1 border2">
-                <h2 class="p10">Otras <br />Caracteristicas</h2>
-                <div class="page1-box4">
-                    <figure class="page1-img2 img-bot">
-                        <img src="~/Styles/imagenes/Cocina.jpg" alt="Cocina" style="width: 100%; height: auto;">
-                    </figure>
-                    <div class="clear"></div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="@Url.Action("CatalogoHabitaciones","Habitacion")" class="btn btn-outline-primary stretched-link">Ver más</a>
+                    </div>
                 </div>
+            </div>
 
-                <div class="page1-box4">
-                    <figure class="page1-img2 img-bot">
-                        <img src="~/Styles/imagenes/VillaValiita.jpg" alt="Villa Vallita" style="width: 100%; height: auto;">
-                    </figure>
-                    <div class="clear"></div>
+            <!-- Habitación 2 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm overflow-hidden hover-scale">
+                    <div class="position-relative">
+                        <img src="~/Styles/imagenes/AfuerasVilla.jpg" class="card-img-top" alt="Afueras de la Villa">
+                        <div class="card-img-overlay d-flex flex-column p-0">
+                            <div class="feature-label bg-primary text-white p-3">
+                                <h3 class="h5 mb-0">Moderno y Elegante</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Lujo y naturaleza en un solo lugar. Disfruta del equilibrio perfecto entre lujo y naturaleza con vistas espectaculares y una ubicación estratégica que te permitirá explorar los rincones más hermosos de la región.</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="@Url.Action("CatalogoHabitaciones","Habitacion")" class="btn btn-outline-primary stretched-link">Ver más</a>
+                    </div>
                 </div>
+            </div>
 
-                <div class="page1-box4 p12">
-                    <figure class="page1-img2 img-bot">
-                        <img src="~/Styles/imagenes/Pasillo.jpg" alt="Pasillo habitacion" style="width: 100%; height: auto;">
-                    </figure>
-                    <div class="clear"></div>
+            <!-- Habitación 3 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm overflow-hidden hover-scale">
+                    <div class="position-relative">
+                        <img src="~/Styles/imagenes/paisaje.jpg" class="card-img-top" alt="Paisajes">
+                        <div class="card-img-overlay d-flex flex-column p-0">
+                            <div class="feature-label bg-primary text-white p-3">
+                                <h3 class="h5 mb-0">Hermosos Paisajes</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Despierta con vistas impresionantes. Rodeado de naturaleza, disfruta de la tranquilidad y la belleza del paisaje desde la comodidad de tu cama.</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="@Url.Action("CatalogoHabitaciones","Habitacion")" class="btn btn-outline-primary stretched-link">Ver más</a>
+                    </div>
                 </div>
-
-                <a class="button1 p28 p28" href="@Url.Action("CatalogoHabitaciones","Habitacion") ">Ver más</a>
-            </article>
-
-
-
-            <div class="clear"></div>
+            </div>
         </div>
     </div>
 </section>
+
+<!-- About Section -->
+<section class="py-5 py-lg-7">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="pe-lg-5">
+                    <span class="text-primary fw-semibold small">BIENVENIDOS</span>
+                    <h2 class="display-6 fw-bold mb-4">CoromotoAccess: Innovación en cada acceso</h2>
+                    <p class="lead mb-4">Nos enorgullece ofrecer soluciones que combinan tradición e innovación. Cada producto está diseñado para proporcionar seguridad y comodidad, adaptándose a las necesidades de nuestros clientes.</p>
+                    <div class="d-flex align-items-center">
+                        <div class="me-4">
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-block">
+                                <i class="fas fa-shield-alt text-primary fs-4"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="h5 mb-1">Seguridad Garantizada</h3>
+                            <p class="mb-0 small text-muted">Desde accesos tradicionales hasta los más modernos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="position-relative">
+                    <img src="~/Styles/imagenes/VillaValiita.jpg" class="img-fluid rounded-4 shadow" alt="Villa Vallita">
+                    <div class="position-absolute bottom-0 start-0 translate-middle-y ms-n5">
+                        <div class="bg-white p-4 rounded-3 shadow-sm">
+                            <h3 class="h6 mb-2">Experiencia Premium</h3>
+                            <div class="d-flex align-items-center">
+                                <div class="text-warning me-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="small">5.0 (248 reseñas)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5 py-lg-7 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="text-primary fw-semibold small">COMENTARIOS</span>
+            <h2 class="display-6 fw-bold">Lo que dicen nuestros clientes</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="flex-shrink-0">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle" width="50" alt="Marco Fernández">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5 class="mb-0">Marco Fernández</h5>
+                                <span class="text-muted small">23 años</span>
+                            </div>
+                        </div>
+                        <p class="card-text">"CoromotoAccess siempre es una garantía de seguridad y calidad. ¡No los cambiaría por nada!"</p>
+                        <div class="text-end">
+                            <span class="text-muted small"><i class="far fa-calendar-alt me-1"></i> junio 30, 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="flex-shrink-0">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle" width="50" alt="Julia Martínez">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h5 class="mb-0">Julia Martínez</h5>
+                                <span class="text-muted small">22 años</span>
+                            </div>
+                        </div>
+                        <p class="card-text">"Nos encanta la innovación y la eficiencia de sus productos. ¡Siempre confiamos en CoromotoAccess!"</p>
+                        <div class="text-end">
+                            <span class="text-muted small"><i class="far fa-calendar-alt me-1"></i> marzo 15, 2023</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Section -->
+<section class="py-5 py-lg-7">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="gallery-item rounded-4 overflow-hidden position-relative">
+                    <img src="~/Styles/imagenes/Cocina.jpg" class="img-fluid w-100" alt="Cocina">
+                    <div class="gallery-overlay d-flex align-items-center justify-content-center">
+                        <a href="~/Styles/imagenes/Cocina.jpg" data-fslightbox="gallery" class="text-white">
+                            <i class="fas fa-expand-alt fs-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gallery-item rounded-4 overflow-hidden position-relative">
+                    <img src="~/Styles/imagenes/VillaValiita.jpg" class="img-fluid w-100" alt="Villa Vallita">
+                    <div class="gallery-overlay d-flex align-items-center justify-content-center">
+                        <a href="~/Styles/imagenes/VillaValiita.jpg" data-fslightbox="gallery" class="text-white">
+                            <i class="fas fa-expand-alt fs-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gallery-item rounded-4 overflow-hidden position-relative">
+                    <img src="~/Styles/imagenes/Pasillo.jpg" class="img-fluid w-100" alt="Pasillo habitacion">
+                    <div class="gallery-overlay d-flex align-items-center justify-content-center">
+                        <a href="~/Styles/imagenes/Pasillo.jpg" data-fslightbox="gallery" class="text-white">
+                            <i class="fas fa-expand-alt fs-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <a href="@Url.Action("CatalogoHabitaciones","Habitacion")" class="btn btn-primary btn-lg px-4">Ver más características</a>
+        </div>
+    </div>
+</section>
+
+<!-- CSS adicional para esta página -->
+<style>
+    /* Hero Section */
+    .hero-section {
+        position: relative;
+        background: #1a2333; /* Color de respaldo por si falla la imagen */
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4); /* Overlay oscuro para mejor contraste */
+        z-index: 1;
+    }
+
+    .hero-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        background-image: url('../../styles/imagenes/coromotosunset.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.9; /* Ajusta la opacidad de la imagen */
+    }
+
+    .hero-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    .hero-section .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Feature Cards */
+    .feature-label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    .hover-scale {
+        transition: transform 0.3s ease;
+    }
+
+        .hover-scale:hover {
+            transform: scale(1.03);
+        }
+
+    .container {
+        position: relative;
+        z-index: 2; /* Asegura que el contenido quede sobre la imagen y el overlay */
+    }
+
+    /* Gallery */
+    .gallery-item {
+        height: 300px;
+    }
+
+        .gallery-item img {
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+    .gallery-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(41, 103, 255, 0.7);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.1);
+    }
+
+    .hero-image {
+        background-position: 65% center;
+    }
+}
+</style>
+
+<!-- Script para lightbox gallery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.3.1/index.min.js"></script>

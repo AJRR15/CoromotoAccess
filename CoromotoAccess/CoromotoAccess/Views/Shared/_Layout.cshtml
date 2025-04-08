@@ -1,170 +1,380 @@
-﻿@{
-    ViewBag.Title = "DatosHabitacion";
-}
-
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="es" data-bs-theme="light">
 <head>
-    <title>Inicio</title>
     <meta charset="utf-8">
-    <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="~/Styles/css/estilo.css">
-    <link rel="stylesheet" href="~/Styles/css/camara.css">
-    <link rel="stylesheet" href="~/Styles/css/estilo.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Coromoto Access</title>
+
+    <!-- Fuentes modernas -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+
+    <!-- Iconos Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <style>
+        :root {
+            --primary-color: #2967FF;
+            --gradient-blue: linear-gradient(135deg, #2967FF 0%, #4A8DFF 100%);
+            --hover-shadow: 0 8px 24px rgba(41, 103, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+        }
+
+        /* Navbar Moderna */
+        .navbar {
+            background: #1a2333;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 0.5rem 1rem;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.8rem 1.2rem !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+            .nav-link:hover {
+                transform: translateY(-2px);
+            }
+
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: white;
+                transition: width 0.3s ease;
+            }
+
+            .nav-link:hover::after {
+                width: 100%;
+            }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: var(--hover-shadow);
+            border-radius: 12px;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+            .dropdown-item:hover {
+                background: var(--primary-color);
+                color: white !important;
+                transform: translateX(5px);
+            }
+
+        /* Header Superior */
+        .top-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 0;
+        }
+
+        .language-selector .form-select {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            width: auto;
+        }
+
+        .welcome-message {
+            color: white;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Footer Moderno */
+        footer {
+            background: #1a2333;
+            color: rgba(255,255,255,0.8);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            display: inline-block;
+        }
+
+            .footer-links a:hover {
+                color: white;
+                transform: translateX(5px);
+            }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+            .social-icons a:hover {
+                background: var(--primary-color);
+                transform: translateY(-3px);
+            }
+
+        /* Efectos Globales */
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+            .hover-scale:hover {
+                transform: scale(1.03);
+            }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+            }
+    </style>
 </head>
-<body class="page1">
-    <!--==============================header=================================-->
-    <header>
-        <div class="head-box1">
-            <div class="logo-container">
-                <h1 style="text-align: center;">
-                    <a class="logo" href="@Url.Action("Index","Home")"> <img src="~/Styles/imagenes/CoromotoLogo.png" alt="CoromotoAccess Logo" class="logo-img"> </a>
-                </h1>
-            </div>
-            <div class="container_24">
-                <div class="language-selector" style="text-align: right; margin-top: 10px; color: white;">
-                    <label for="language" style="margin-right: 5px;">
-                        Idioma:
-                    </label>
-                    <select class="form-control" id="language" name="language" style="display: inline-block; color: #2952ff; width: auto; border: none; background: none; padding: 0; font-size: 1em; " onchange="cambiarIdioma(this.value)">
-                        <option value="es">Español</option>
-                        <option value="en">Inglés</option>
-                        <option value="pt">Portugués</option>
+<body>
+
+    
+    <!-- Top Header --
+    <div class="top-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                    <p class="welcome-message mb-0">
+                        <i class="fas fa-user-circle me-2"></i>
+                        @(Session["NombreUsuario"] ?? "Bienvenido")
+                    </p>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <select class="form-select form-select-sm language-selector" onchange="cambiarIdioma(this.value)">
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="en">🇬🇧 English</option>
+                        <option value="pt">🇵🇹 Português</option>
                     </select>
                 </div>
-                <form id="search1">
-
-                    @if (Session["NombreUsuario"] != null)
-                    {
-                        <p id="welcome-message" style="color: white;">Bienvenido, @Session["NombreUsuario"].ToString()</p>
-                    }
-                    else
-                    {
-                        <p id="welcome-message" style="color: white;">Bienvenido </p>
-                    }
-
-                    <div class="clear"></div>
-                </form>
-
-                <div class="clear"></div>
             </div>
         </div>
-        <div class="head-box2">
-            <div class="container_24">
-                <div class="grid_24">
-                    <nav>
-                        <ul class="sf-menu">
-                            <li class="current"><a class="active" href=@Url.Action("Index", "Home")>Inicio</a></li>
+    </div>
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" href="@Url.Action("CatalogoHabitaciones","Habitacion")" id="userDropdown" role="button">
-                                    Hospedajes
+    <!-- Navbar Principal -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                <img src="~/Styles/imagenes/CoromotoLogo.png" alt="Coromoto Access">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">
+                            <i class="fas fa-home me-2"></i>Inicio
+                        </a>
+                    </li>
+
+                    <!-- Menú desplegable Hospedajes -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-hotel me-2"></i>Hospedajes
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("CatalogoHabitaciones", "Habitacion")">
+                                    <i class="fas fa-bed me-2"></i>Catálogo Habitaciones
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="@Url.Action("ControlDeLimpieza", "Limpieza")"> Control de   <br /> Limpieza</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("AdministrarReservas", "Reserva")"> Reservas  <br /> Existentes</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("AdministrarActivos", "Activos")"> Administrar  <br /> Activos</a></li>
-                                </ul>
                             </li>
-
-                            <li><a href="@Url.Action("About","Home")">Nosotros</a></li>
-                            <li><a href="@Url.Action("Contact","Home")">Contactenos</a></li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Procesos
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("ControlDeLimpieza", "Limpieza")">
+                                    <i class="fas fa-broom me-2"></i>Control de Limpieza
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="@Url.Action("EmpleadosMain", "Empleados")"> Gestión de  <br /> Empleados</a></li>
-
-                                    <li><a class="dropdown-item" href="@Url.Action("GestionClientes", "Clientes")"> Gestión de  <br /> Clientes</a></li>
-
-                                    <li><a class="dropdown-item" href="@Url.Action("GestiondeRRHH", "RecursosHumanos")"> Gestión de  <br /> RRHH</a></li>
-
-                                    <li><a class="dropdown-item" href="@Url.Action("Historico", "Facturas")"> Facturación  <br /> </a></li>
-
-                                    <li><a class="dropdown-item" href="@Url.Action("GestionReporteria", "Reporteria")"> Reportería</a></li>
-
-                                    <li><a class="dropdown-item" href="@Url.Action("Configuracion", "Seguridad")"> Gestión de  <br /> Configuración</a></li>
-
-                                </ul>
                             </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link" href="@Url.Action("MiPerfil", "Login")" id="guestDropdown" role="button"> Mi Perfil </a>
-                                <ul class="dropdown-menu" aria-labelledby="guestDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("InicioSesion", "Login")">Ingresar</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("ActualizarPerfil", "Login")">Actualizar <br />Perfil</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("AutoGestion", "RecursosHumanos")">AutoGestión</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("MisReservas", "Reserva", new { idUsuario = Session["Consecutivo"] })">Mis Reservas</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("MisFacturas", "Facturas", new { idUsuario = Session["Consecutivo"] })">Mis Facturas</a>
-                                    </li>
-
-                                </ul>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("AdministrarReservas", "Reserva")">
+                                    <i class="fas fa-calendar-check me-2"></i>Reservas
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("AdministrarActivos", "Activos")">
+                                    <i class="fas fa-boxes me-2"></i>Activos
+                                </a>
                             </li>
                         </ul>
-                        <div class="clear"></div>
-                    </nav>
-                </div>
+                    </li>
+
+                    <!-- Enlaces directos -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("About","Home")">
+                            <i class="fas fa-info-circle me-2"></i>Nosotros
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Contact","Home")">
+                            <i class="fas fa-envelope me-2"></i>Contáctenos
+                        </a>
+                    </li>
+
+                    <!-- Menú desplegable Procesos -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-cogs me-2"></i>Procesos
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("EmpleadosMain", "Empleados")">
+                                    <i class="fas fa-users me-2"></i>Gestión de Empleados
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("GestionClientes", "Clientes")">
+                                    <i class="fas fa-user-tie me-2"></i>Gestión de Clientes
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("GestiondeRRHH", "RecursosHumanos")">
+                                    <i class="fas fa-briefcase me-2"></i>Gestión de RRHH
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("Historico", "Facturas")">
+                                    <i class="fas fa-file-invoice me-2"></i>Facturación
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("GestionReporteria", "Reporteria")">
+                                    <i class="fas fa-chart-bar me-2"></i>Reportería
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("Configuracion", "Seguridad")">
+                                    <i class="fas fa-wrench me-2"></i>Configuración
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Menú desplegable Perfil -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-2"></i>Mi Perfil
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("MiPerfil", "Login")">
+                                    <i class="fas fa-id-card me-2"></i>Mi Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("InicioSesion", "Login")">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Ingresar
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("ActualizarPerfil", "Login")">
+                                    <i class="fas fa-sync me-2"></i>Actualizar Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("AutoGestion", "RecursosHumanos")">
+                                    <i class="fas fa-user-edit me-2"></i>AutoGestión
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("MisReservas", "Reserva", new { idUsuario = Session["Consecutivo"] })">
+                                    <i class="fas fa-calendar-alt me-2"></i>Mis Reservas
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="@Url.Action("MisFacturas", "Facturas", new { idUsuario = Session["Consecutivo"] })">
+                                    <i class="fas fa-receipt me-2"></i>Mis Facturas
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main>
+
+    <!-- Contenido Principal -->
+    <main class="container py-5">
         @RenderBody()
     </main>
-    <!--==============================footer=================================-->
-    <footer>
-        <div class="container_24">
-            <div class="grid_24">
 
-                <ul class="foot-menu">
-                    <li class="last3"><a class="active" href=@Url.Action("Index", "Home")>Inicio</a></li>
-                    <li><a href="@Url.Action("Productos","Productos")">Menú</a></li>
-                    <li><a href="@Url.Action("About","Nosotros")">Nosotros</a></li>
-                    <li><a href="@Url.Action("Contact","Contacto")">Contáctenos</a></li>
-                    <li><a href="@Url.Action("Canasta", "Carrito")">Carrito</a></li>
-                    <li><a href="@Url.Action("InicioSesion", "Login")">Ingresar</a></li>
-                </ul>
-                <div class="foot-page2">
-                    <img src="~/Styles/imagenes/LogoCoromotoNegro.png" alt="CoromotoAccess Logo" class="logo-img" style="max-width: 10%; height: auto;">
-                    &copy; 2024  |   <a>Privacy Policy</a>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <img src="~/Styles/imagenes/CoromotoLogo.png" alt="Coromoto Access" class="mb-3" style="height: 60px;">
+                    <p class="small">Tu solución integral en hospedaje y servicios turísticos.</p>
+                </div>
+
+                <div class="col-lg-4 footer-links">
+                    <h5 class="text-white mb-3">Enlaces Rápidos</h5>
+                    <a href="@Url.Action("About","Home")" class="d-block">Nosotros</a>
+                    <a href="@Url.Action("Contact","Home")" class="d-block">Contacto</a>
+                    <a href="@Url.Action("Privacy","Home")" class="d-block">Privacidad</a>
+                </div>
+
+                <div class="col-lg-4">
+                    <h5 class="text-white mb-3">Síguenos</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/maravillaspuravida/"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div>
-            <a href="@Url.Action("ChangeLanguage", "Home", new { lang = "es" })">🇪🇸 Español</a> |
-            <a href="@Url.Action("ChangeLanguage", "Home", new { lang = "en" })">🇬🇧 English</a> |
-            <a href="@Url.Action("ChangeLanguage", "Home", new { lang = "pt" })">🇧🇷 Português</a>
-        </div>
 
+            <div class="text-center mt-4 pt-3 border-top border-secondary">
+                <p class="small mb-0">&copy; 2025 Coromoto Access. Todos los derechos reservados.</p>
+            </div>
+        </div>
     </footer>
 
-    <script src="~/Styles/js/jquery.js"></script>
-    <script src="~/Styles/js/jquery-migrate-1.1.1.js"></script>
-    <script src="~/Styles/js/script.js"></script>
-    <script src="~/Styles/js/superfish.js"></script>
-    <script src="~/Styles/js/jquery.ui.totop.js"></script>
-    <script src="~/Styles/js/jquery.equalheights.js"></script>
-    <script src="~/Styles/js/jquery.mobilemenu.js"></script>
-    <script src="~/Styles/js/jquery.easing.1.3.js"></script>
-    <script src="~/Styles/js/camera.js"></script>
-    <script src="~/Styles/js/jquery.mobile.customized.min.js"></script>
-    <script src="~/Styles/js/jquery.carouFredSel-6.1.0-packed.js"></script>
-    <script src="~/Styles/js/jquery.touchSwipe.min.js"></script>
-    <script src="~/Styles/FuncionesJS/Layout.js"></script>
-    <script src="~/Scripts/CoromotoAccess/Habitacion.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

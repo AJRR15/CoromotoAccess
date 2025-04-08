@@ -60,6 +60,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -336,6 +337,7 @@
     <Content Include="Styles\imagenes\contbg2.gif" />
     <Content Include="Styles\imagenes\content-bg.gif" />
     <Content Include="Styles\imagenes\CoromotoLogo.png" />
+    <Content Include="Styles\imagenes\CoromotoSunset.png" />
     <Content Include="Styles\imagenes\divider2.png" />
     <Content Include="Styles\imagenes\divider3.gif" />
     <Content Include="Styles\imagenes\Divisor.gif" />
