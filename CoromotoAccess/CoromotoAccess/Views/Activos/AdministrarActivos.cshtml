@@ -1,11 +1,12 @@
 ﻿@model List<CoromotoAccess.Models.Activo>
 
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center">
         <h2>Administar Activos</h2>
         <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#activoModal" onclick="agregarActivo()">Agregar Activo</button>
-        </div>
+    </div>
 
     <br />
 
@@ -46,44 +47,48 @@
             </div>
         </div>
     </div>
-    
+    <br />
+
 
 
     @foreach (var habitacion in ViewBag.Habitaciones)
     {
-        <h3 class="p17 text-black font-weight-bold">@habitacion.Text</h3>
-        <table class="table table-bordered" style="border: 2px solid #000;">
-            <thead>
-                <tr>
-                    <th>IdHabitacion</th>
-                    <th>Nombre</th>
-                    <th>Modelo</th>
-                    <th>NumeroSerie</th>
-                    <th>Descripcion</th>
-                    <th>IdCategoria</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var activo in Model.Where(h => h.IdHabitacion.ToString() == habitacion.Value))
-                {
+        <div class="villa-container">
+            <h3 class="villa-title">@habitacion.Text</h3>
+            <table class="villa-table">
+                <thead>
                     <tr>
-                        <td>@activo.IdHabitacion</td>
-                        <td>@activo.Nombre</td>
-                        <td>@activo.Modelo</td>
-                        <td>@activo.NumeroSerie</td>
-                        <td>$@activo.Descripcion</td>
-                        <td>$@activo.IdCategoria</td>
-                        <td>
-                            <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarActivo", "Activos", new { id = activo.IdActivo })">Modificar</a>
-                            <form action="@Url.Action("EliminarActivo", "Activos")" method="post" style="display:inline;">
-                                <input type="hidden" name="IdActivo" value="@activo.IdActivo" />
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este activo?')">Eliminar</button>
-                            </form>
-                        </td>
+                        <th>IdHabitacion</th>
+                        <th>Nombre</th>
+                        <th>Modelo</th>
+                        <th>NumeroSerie</th>
+                        <th>Descripcion</th>
+                        <th>IdCategoria</th>
+                        <th>Acciones</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var activo in Model.Where(h => h.IdHabitacion.ToString() == habitacion.Value))
+                    {
+                        <tr>
+                            <td>@activo.IdHabitacion</td>
+                            <td>@activo.Nombre</td>
+                            <td>@activo.Modelo</td>
+                            <td>@activo.NumeroSerie</td>
+                            <td>@activo.Descripcion</td>
+                            <td>@activo.IdCategoria</td>
+                            <td>
+                                <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarActivo", "Activos", new { id = activo.IdActivo })">Modificar</a>
+                                <form action="@Url.Action("EliminarActivo", "Activos")" method="post" style="display:inline;">
+                                    <input type="hidden" name="IdActivo" value="@activo.IdActivo" />
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este activo?')">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
         <br />
     }
 </div>

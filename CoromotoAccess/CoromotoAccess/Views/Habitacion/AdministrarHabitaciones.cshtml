@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "AdministrarHabitaciones";
 }
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
 <section id="content" class="prod">
     <div class="container_24">
         <div class="wrapper">
@@ -29,38 +30,40 @@
                 <br />
                 @foreach (var villa in ViewBag.Villas)
                 {
-                    <h3 class="p17 text-black font-weight-bold">@villa.Text</h3>
-                    <table class="table table-bordered villa-table" style="border: 2px solid #000;">
-                        <thead>
-                            <tr>
-                                <th>Habitación</th>
-                                <th>Descripción</th>
-                                <th>Check-in</th>
-                                <th>Check-out</th>
-                                <th>Precio por noche</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var habitacion in Model.Where(h => h.IdVilla.ToString() == villa.Value))
-                            {
-                                <tr data-tipo-habitacion-id="@habitacion.IdTipoHabitacion">
-                                    <td>@habitacion.NombreHabitacion</td>
-                                    <td>@habitacion.Descripcion</td>
-                                    <td>@habitacion.CheckIn.ToString("hh:mm tt")</td>
-                                    <td>@habitacion.CheckOut.ToString("hh:mm tt")</td>
-                                    <td>$@habitacion.Precio.ToString("N2")</td>
-                                    <td>
-                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })">Modificar</a>
-                                        <form action="@Url.Action("EliminarHabitacion", "Habitacion")" method="post" style="display:inline;">
-                                            <input type="hidden" name="IdHabitacion" value="@habitacion.IdHabitacion" />
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta habitación?')">Eliminar</button>
-                                        </form>
-                                    </td>
+                    <div class="villa-container">
+                        <h3 class="villa-title">@villa.Text</h3>
+                        <table class="villa-table">
+                            <thead>
+                                <tr>
+                                    <th>Habitación</th>
+                                    <th>Descripción</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Precio por noche</th>
+                                    <th>Acciones</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var habitacion in Model.Where(h => h.IdVilla.ToString() == villa.Value))
+                                {
+                                    <tr data-tipo-habitacion-id="@habitacion.IdTipoHabitacion">
+                                        <td>@habitacion.NombreHabitacion</td>
+                                        <td>@habitacion.Descripcion</td>
+                                        <td>@habitacion.CheckIn.ToString("hh:mm tt")</td>
+                                        <td>@habitacion.CheckOut.ToString("hh:mm tt")</td>
+                                        <td>$@habitacion.Precio.ToString("N2")</td>
+                                        <td>
+                                            <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })">Modificar</a>
+                                            <form action="@Url.Action("EliminarHabitacion", "Habitacion")" method="post" style="display:inline;">
+                                                <input type="hidden" name="IdHabitacion" value="@habitacion.IdHabitacion" />
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta habitación?')">Eliminar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                     <br />
                 }
             </article>

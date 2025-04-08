@@ -5,6 +5,8 @@
     var habitaciones = ViewBag.Habitaciones as List<CoromotoAccess.Models.Habitacion> ?? new List<CoromotoAccess.Models.Habitacion>();
 }
 
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+
 <div class="container mt-5">
     <div class="row mb-3 align-items-center">
         <div class="col-md-6">
@@ -18,45 +20,48 @@
     <br />
     <h3 class="text-left mb-0">Reservas</h3>
     <br />
-    <table id="tablaReservas" class="table table-bordered" style="border: 2px solid #000;">
-        <thead>
-            <tr>
-                <th>IdReserva</th>
-                <th>Cliente</th>
-                <th>Teléfono</th>
-                <th>Habitacion</th>
-                <th>CheckIn</th>
-                <th>CheckOut</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var reserva in Model.Where(h => h.Estado))
-            {
-                var usuario = usuarios.FirstOrDefault(u => u.ConsecutivoCliente == reserva.IdUsuario);
-                var habitacion = habitaciones.FirstOrDefault(h => h.IdHabitacion == reserva.IdHabitacion);
-
+    <div class="villa-container">
+        <h3 class="villa-title">Reservas Confirmadas</h3>
+        <table id="tablaReservas" class="villa-table">
+            <thead>
                 <tr>
-                    <td>@reserva.IdReserva</td>
-                    <td class="cliente">@((usuario?.Nombre ?? "N/A") + " " + (usuario?.Apellido ?? ""))</td>
-                    <td>@(usuario?.Telefono ?? "N/A")</td>
-                    <td>@(habitacion?.NombreHabitacion ?? "N/A")</td>
-                    <td>@reserva.CheckIn.ToString("yyyy-MM-dd")</td>
-                    <td>@reserva.CheckOut.ToString("yyyy-MM-dd")</td>
-                    <td>@(reserva.Estado ? "Confirmado" : "Pendiente")</td>
-                    <td>
-                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarReserva", "Reserva", new { id = reserva.IdReserva })">Modificar</a>
-                        <form action="@Url.Action("CancelarReserva", "Reserva")" method="post" style="display:inline;">
-                            <input type="hidden" name="Id" value="@reserva.IdReserva" />
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas cancelar esta reserva?')">Cancelar</button>
-                        </form>
-                        <a class="btn btn-info btn-sm" href="@Url.Action("DetallesReserva", "Reserva", new { id = reserva.IdReserva })">Ver Detalles</a>
-                    </td>
+                    <th>IdReserva</th>
+                    <th>Cliente</th>
+                    <th>Teléfono</th>
+                    <th>Habitación</th>
+                    <th>CheckIn</th>
+                    <th>CheckOut</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var reserva in Model.Where(h => h.Estado))
+                {
+                    var usuario = usuarios.FirstOrDefault(u => u.ConsecutivoCliente == reserva.IdUsuario);
+                    var habitacion = habitaciones.FirstOrDefault(h => h.IdHabitacion == reserva.IdHabitacion);
+
+                    <tr>
+                        <td>@reserva.IdReserva</td>
+                        <td class="cliente">@((usuario?.Nombre ?? "N/A") + " " + (usuario?.Apellido ?? ""))</td>
+                        <td>@(usuario?.Telefono ?? "N/A")</td>
+                        <td>@(habitacion?.NombreHabitacion ?? "N/A")</td>
+                        <td>@reserva.CheckIn.ToString("yyyy-MM-dd")</td>
+                        <td>@reserva.CheckOut.ToString("yyyy-MM-dd")</td>
+                        <td>@(reserva.Estado ? "Confirmado" : "Pendiente")</td>
+                        <td>
+                            <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarReserva", "Reserva", new { id = reserva.IdReserva })">Modificar</a>
+                            <form action="@Url.Action("CancelarReserva", "Reserva")" method="post" style="display:inline;">
+                                <input type="hidden" name="Id" value="@reserva.IdReserva" />
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas cancelar esta reserva?')">Cancelar</button>
+                            </form>
+                            <a class="btn btn-info btn-sm" href="@Url.Action("DetallesReserva", "Reserva", new { id = reserva.IdReserva })">Ver Detalles</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
     <br />
 </div>
 

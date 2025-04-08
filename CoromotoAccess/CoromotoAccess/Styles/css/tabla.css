@@ -1,0 +1,56 @@
+.villa-container {
+	background: linear-gradient(to bottom right, #1a2333, #ADBAC0);
+	border-radius: 10px;
+	padding: 20px;
+	color: #fff;
+	margin-bottom: 30px;
+}
+
+.villa-title {
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	margin-bottom: 15px;
+}
+
+.villa-table {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: #fff;
+	border-radius: 10px;
+	overflow: hidden;
+	box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+	.villa-table thead {
+		background: #1a2333;
+	}
+
+	/* Texto blanco solo en los encabezados */
+	.villa-table th {
+		color: white;
+		padding: 12px 15px;
+		text-align: center;
+		border-bottom: 1px solid #ddd;
+	}
+
+	/* Texto negro solo en los datos */
+	.villa-table td {
+		color: black;
+		padding: 12px 15px;
+		text-align: center;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.villa-table tbody tr:nth-child(even) {
+		background-color: #f9f9f9;
+	}
+
+	.villa-table tbody tr:hover {
+		background-color: #e0e0e0;
+	}
+
+.btn-sm {
+	font-size: 0.75rem;
+	padding: 0.3rem 0.6rem;
+}

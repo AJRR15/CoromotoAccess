@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "ControlDeLimpieza";
 }
+
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-center">Control de Limpieza</h2>
@@ -14,7 +17,7 @@
         }
     </script>
 
-    
+
 
     <script>
     function descargarPDF() {
@@ -26,13 +29,13 @@
     }
     </script>
 
-    <div class="table-responsive">
-        <table class="table table-bordered">
+    <div class="villa-container">
+        <table class="villa-table">
             <thead>
                 <tr>
-                    <th colspan="4">Limpiezas</th>
+                    <th colspan="4" class="text-left">Limpiezas</th>
                     <th class="text-right">
-                        <button class="btn btn-dark" onclick="descargarPDF()">Generar Reporte</button>
+                        <button class="btn btn-light" onclick="descargarPDF()">Generar Reporte</button>
                     </th>
                 </tr>
                 <tr>
@@ -77,9 +80,7 @@
                     }
                 }
             </tbody>
-
         </table>
-
     </div>
 </div>
 
