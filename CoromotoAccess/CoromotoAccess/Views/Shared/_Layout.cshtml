@@ -220,7 +220,7 @@
                                     <i class="fas fa-bed me-2"></i>Catálogo Habitaciones
                                 </a>
                             </li>
-                            @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador" || Session["NombreRol"].ToString() == "Empleado")
+                            @if (Session["NombreRol"] != null && (Session["NombreRol"].ToString() == "Administrador" || Session["NombreRol"].ToString() == "Empleado"))
                             {
 
                                 <li>
