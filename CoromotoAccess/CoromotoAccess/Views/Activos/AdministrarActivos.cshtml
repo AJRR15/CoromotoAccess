@@ -16,7 +16,7 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" id="buscarCategoria" placeholder="Filtrar por categoría">
+                @Html.DropDownList("FiltrarCategoria", ViewBag.Categorias as SelectList, "Todas las categorías", new { @class = "form-control", id = "buscarCategoria" })
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" onclick="filtrarCategoria()">Filtrar</button>
                 </div>
@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-6">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" id="buscarHabitacion" placeholder="Filtrar por habitación">
+                @Html.DropDownList("FiltrarHabitacion", ViewBag.Habitaciones as SelectList, "Todas las habitaciones", new { @class = "form-control", id = "buscarHabitacion" })
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" onclick="filtrarHabitacion()">Filtrar</button>
                 </div>
@@ -43,9 +43,9 @@
         </div>
         <div class="col-md-6">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" id="buscarHabitacion" placeholder="Filtrar por Numero de Serie">
+                <input type="text" class="form-control" id="buscarNumeroSerie" placeholder="Filtrar por Número de Serie">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" onclick="filtrarHabitacion()">Filtrar</button>
+                    <button class="btn btn-outline-secondary" type="button" onclick="filtrarNumeroSerie()">Filtrar</button>
                 </div>
             </div>
         </div>
@@ -61,12 +61,11 @@
             <table class="villa-table">
                 <thead>
                     <tr>
-                        <th>IdHabitacion</th>
                         <th>Nombre</th>
                         <th>Modelo</th>
                         <th>NumeroSerie</th>
                         <th>Descripcion</th>
-                        <th>IdCategoria</th>
+                        <th>Categoria</th>
                         @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
                         {
                             <th>Acciones</th>
@@ -76,13 +75,12 @@
                 <tbody>
                     @foreach (var activo in Model.Where(h => h.IdHabitacion.ToString() == habitacion.Value))
                     {
-                        <tr>
-                            <td>@activo.IdHabitacion</td>
+                        <tr data-categoria-id="@activo.IdCategoria" data-habitacion-id="@activo.IdHabitacion" data-numero-serie="@activo.NumeroSerie">
                             <td>@activo.Nombre</td>
                             <td>@activo.Modelo</td>
                             <td>@activo.NumeroSerie</td>
                             <td>@activo.Descripcion</td>
-                            <td>@activo.IdCategoria</td>
+                            <td>@activo.CategoriaNombre</td>
                             @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
                             {
                                 <td>
@@ -93,11 +91,11 @@
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este activo?')">Eliminar</button>
                                     </form>
 
-                                    
+
 
                                 </td>
                             }
-                            </tr>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -158,3 +156,59 @@
 
 
 <script src="~/Scripts/CoromotoAccess/Activos.js"></script>
+<script>
+    function filtrarCategoria() {
+        var categoriaId = document.getElementById('buscarCategoria').value;
+        var tables = document.getElementsByClassName('villa-table');
+
+        for (var i = 0; i < tables.length; i++) {
+            var rows = tables[i].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            for (var j = 0; j < rows.length; j++) {
+                var row = rows[j];
+                var rowCategoriaId = row.getAttribute('data-categoria-id');
+                if (categoriaId === "" || rowCategoriaId === categoriaId) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+    }
+
+    function filtrarHabitacion() {
+        var habitacionId = document.getElementById('buscarHabitacion').value;
+        var tables = document.getElementsByClassName('villa-table');
+
+        for (var i = 0; i < tables.length; i++) {
+            var rows = tables[i].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            for (var j = 0; j < rows.length; j++) {
+                var row = rows[j];
+                var rowHabitacionId = row.getAttribute('data-habitacion-id');
+                if (habitacionId === "" || rowHabitacionId === habitacionId) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+    }
+
+    function filtrarNumeroSerie() {
+        var textoBusqueda = document.getElementById('buscarNumeroSerie').value.toLowerCase();
+        var tables = document.getElementsByClassName('villa-table');
+
+        for (var i = 0; i < tables.length; i++) {
+            var rows = tables[i].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            for (var j = 0; j < rows.length; j++) {
+                var row = rows[j];
+                var numeroSerie = row.getAttribute('data-numero-serie').toLowerCase();
+
+                if (numeroSerie.includes(textoBusqueda)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+    }
+</script>

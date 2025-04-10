@@ -18,7 +18,10 @@ namespace CoromotoAccess.Controllers
         {
             using (var context = new BDCoromotoEntities())
             {
-                var datos = context.tActivos.ToList();
+                var datos = context.tActivos.Join(context.tCategorias,
+                a => a.IdCategoria,
+                c => c.IdCategoria,
+                (a, c) => new { Activo = a, CategoriaNombre = c.Nombre }).ToList();
 
                 var listaActivos = new List<Activo>();
 
@@ -26,13 +29,13 @@ namespace CoromotoAccess.Controllers
                 {
                     listaActivos.Add(new Activo
                     {
-                        IdActivo = item.IdActivo,
-                        IdHabitacion = item.IdHabitacion,
-                        Nombre = item.Nombre,
-                        Modelo = item.Modelo,
-                        NumeroSerie = item.NumeroSerie,
-                        Descripcion = item.Descripcion,
-                        IdCategoria = item.IdCategoria,
+                        IdHabitacion = item.Activo.IdHabitacion,
+                        Nombre = item.Activo.Nombre,
+                        Modelo = item.Activo.Modelo,
+                        NumeroSerie = item.Activo.NumeroSerie,
+                        Descripcion = item.Activo.Descripcion,
+                        IdCategoria =item.Activo.IdCategoria,
+                        CategoriaNombre = item.CategoriaNombre,
                     });
                 }
                 ViewBag.Categorias = new SelectList(context.tCategorias.ToList(), "IdCategoria", "Nombre");

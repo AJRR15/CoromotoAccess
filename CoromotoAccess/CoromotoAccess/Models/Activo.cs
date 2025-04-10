@@ -13,7 +13,9 @@ namespace CoromotoAccess.Models
         public string Modelo { get; set; }
         public string NumeroSerie { get; set; }
         public string Descripcion { get; set; }
-        public int IdCategoria { get; set; } 
+        public int IdCategoria { get; set; }
+
+        public string CategoriaNombre { get; set; }
     }
 
 }
