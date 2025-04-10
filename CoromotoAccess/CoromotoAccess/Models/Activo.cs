@@ -16,6 +16,9 @@ namespace CoromotoAccess.Models
         public int IdCategoria { get; set; }
 
         public string CategoriaNombre { get; set; }
+
+        public int IdVilla { get; set; } // Nueva propiedad
+        public string VillaNombre { get; set; }
     }
 
 }

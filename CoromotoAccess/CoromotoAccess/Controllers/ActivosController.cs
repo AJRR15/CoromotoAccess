@@ -18,10 +18,20 @@ namespace CoromotoAccess.Controllers
         {
             using (var context = new BDCoromotoEntities())
             {
-                var datos = context.tActivos.Join(context.tCategorias,
-                a => a.IdCategoria,
-                c => c.IdCategoria,
-                (a, c) => new { Activo = a, CategoriaNombre = c.Nombre }).ToList();
+                var datos = context.tActivos
+                    .Join(context.tHabitaciones,
+                        a => a.IdHabitacion,
+                        h => h.IdHabitacion,
+                        (a, h) => new { Activo = a, Habitacion = h })
+                    .Join(context.tCategorias,
+                        ah => ah.Activo.IdCategoria,
+                        c => c.IdCategoria,
+                        (ah, c) => new { ah.Activo, ah.Habitacion, CategoriaNombre = c.Nombre })
+                    .Join(context.tVillas,
+                        ahc => ahc.Habitacion.IdVilla,
+                        v => v.IdVilla,
+                        (ahc, v) => new { ahc.Activo, ahc.Habitacion, ahc.CategoriaNombre, Villa = v })
+                    .ToList();
 
                 var listaActivos = new List<Activo>();
 
@@ -36,9 +46,12 @@ namespace CoromotoAccess.Controllers
                         Descripcion = item.Activo.Descripcion,
                         IdCategoria =item.Activo.IdCategoria,
                         CategoriaNombre = item.CategoriaNombre,
+                        IdVilla = item.Villa.IdVilla,
+                        VillaNombre = item.Villa.NombreHabitacion
                     });
                 }
                 ViewBag.Categorias = new SelectList(context.tCategorias.ToList(), "IdCategoria", "Nombre");
+                ViewBag.Villas = new SelectList(context.tVillas.ToList(), "IdVilla", "NombreHabitacion");
                 ViewBag.Habitaciones = new SelectList(context.tHabitaciones.ToList(), "IdHabitacion", "NombreHabitacion");
                 return View(listaActivos);
             }

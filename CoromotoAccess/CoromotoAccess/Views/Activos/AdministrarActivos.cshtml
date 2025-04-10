@@ -35,7 +35,7 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" id="buscarVilla" placeholder="Filtrar por Villa">
+                @Html.DropDownList("FiltrarVilla", ViewBag.Villas as SelectList, "Todas las villas", new { @class = "form-control", id = "buscarVilla" })
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" onclick="filtrarVilla()">Filtrar</button>
                 </div>
@@ -75,7 +75,7 @@
                 <tbody>
                     @foreach (var activo in Model.Where(h => h.IdHabitacion.ToString() == habitacion.Value))
                     {
-                        <tr data-categoria-id="@activo.IdCategoria" data-habitacion-id="@activo.IdHabitacion" data-numero-serie="@activo.NumeroSerie">
+                        <tr data-categoria-id="@activo.IdCategoria" data-habitacion-id="@activo.IdHabitacion" data-numero-serie="@activo.NumeroSerie" data-villa-id="@activo.IdVilla">
                             <td>@activo.Nombre</td>
                             <td>@activo.Modelo</td>
                             <td>@activo.NumeroSerie</td>
@@ -204,6 +204,24 @@
                 var numeroSerie = row.getAttribute('data-numero-serie').toLowerCase();
 
                 if (numeroSerie.includes(textoBusqueda)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+    }
+
+    function filtrarVilla() {
+        var villaId = document.getElementById('buscarVilla').value;
+        var tables = document.getElementsByClassName('villa-table');
+
+        for (var i = 0; i < tables.length; i++) {
+            var rows = tables[i].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+            for (var j = 0; j < rows.length; j++) {
+                var row = rows[j];
+                var rowVillaId = row.getAttribute('data-villa-id');
+                if (villaId === "" || rowVillaId === villaId) {
                     row.style.display = "";
                 } else {
                     row.style.display = "none";
