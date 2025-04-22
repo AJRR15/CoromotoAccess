@@ -38,23 +38,31 @@
                             <td>@vacacion.FechaInicio.ToString("dd/MM/yyyy")</td>
                             <td>@vacacion.FechaFin.ToString("dd/MM/yyyy")</td>
                             <td>@vacacion.Estado</td>
-                            <td>
-                                @if (vacacion.Estado == 0)
-                                {
-                                    <div class="btn-group" role="group">
-                                        @using (Html.BeginForm("AprobarVacaciones", "RecursosHumanos", FormMethod.Post))
-                                        {
-                                            @Html.Hidden("id", vacacion.IdVacacion)
-                                            <button type="submit" class="btn btn-success btn-sm">Aprobar</button>
-                                        }
-                                        @using (Html.BeginForm("RechazarVacaciones", "RecursosHumanos", FormMethod.Post))
-                                        {
-                                            @Html.Hidden("id", vacacion.IdVacacion)
-                                            <button type="submit" class="btn btn-danger btn-sm">Rechazar</button>
-                                        }
-                                    </div>
-                                }
-                            </td>
+                            @if (vacacion.Estado == 0)
+                            {
+                                <td style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                    @using (Html.BeginForm("AprobarVacaciones", "RecursosHumanos", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("id", vacacion.IdVacacion)
+                                        <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('¿Estás seguro de que deseas aprobar estas vacaciones?')">
+                                            Aprobar
+                                        </button>
+                                    }
+
+                                    @using (Html.BeginForm("RechazarVacaciones", "RecursosHumanos", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("id", vacacion.IdVacacion)
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas rechazar estas vacaciones?')">
+                                            Rechazar
+                                        </button>
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
                         </tr>
                     }
                 </tbody>
