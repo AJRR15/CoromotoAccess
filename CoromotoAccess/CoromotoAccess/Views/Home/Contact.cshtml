@@ -2,45 +2,162 @@
     ViewBag.Title = "Contact";
 }
 
-<section id="contact-us" class="p-6">
-    <div class="container p-7">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <h2 class="mb-4">Contáctenos</h2>
-                <p class="lead">Estamos aquí para ayudarte. Si tienes alguna pregunta o necesitas más información, no dudes en contactarnos.</p>
-            </div>
-            <div class="row mt-5">
-                <div class="col-md-10 offset-md-1">
-                    <form>
-                        <div class="form-group">
-                            <label for="phone"><strong>Número de Teléfono</strong></label>
-                            <br />
-                            <br />
-                            <input type="tel" class="form-control" id="phone" placeholder="Ingresa tu número de teléfono">
-                            <br />
-                            <br />
-                        </div>
-                        <div class="form-group">
-                            <label for="message"><strong>Mensaje</strong></label>
-                            <br />
-                            <br />
-                            <textarea class="form-control" id="message" rows="5" placeholder="Escribe tu mensaje aquí"></textarea>
-                            <br />
-                            <b></b>
-                        </div>
-                        <div style="text-align: right;">
-                            <button type="submit" class="btn btn-outline-dark btn-lg">Enviar</button>
-                        </div>
-                    </form>
-                </div>
+<section id="contact-us" class="py-8">
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="row justify-content-center mb-8">
+            <div class="col-lg-8 text-center">
+                <span class="badge bg-light text-dark mb-3">CONTACTO</span>
+                <h1 class="display-5 fw-bold mb-4">¿Cómo podemos <span class="text-primary">ayudarte?</span></h1>
+                <p class="lead text-muted">Estamos aquí para responder todas tus preguntas y hacer que tu experiencia con CoromotoAccess sea inolvidable.</p>
             </div>
         </div>
-        <div class="row mt-5">
-            <div class="col-md-12 text-center">
-                <h3>Síguenos en Instagram</h3>
-                <p>Puedes encontrarnos en Instagram para más actualizaciones y fotos:</p>
-                <a href="https://www.instagram.com/maravillaspuravida?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="btn btn-secondary">Instagram</a>
+
+        <div class="row g-4">
+            <!-- Formulario de contacto (blanco) -->
+            <div class="col-lg-6">
+                <div class="card border-light shadow-sm h-100">
+                    <div class="card-body p-5">
+                        <h3 class="fw-bold mb-5">Envíanos un mensaje</h3>
+
+                        <form>
+                            <div class="mb-4">
+                                <label for="name" class="form-label fw-bold small text-uppercase text-muted">Nombre completo</label>
+                                <input type="text" class="form-control py-3" id="name" placeholder="Ingresa tu nombre">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="email" class="form-label fw-bold small text-uppercase text-muted">Correo electrónico</label>
+                                <input type="email" class="form-control py-3" id="email" placeholder="Ingresa tu email">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="phone" class="form-label fw-bold small text-uppercase text-muted">Teléfono</label>
+                                <input type="tel" class="form-control py-3" id="phone" placeholder="Ingresa tu número de teléfono">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="message" class="form-label fw-bold small text-uppercase text-muted">Mensaje</label>
+                                <textarea class="form-control py-3" id="message" rows="4" placeholder="¿En qué podemos ayudarte?"></textarea>
+                            </div>
+
+                            <div class="d-grid pt-2">
+                                <button type="submit" class="btn btn-primary btn-lg py-3">
+                                    <i class="fas fa-paper-plane me-2"></i> Enviar mensaje
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información de contacto (azul oscuro) -->
+            <div class="col-lg-6">
+                <div class="card border-0 bg-primary text-white h-100">
+                    <div class="card-body p-5">
+                        <h3 class="fw-bold mb-5">Nuestra información</h3>
+
+                        <div class="d-flex mb-4">
+                            <div class="me-4 text-white">
+                                <i class="fas fa-map-marker-alt fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-2">Ubicación</h5>
+                                <p class="mb-0 opacity-75">Ciudad Colón, San José, Costa Rica</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            <div class="me-4 text-white">
+                                <i class="fas fa-phone-alt fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-2">Teléfono</h5>
+                                <p class="mb-0 opacity-75">+506 1234 5678</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            <div class="me-4 text-white">
+                                <i class="fas fa-envelope fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-2">Email</h5>
+                                <p class="mb-0 opacity-75">info@coromotoaccess.com</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            <div class="me-4 text-white">
+                                <i class="fas fa-clock fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-2">Horario de atención</h5>
+                                <p class="mb-0 opacity-75">Lunes a Viernes: 8:00 am - 8:00 pm<br>Sábados: 9:00 am - 2:00 pm</p>
+                            </div>
+                        </div>
+
+                        <hr class="my-5 opacity-25">
+
+                        <div>
+                            <h5 class="fw-bold mb-3">Síguenos</h5>
+                            <div class="d-flex gap-3">
+                                <a href="https://www.instagram.com/maravillaspuravida" target="_blank" class="btn btn-outline-light rounded-circle btn-icon">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-light rounded-circle btn-icon">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-light rounded-circle btn-icon">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+    :root {
+        --primary: #2c3e50;
+        --primary-soft: rgba(44, 62, 80, 0.1);
+    }
+
+    .bg-primary {
+        background-color: var(--primary) !important;
+    }
+
+    .text-primary {
+        color: var(--primary) !important;
+    }
+
+    .btn-icon {
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        border: 1px solid #e0e0e0;
+    }
+
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .border-light {
+        border-color: rgba(0,0,0,0.1) !important;
+    }
+
+    body {
+        background-color: #f8f9fa;
+    }
+</style>

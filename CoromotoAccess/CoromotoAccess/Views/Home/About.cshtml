@@ -2,38 +2,131 @@
     ViewBag.Title = "About";
 }
 
-<section id="about-us" class="p-6">
-    <div class="container p-7">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <h2 class="mb-4">Sobre Nosotros</h2>
-                <p class="lead">CoromotoAccess, desde su apertura en 2020, se ha dedicado a ofrecer experiencias únicas de hospedaje en Ciudad Colón, Costa Rica. Contamos con dos villas excepcionales: Villa Coromoto y Villa Vallita, diseñadas para proporcionar el máximo confort y lujo a nuestros huéspedes.</p>
+<section id="about-us" class="py-8 position-relative overflow-hidden">
+    <!-- Fondo decorativo -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%); z-index: -1;"></div>
+
+    <div class="container">
+        <!-- Encabezado hero -->
+        <div class="row justify-content-center mb-8">
+            <div class="col-lg-10 text-center">
+                <span class="badge bg-primary-soft text-primary mb-3">Desde 2020</span>
+                <h1 class="display-4 fw-bold mb-4">Sobre <span class="text-primary">CoromotoAccess</span></h1>
+                <div class="divider mx-auto bg-primary mb-4"></div>
+                <p class="lead text-muted">Ofrecemos experiencias únicas de hospedaje en el corazón de Ciudad Colón, Costa Rica. Descubre el equilibrio perfecto entre lujo y naturaleza.</p>
             </div>
         </div>
-        <div class="row mt-5">
-            <div class="col-md-6">
-                <h3>Nuestra Historia</h3>
-                <p>Desde nuestra apertura en 2020, CoromotoAccess ha crecido rápidamente, convirtiéndose en un referente de calidad y exclusividad en el sector de hospedaje. Ubicadas en el hermoso entorno de Ciudad Colón, nuestras villas ofrecen una combinación perfecta de lujo y naturaleza.</p>
+
+        <!-- Sección historia + villas -->
+        <div class="row align-items-stretch g-6 mb-8">
+            <!-- Cambiado a align-items-stretch -->
+            <div class="col-lg-6 d-flex">
+                <!-- Añadido d-flex -->
+                <div class="card border-0 shadow-sm w-100">
+                    <!-- Quitado h-100 y añadido w-100 -->
+                    <div class="card-body p-5">
+                        <div class="icon-shape bg-primary-soft text-primary rounded-circle mb-4">
+                            <i class="fas fa-history fs-3"></i>
+                        </div>
+                        <h3 class="fw-bold mb-4">Nuestra Historia</h3>
+                        <p class="text-muted mb-0">Fundada en 2020, CoromotoAccess nació con la visión de crear refugios de lujo integrados armoniosamente con la naturaleza. En solo tres años, nos hemos convertido en referente de exclusividad y calidad en el sector hotelero de Costa Rica, manteniendo siempre nuestro compromiso con la excelencia y la autenticidad.</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h3>Nuestras Villas</h3>
-                <ul>
-                    <li><strong>Villa Coromoto:</strong> Un refugio de paz y tranquilidad, ideal para quienes buscan desconectar y relajarse en un entorno natural.</li>
-                    <li><strong>Villa Vallita:</strong> Una villa moderna y elegante, perfecta para aquellos que desean disfrutar de todas las comodidades y el lujo en un solo lugar.</li>
-                </ul>
+            <div class="col-lg-6 d-flex">
+                <!-- Añadido d-flex -->
+                <div class="card border-0 shadow-sm w-100">
+                    <!-- Quitado h-100 y añadido w-100 -->
+                    <div class="card-body p-5">
+                        <div class="icon-shape bg-primary-soft text-primary rounded-circle mb-4">
+                            <i class="fas fa-home fs-3"></i>
+                        </div>
+                        <h3 class="fw-bold mb-4">Nuestras Villas</h3>
+                        <div class="d-flex mb-3">
+                            <div class="me-4">
+                                <span class="icon-xs bg-primary text-white rounded-circle"><i class="fas fa-check"></i></span>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">Villa Coromoto</h5>
+                                <p class="text-muted mb-0">Refugio de paz con diseño bioclimático, integrado perfectamente en el entorno natural para una experiencia de desconexión total.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="me-4">
+                                <span class="icon-xs bg-primary text-white rounded-circle"><i class="fas fa-check"></i></span>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-1">Villa Vallita</h5>
+                                <p class="text-muted mb-0">Elegante villa contemporánea con amenities de lujo y tecnología inteligente para los huéspedes más exigentes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row mt-5">
-            <div class="col-md-12 text-center">
-                <h3>Ubicación</h3>
-                <p>Nuestras villas están ubicadas en Ciudad Colón, Costa Rica, un lugar conocido por su belleza natural y su ambiente tranquilo. Es el destino perfecto para quienes buscan una escapada relajante y rejuvenecedora.</p>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-md-12 text-center">
-                <h3>Conoce a Nuestro Equipo</h3>
-                <p>En CoromotoAccess, estamos orgullosos de contar con un equipo de profesionales dedicados y apasionados por ofrecer el mejor servicio a nuestros huéspedes. Cada miembro de nuestro equipo trabaja con esmero para garantizar que tu estancia sea inolvidable.</p>
+        <br /><br />
+        <!-- Sección ubicación -->
+        <div class="row justify-content-center mb-8">
+            <div class="col-lg-8 text-center">
+                <div class="card border-0 bg-primary-soft">
+                    <div class="card-body p-5">
+                        <div class="icon-shape bg-primary text-white rounded-circle mb-4 mx-auto">
+                            <i class="fas fa-map-marked-alt fs-3"></i>
+                        </div>
+                        <h3 class="fw-bold mb-4">Ubicación Privilegiada</h3>
+                        <p class="text-muted mb-4">Situadas en Ciudad Colón, nuestras villas disfrutan de un microclima excepcional y vistas panorámicas al Valle Central. Un enclave estratégico que combina la tranquilidad de la montaña con accesibilidad a los principales atractivos de Costa Rica.</p>
+                        <a href="#" class="btn btn-primary px-4">Ver en mapa</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+    :root {
+        --primary: #2c3e50;
+        --primary-soft: rgba(44, 62, 80, 0.1);
+    }
+
+    .bg-primary {
+        background-color: var(--primary) !important;
+    }
+
+    .bg-primary-soft {
+        background-color: var(--primary-soft) !important;
+    }
+
+    .text-primary {
+        color: var(--primary) !important;
+    }
+
+    .divider {
+        width: 80px;
+        height: 3px;
+    }
+
+    .icon-shape {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+    }
+
+    .icon-xs {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+    }
+
+    section {
+        background-color: #f8f9fa;
+    }
+
+    .avatar img {
+        object-fit: cover;
+    }
+</style>
