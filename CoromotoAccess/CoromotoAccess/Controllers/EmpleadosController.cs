@@ -103,6 +103,7 @@ namespace CoromotoAccess.Controllers
                     empleado.CorreoElectronico = model.CorreoElectronico;
                     empleado.Telefono = model.Telefono;
                     empleado.ConsecutivoRol = model.IdRol;
+                    empleado.Contrasenna = model.Contrasenna;
                     empleado.IdVilla = model.IdVilla;
                     empleado.IdTurno = model.IdTurno;
 
@@ -155,7 +156,7 @@ namespace CoromotoAccess.Controllers
                     CorreoElectronico = model.CorreoElectronico,
                     Telefono = model.Telefono,
                     FotoPerfil = "default.jpg",
-                    Contrasenna = "Temp123",
+                    Contrasenna = model.Contrasenna,
                     ConsecutivoRol = model.IdRol,
                     IdVilla = model.IdVilla,
                     IdTurno = model.IdTurno,
