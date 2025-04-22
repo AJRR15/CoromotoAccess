@@ -26,9 +26,9 @@
             <div class="col-md-4">
                 <div class="card h-100 border-0 shadow-sm overflow-hidden hover-scale">
                     <div class="position-relative">
-                        <img src="~/Styles/imagenes/habitacionVilla.jpg" class="card-img-top" alt="Habitación Villa">
+                        <img src="~/Styles/imagenes/habitacionVilla.jpg" class="card-img-top" alt="Habitación Villa" style="height: 200px; object-fit: cover;">
                         <div class="card-img-overlay d-flex flex-column p-0">
-                            <div class="feature-label bg-primary text-white p-3">
+                            <div class="feature-label bg-primary text-white p-3" style="min-height: 60px;">
                                 <h3 class="h5 mb-0">Comodas Habitaciones</h3>
                             </div>
                         </div>
@@ -46,9 +46,9 @@
             <div class="col-md-4">
                 <div class="card h-100 border-0 shadow-sm overflow-hidden hover-scale">
                     <div class="position-relative">
-                        <img src="~/Styles/imagenes/AfuerasVilla.jpg" class="card-img-top" alt="Afueras de la Villa">
+                        <img src="~/Styles/imagenes/AfuerasVilla.jpg" class="card-img-top" alt="Afueras de la Villa" style="height: 200px; object-fit: cover;">
                         <div class="card-img-overlay d-flex flex-column p-0">
-                            <div class="feature-label bg-primary text-white p-3">
+                            <div class="feature-label bg-primary text-white p-3" style="min-height: 60px;">
                                 <h3 class="h5 mb-0">Moderno y Elegante</h3>
                             </div>
                         </div>
@@ -66,9 +66,9 @@
             <div class="col-md-4">
                 <div class="card h-100 border-0 shadow-sm overflow-hidden hover-scale">
                     <div class="position-relative">
-                        <img src="~/Styles/imagenes/paisaje.jpg" class="card-img-top" alt="Paisajes">
+                        <img src="~/Styles/imagenes/paisaje.jpg" class="card-img-top" alt="Paisajes" style="height: 200px; object-fit: cover;">
                         <div class="card-img-overlay d-flex flex-column p-0">
-                            <div class="feature-label bg-primary text-white p-3">
+                            <div class="feature-label bg-primary text-white p-3" style="min-height: 60px;">
                                 <h3 class="h5 mb-0">Hermosos Paisajes</h3>
                             </div>
                         </div>
@@ -224,6 +224,38 @@
 
 <!-- CSS adicional para esta página -->
 <style>
+    /* Estilos para mantener la apariencia original */
+    .hover-scale {
+        transition: transform 0.3s ease;
+    }
+
+        .hover-scale:hover {
+            transform: scale(1.03);
+        }
+
+    .feature-label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .btn-outline-primary {
+        border-color: #2c3e50;
+        color: #2c3e50;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #2c3e50;
+            color: white;
+        }
     /* Hero Section */
     .hero-section {
         position: relative;
