@@ -123,9 +123,8 @@
                             <label class="control-label col-md-4" for="Estado">Estado:</label>
                             <div class="col-md-8">
                                 <select class="form-control" name="Estado" required>
-                                    <option value="Disponible">Disponible</option>
-                                    <option value="Ocupada">Ocupada</option>
-                                    <option value="Mantenimiento">Mantenimiento</option>
+                                    <option value="True">Disponible</option>
+                                    <option value="False">Ocupada</option>
                                 </select>
                             </div>
                         </div>
@@ -176,4 +175,9 @@
                 }
             }
         }
+        document.querySelector('select[name="Estado"]').addEventListener('change', function () {
+            let estado = this.value === "True";
+            console.log("Estado como booleano:", estado);
+        });
+
     </script>

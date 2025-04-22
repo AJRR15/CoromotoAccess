@@ -1,41 +1,54 @@
 ﻿@model List<CoromotoAccess.Models.Habitacion>
 @{
-    ViewBag.Title = "CatalogoHabitaciones";
+    ViewBag.Title = "Catálogo de Habitaciones";
 }
 
-<section id="content" class="prod">
-    <div class="container_24">
-        <div class="wrapper">
-            <article class="grid_24">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h2 class="p17 text-black font-weight-bold mb-0">Nuestras Habitaciones</h2>
-                    @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
-                    {
-
-                        <a class="btn btn-outline-dark ml-3" href="@Url.Action("AdministrarHabitaciones", "Habitacion")">+ Administrar Habitaciones</a>
-                    }
-                    </div>
-                <br />
-                <!-- Filtros -->
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
-                            <select class="form-control" id="buscarHabitacion" onchange="filtrarHabitacion()">
-                                <option value="">Todos los tipos</option>
-                                @foreach (var tipo in ViewBag.TiposHabitacion)
-                                {
-                                    <option value="@tipo.Value">@tipo.Text</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <!-- Mostrar habitaciones por villa -->
-                @foreach (var villa in ViewBag.Villas)
+<section id="rooms-catalog" class="py-8 bg-light">
+    <div class="container">
+        <!-- Header con título y botón de administración -->
+        <div class="row align-items-center mb-6">
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold mb-3">Nuestras <span class="text-primary">Habitaciones</span></h1>
+                <p class="lead text-muted">Descubre el confort y elegancia de nuestras exclusivas habitaciones</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
                 {
-                    <h3 class="p17 text-black font-weight-bold">@villa.NombreHabitacion</h3>
-                    <div class="row">
+                    <a href="@Url.Action("AdministrarHabitaciones", "Habitacion")" class="btn btn-primary">
+                        <i class="fas fa-cog me-2"></i>Administrar
+                    </a>
+                }
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <select class="form-control" id="buscarHabitacion" onchange="filtrarHabitacion()">
+                        <option value="">Todos los tipos</option>
+                        @foreach (var tipo in ViewBag.TiposHabitacion)
+                        {
+                            <option value="@tipo.Value">@tipo.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catálogo de habitaciones agrupadas por villa -->
+        <div class="row">
+            @foreach (var villa in ViewBag.Villas)
+            {
+                <div class="col-12 mb-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <h2 class="fw-bold mb-0 me-3">@villa.NombreHabitacion</h2>
+                        <span class="badge bg-primary-soft text-primary">
+                            @Model.Count(h => h.IdVilla == villa.IdVilla) habitaciones
+                        </span>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 habitaciones-container">
                         @{
                             var habitacionesVilla = Model.Where(h => h.IdVilla == villa.IdVilla).ToList();
                         }
@@ -43,56 +56,114 @@
                         {
                             foreach (var habitacion in habitacionesVilla)
                             {
-                                <div class="col-md-4 mb-4 habitacion-card" data-tipo-habitacion-id="@habitacion.IdTipoHabitacion">
-                                    <a href="@Url.Action("DatosHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })" class="text-decoration-none">
-                                        <div class="card h-100 text-center border-0 shadow-sm" style="background-color: #f8f9fa;">
-                                            <div class="card-body">
-                                                <figure class="page3-img1 img-bot">
-                                                    <img src="~/Styles/imagenes/AfuerasVilla.jpg"
-                                                         alt="@habitacion.NombreHabitacion"
-                                                         class="img-fluid rounded"
-                                                         style="width:250px; height:225px; object-fit: cover; margin: auto;" />
-                                                </figure>
-                                                <h5 class="card-title text-dark font-weight-bold">@habitacion.NombreHabitacion</h5>
-                                                <p class="card-text text-body">@habitacion.Descripcion</p>
-                                                <span class="text-dark font-weight-bold">Check-in: @habitacion.CheckIn.ToString("hh:mm tt")</span>
-                                                <br />
-                                                <span class="text-dark font-weight-bold">Check-out: @habitacion.CheckOut.ToString("hh:mm tt")</span>
-                                                <br />
-                                                <span class="text-dark font-weight-bold">$@habitacion.Precio.ToString("N2") por noche</span>
+                                <div class="col habitacion-card" data-tipo-habitacion-id="@habitacion.IdTipoHabitacion">
+                                    <div class="card border-0 shadow-sm h-100 overflow-hidden transition-all hover-shadow">
+                                        <div class="position-relative">
+                                            <img src="~/Styles/imagenes/AfuerasVilla.jpg"
+                                                 class="card-img-top img-fluid"
+                                                 alt="@habitacion.NombreHabitacion"
+                                                 style="height: 250px; object-fit: cover;">
+                                            <div class="position-absolute top-0 end-0 m-3">
+                                                <span class="badge bg-primary">$@habitacion.Precio.ToString("N2")/noche</span>
                                             </div>
+                                            @if (!habitacion.Estado)
+                                            {
+                                                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style="background: rgba(0,0,0,0.5);">
+                                                    <span class="badge bg-danger py-2 px-3">NO DISPONIBLE</span>
+                                                </div>
+                                            }
                                         </div>
-                                    </a>
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-2">@habitacion.NombreHabitacion</h5>
+                                            <p class="card-text text-muted small mb-3">@habitacion.Descripcion</p>
+
+                                            <ul class="list-unstyled small text-muted mb-4">
+                                                <li class="mb-1">
+                                                    <i class="fas fa-clock text-primary me-2"></i>
+                                                    Check-in: @habitacion.CheckIn.ToString("hh:mm tt")
+                                                </li>
+                                                <li>
+                                                    <i class="fas fa-clock text-primary me-2"></i>
+                                                    Check-out: @habitacion.CheckOut.ToString("hh:mm tt")
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="card-footer bg-transparent border-0 pt-0">
+                                            <a href="@Url.Action("DatosHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })"
+                                               class="btn btn-primary w-100 py-3 @(!habitacion.Estado ? "disabled" : "")">
+                                                <i class="fas fa-calendar-check me-2"></i>
+                                                @(habitacion.Estado ? "Reservar ahora" : "No disponible")
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             }
                         }
                         else
                         {
-                            <div class="col-md-12">
-                                <p class="text-center text-muted">No hay habitaciones registradas a esta villa</p>
+                            <div class="col-12">
+                                <div class="alert alert-light text-center">
+                                    No hay habitaciones registradas en esta villa
+                                </div>
                             </div>
                         }
                     </div>
-                }
-            </article>
+                </div>
+            }
         </div>
     </div>
 </section>
 
+<style>
+    :root {
+        --primary: #2c3e50;
+        --primary-soft: rgba(44, 62, 80, 0.1);
+    }
+
+    .bg-primary {
+        background-color: var(--primary) !important;
+    }
+
+    .bg-primary-soft {
+        background-color: var(--primary-soft) !important;
+    }
+
+    .text-primary {
+        color: var(--primary) !important;
+    }
+
+    .hover-shadow {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .hover-shadow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+
+    .disabled {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+</style>
+
 <script>
     function filtrarHabitacion() {
-        var tipoSeleccionado = document.getElementById("buscarHabitacion").value;
-        var tarjetas = document.getElementsByClassName("habitacion-card");
+        const tipoSeleccionado = document.getElementById("buscarHabitacion").value;
+        const tarjetas = document.querySelectorAll(".habitacion-card");
 
-        for (var i = 0; i < tarjetas.length; i++) {
-            var tarjeta = tarjetas[i];
-            var tipoHabitacionId = tarjeta.getAttribute("data-tipo-habitacion-id");
+        tarjetas.forEach(tarjeta => {
+            const tipoHabitacionId = tarjeta.getAttribute("data-tipo-habitacion-id");
 
             if (tipoSeleccionado === "" || tipoSeleccionado === tipoHabitacionId) {
-                tarjeta.style.display = "";
+                tarjeta.style.display = "block";
             } else {
                 tarjeta.style.display = "none";
             }
-        }
+        });
     }
 </script>
