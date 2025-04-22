@@ -7,13 +7,15 @@
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-center">Evaluación de Empleados</h2>
-        <div class="input-group w-50">
-            <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar empleado..." aria-label="Buscar">
-            <div class="input-group-append" style="margin-left: 5px;">
+        <h2 class="text-center flex-grow-1 mb-2 mb-md-0">Evaluación de Empleados</h2>
+
+        <div class="d-flex w-100 justify-content-center">
+            <div class="input-group w-50">
+                <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar empleado..." aria-label="Buscar">
                 <button class="btn btn-info btn-sm" type="button" id="searchButton">Buscar</button>
             </div>
-            <button class="btn btn-outline-dark ml-3" data-bs-toggle="modal" data-bs-target="#agregarEvaluacionModal">
+
+            <button class="btn btn-outline-dark ms-3" style="width: 175px;" data-bs-toggle="modal" data-bs-target="#agregarEvaluacionModal">
                 Agregar Evaluación
             </button>
         </div>
