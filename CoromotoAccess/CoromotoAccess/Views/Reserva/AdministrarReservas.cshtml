@@ -50,13 +50,16 @@
                         <td>@reserva.CheckOut.ToString("yyyy-MM-dd")</td>
                         <td>@(reserva.Estado ? "Confirmado" : "Pendiente")</td>
                         <td style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
-                            <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarReserva", "Reserva", new { id = reserva.IdReserva })">Modificar</a>
-                            <form action="@Url.Action("CancelarReserva", "Reserva")" method="post">
-                                <input type="hidden" name="Id" value="@reserva.IdReserva" />
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas cancelar esta reserva?')">Cancelar</button>
-                            </form>
-                            <a class="btn btn-info btn-sm" href="@Url.Action("DetallesReserva", "Reserva", new { id = reserva.IdReserva })">Ver Detalles</a>
-                        </td>
+                            @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() == "Administrador")
+                            {
+                                <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarReserva", "Reserva", new { id = reserva.IdReserva })">Modificar</a>
+                                <form action="@Url.Action("CancelarReserva", "Reserva")" method="post">
+                                    <input type="hidden" name="Id" value="@reserva.IdReserva" />
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas cancelar esta reserva?')">Cancelar</button>
+                                </form>
+                            }
+                                <a class="btn btn-info btn-sm" href="@Url.Action("DetallesReserva", "Reserva", new { id = reserva.IdReserva })">Ver Detalles</a>
+                            </td>
                     </tr>
                 }
             </tbody>
