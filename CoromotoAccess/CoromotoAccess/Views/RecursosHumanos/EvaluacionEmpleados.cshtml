@@ -6,33 +6,53 @@
 <link href="~/Styles/css/tabla.css" rel="stylesheet" />
 
 <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-center flex-grow-1 mb-2 mb-md-0">Evaluación de Empleados</h2>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-4 p-3 bg-light rounded shadow-sm">
+        <h2 class="m-0 text-dark fw-bold">Evaluación de Empleados</h2>
 
-        <div class="d-flex w-100 justify-content-center">
-            <div class="input-group w-50">
-                <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Buscar empleado..." aria-label="Buscar">
-                <button class="btn btn-info btn-sm" type="button" id="searchButton">Buscar</button>
+        <div class="d-flex flex-column flex-md-row gap-3 w-100 w-md-auto justify-content-end">
+            <!-- Barra de búsqueda -->
+            <div class="input-group flex-grow-1" style="max-width: 400px;">
+                <input type="text"
+                       class="form-control border-secondary"
+                       id="searchInput"
+                       placeholder="Buscar empleado..."
+                       aria-label="Buscar">
+                <button class="btn btn-outline-secondary" type="button" id="searchButton">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
 
-            <button class="btn btn-outline-dark ms-3" style="width: 175px;" data-bs-toggle="modal" data-bs-target="#agregarEvaluacionModal">
-                Agregar Evaluación
+            <!-- Botón agregar -->
+            <button class="btn btn-outline-dark d-flex align-items-center gap-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#agregarEvaluacionModal">
+                <i class="fas fa-plus"></i>
+                <span>Agregar Evaluación</span>
             </button>
         </div>
     </div>
 
     <!-- Filtro por calificación -->
     <div class="row mb-3">
-        <div class="col-md-6">
-            <select class="form-control" id="filtroCalificacion" onchange="filtrarCalificacion()">
-                <option value="">Todas las calificaciones</option>
-                @foreach (var calificacion in ViewBag.DiccionarioCalificaciones)
-                {
-                    <option value="@calificacion.Key">@calificacion.Value</option>
-                }
-            </select>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text bg-dark text-white">
+                    <i class="fas fa-filter"></i>
+                </span>
+                <select class="form-select border-secondary"
+                        id="filtroCalificacion"
+                        onchange="filtrarCalificacion()">
+                    <option value="">Todas las calificaciones</option>
+                    @foreach (var calificacion in ViewBag.DiccionarioCalificaciones)
+                    {
+                        <option value="@calificacion.Key">@calificacion.Value</option>
+                    }
+                </select>
+            </div>
         </div>
     </div>
+
+
 
     <div class="villa-container">
         <h3 class="villa-title">Registro de Evaluaciones</h3>
