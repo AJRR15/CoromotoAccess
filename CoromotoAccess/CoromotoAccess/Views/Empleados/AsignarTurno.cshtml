@@ -34,21 +34,25 @@
                             <td>@nombreCompleto</td>
                             <td>@(empleado.Activo ? "Asignado" : "No asignado")</td>
                             <td>@turnoEmpleado</td>
-                            <td>
+                            <td style="display: flex; justify-content: center; align-items: center; gap: 8px;">
                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#asignarTurnoModal"
                                         onclick="document.getElementById('idEmpleado').value = @empleado.ConsecutivoEmp;
-                                             document.getElementById('targetName').value = '@nombreCompleto';">
+                     document.getElementById('targetName').value = '@nombreCompleto';">
                                     Editar Turno
                                 </button>
+
                                 @if (empleado.Activo)
                                 {
                                     using (Html.BeginForm("DesasignarTurno", "Empleados", FormMethod.Post))
                                     {
                                         @Html.Hidden("ConsecutivoEmp", empleado.ConsecutivoEmp)
-                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar Turno</button>
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este turno?')">
+                                            Eliminar Turno
+                                        </button>
                                     }
                                 }
                             </td>
+
                         </tr>
                     }
                 </tbody>

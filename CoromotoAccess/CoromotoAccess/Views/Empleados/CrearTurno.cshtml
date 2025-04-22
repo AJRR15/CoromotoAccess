@@ -31,23 +31,24 @@
                         {
                             foreach (var turno in Model)
                             {
-                                <tr>
-                                    <td>@turno.IdTurno</td>
-                                    <td>@turno.Nombre</td>
-                                    <td>@turno.HoraInicio</td>
-                                    <td>@turno.HoraSalida</td>
-                                    <td>
-                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modificarTurnoModal"
-                                                onclick="document.getElementById('idTurno').value = @turno.IdTurno">
-                                            Modificar
-                                        </button>
-                                        @using (Html.BeginForm("EliminarTurno", "Empleados", FormMethod.Post))
-                                        {
-                                            @Html.Hidden("id", turno.IdTurno)
-                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                        }
-                                    </td>
-                                </tr>
+                                        <tr>
+                                            <td>@turno.IdTurno</td>
+                                            <td>@turno.Nombre</td>
+                                            <td>@turno.HoraInicio</td>
+                                            <td>@turno.HoraSalida</td>
+                                            <td style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modificarTurnoModal"
+                                                        onclick="document.getElementById('idTurno').value = @turno.IdTurno">
+                                                    Modificar
+                                                </button>
+                                                @using (Html.BeginForm("EliminarTurno", "Empleados", FormMethod.Post))
+                                                {
+                                                    @Html.Hidden("id", turno.IdTurno)
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este turno?')">Eliminar</button>
+                                                }
+                                            </td>
+
+                                        </tr>
                             }
                         }
                     }
