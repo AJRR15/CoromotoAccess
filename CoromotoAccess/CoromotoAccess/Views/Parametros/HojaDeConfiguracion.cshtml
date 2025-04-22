@@ -31,13 +31,14 @@
                             {
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     @villa.NombreHabitacion
-                                    <div>
-                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarVilla", "Parametros", new { id = villa.IdVilla })">Modificar</a>
-                                        <form action="@Url.Action("EliminarVilla", "Parametros")" method="post" style="display:inline;">
+                                    <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarVilla", "Parametros", new { id = villa.IdVilla })">Modificar</a>
+                                        <form action="@Url.Action("EliminarVilla", "Parametros")" method="post">
                                             <input type="hidden" name="IdVilla" value="@villa.IdVilla" />
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta villa?')">Eliminar</button>
                                         </form>
                                     </div>
+
                                 </li>
                             }
                         }
@@ -58,11 +59,11 @@
                             {
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     @metodo.NombreMetodoP
-                                    <div>
-                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarMetodoPago", "Parametros", new { id = metodo.IdMetodoP })">Modificar</a>
-                                        <form action="@Url.Action("EliminarMetodoP", "Parametros")" method="post" style="display:inline;">
+                                    <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarMetodoPago", "Parametros", new { id = metodo.IdMetodoP })">Modificar</a>
+                                        <form action="@Url.Action("EliminarMetodoP", "Parametros")" method="post">
                                             <input type="hidden" name="IdMetodoP" value="@metodo.IdMetodoP" />
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este metodo?')">Eliminar</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este método?')">Eliminar</button>
                                         </form>
                                     </div>
                                 </li>
@@ -85,11 +86,11 @@
                             {
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     @tipo.NombreTipodeHabitcion
-                                    <div>
-                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarTipoHabitacion", "Parametros", new { id = tipo.IdTipodeHabitacion })">Modificar</a>
-                                        <form action="@Url.Action("EliminarTipoHabitacion", "Parametros")" method="post" style="display:inline;">
+                                    <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarTipoHabitacion", "Parametros", new { id = tipo.IdTipodeHabitacion })">Modificar</a>
+                                        <form action="@Url.Action("EliminarTipoHabitacion", "Parametros")" method="post">
                                             <input type="hidden" name="IdTipodeHabitacion" value="@tipo.IdTipodeHabitacion" />
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este tipo de habitacion?')">Eliminar</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este tipo de habitación?')">Eliminar</button>
                                         </form>
                                     </div>
                                 </li>
@@ -112,11 +113,11 @@
                             {
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     @tipo.NombreMoneda
-                                    <div>
-                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarMoneda", "Parametros", new { id = tipo.IdMoneda })">Modificar</a>
-                                        <form action="@Url.Action("EliminarTipoMoneda", "Parametros")" method="post" style="display:inline;">
+                                    <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarMoneda", "Parametros", new { id = tipo.IdMoneda })">Modificar</a>
+                                        <form action="@Url.Action("EliminarTipoMoneda", "Parametros")" method="post">
                                             <input type="hidden" name="IdMoneda" value="@tipo.IdMoneda" />
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este metodo?')">Eliminar</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta moneda?')">Eliminar</button>
                                         </form>
                                     </div>
                                 </li>
@@ -139,11 +140,11 @@
                             {
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     @tipo.Nombre
-                                    <div>
-                                        <a class="btn btn-warning btn-sm mb-1" href="@Url.Action("ModificarCategoria", "Parametros", new { id = tipo.IdCategoria })">Modificar</a>
-                                        <form action="@Url.Action("EliminarCategoria", "Parametros")" method="post" style="display:inline;">
+                                    <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                        <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarCategoria", "Parametros", new { id = tipo.IdCategoria })">Modificar</a>
+                                        <form action="@Url.Action("EliminarCategoria", "Parametros")" method="post">
                                             <input type="hidden" name="IdCategoria" value="@tipo.IdCategoria" />
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este metodo?')">Eliminar</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta categoría?')">Eliminar</button>
                                         </form>
                                     </div>
                                 </li>
