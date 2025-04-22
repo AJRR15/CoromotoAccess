@@ -1,60 +1,162 @@
 ﻿@model CoromotoAccess.Models.Usuario
 @{
-    ViewBag.Title = "InicioSesion";
+    ViewBag.Title = "Inicio de Sesión";
 }
 
-<div class="page-wrapper custom-login" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-     data-sidebar-position="fixed" data-header-position="fixed">
-    <br />
-    <br />
-    <br />
-    <div class="d-flex align-items-center justify-content-center w-100" style="padding: 0; margin: 0;">
-        <div class="row justify-content-center w-100" style="padding: 0; margin: 0;">
-            <div class="col-md-8 col-lg-6 col-xxl-3" style="padding: 0; margin: 0;">
-                <div class="card mb-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <br>
-                        <center>
-                            <img src="~/Styles/imagenes/LogoCoromotoNegro.png" alt="CoromotoAccess Logo" class="logo-img" style="max-width: 50%; height: auto;">
-                        </center>
-                        <br>
-                        <h4 class="text-center mb-4">Iniciar Sesión</h4>
+<section class="login-section" style=" min-height: 100vh; display: flex;">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+
+                    <div class="login-header" style="background: linear-gradient(135deg, #2c3e50 0%, #0d6efd 100%); height: 120px; position: relative;">
+                        <div class="logo-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; text-align: center;">
+                            <img src="~/Styles/imagenes/LogoCoromotoNegro.png" alt="CoromotoAccess Logo" style="max-width: 180px; filter: brightness(0) invert(1);">
+                        </div>
+                    </div>
+
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="text-center mb-4 fw-bold" style="color: #2c3e50;">Bienvenido a CoromotoAccess</h3>
+                        <p class="text-center text-muted mb-4">Ingresa tus credenciales para acceder a tu cuenta</p>
 
                         @if (ViewBag.MensajePantalla != null)
                         {
-                            <div class="alert alert-danger text-center" role="alert">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 @ViewBag.MensajePantalla
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         }
 
-                        @using (Html.BeginForm("InicioSesion", "Login"))
+                        @using (Html.BeginForm("InicioSesion", "Login", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
                         {
-                            <div class="mb-3">
-                                <label class="form-label">Identificación</label>
-                                @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control", @required = "required" })
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Contraseña</label>
-                                @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", @type = "password", @required = "required" })
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <div class="form-check">
-
+                            <div class="mb-4">
+                                <label for="Identificacion" class="form-label fw-bold small text-uppercase text-muted">Identificación</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
+                                    @Html.TextBoxFor(m => m.Identificacion, new
+                                    {
+                                        @class = "form-control py-3",
+                                        @required = "required",
+                                        placeholder = "Ingresa tu identificación"
+                                    })
                                 </div>
-                                <a class="text-primary fw-bold" href="@Url.Action("RecuperarAcceso", "Login")">Recuperar el acceso</a>
                             </div>
-                            <button type="submit" class="btn w-100 py-2" style="background-color: #101820; color: white;">Iniciar Sesión</button>
+
+                            <div class="mb-4">
+                                <label for="Contrasenna" class="form-label fw-bold small text-uppercase text-muted">Contraseña</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+                                    @Html.TextBoxFor(m => m.Contrasenna, new
+                                    {
+                                        @class = "form-control py-3",
+                                        @type = "password",
+                                        @required = "required",
+                                        placeholder = "Ingresa tu contraseña"
+                                    })
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end align-items-center mb-4">
+                                <a href="@Url.Action("RecuperarAcceso", "Login")" class="text-decoration-none small text-primary fw-bold">
+                                    ¿Olvidaste tu contraseña?
+                                </a>
+                            </div>
+
+
+                            <button type="submit" style="background-color: #0d6efd; border-color: #0b5ed7; color: white;" class="btn w-100 py-3 fw-bold">
+                                <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+                            </button>
+
                         }
 
-                        <div class="text-center mt-4">
-                            <p>¿No tienes una cuenta? <a href="@Url.Action("Registro", "Login")" class="text-primary">Regístrate aquí</a></p>
+                        <div class="text-center mt-4 pt-3 border-top">
+                            <p class="small text-muted mb-0">
+                                ¿No tienes una cuenta?
+                                <a href="@Url.Action("Registro", "Login")" class="text-primary fw-bold text-decoration-none">Regístrate aquí</a>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <br />
-    <br />
-    <br />
-</div>
+</section>
+
+<style>
+    .login-section {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .login-header {
+        background-color: #2c3e50;
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .card:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+    .form-control {
+        border-radius: 0.375rem;
+        border: 1px solid #ced4da;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 0.25rem rgba(44, 62, 80, 0.25);
+        }
+
+    .btn-primary {
+        background-color: #2c3e50;
+        border-color: #2c3e50;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #1a252f;
+            border-color: #1a252f;
+            transform: translateY(-2px);
+        }
+
+    .input-group-text {
+        background-color: #f8f9fa;
+        border-right: none;
+    }
+
+    .input-group .form-control {
+        border-left: none;
+    }
+</style>
+
+<!-- Font Awesome para iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- Script para validación -->
+<script>
+    // Ejemplo de validación básica
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
