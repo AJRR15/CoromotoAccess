@@ -402,7 +402,10 @@ namespace CoromotoAccess.Controllers
                     datos.NombreMoneda = model.NombreMoneda;
 
                     context.SaveChanges();
-                    return RedirectToAction("HojaDeConfiguracion", "Parametros");
+                    TempData["MensajeMoneda"] = true;
+                    return RedirectToAction("ModificarMoneda", new { id = model.IdMoneda });
+
+                 //   return RedirectToAction("HojaDeConfiguracion", "Parametros");
                 }
 
                 ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente";
@@ -421,6 +424,7 @@ namespace CoromotoAccess.Controllers
                 };
                 context.tCategorias.Add(categoria);
                 context.SaveChanges();
+
                 return RedirectToAction("HojaDeConfiguracion");
             }
         }
