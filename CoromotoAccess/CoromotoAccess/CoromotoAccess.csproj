@@ -144,6 +144,7 @@
     <Compile Include="Controllers\LimpiezaController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ParametrosController.cs" />
+    <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\RecursosHumanosController.cs" />
     <Compile Include="Controllers\ReporteriaController.cs" />
     <Compile Include="Controllers\ReservaController.cs" />
@@ -443,7 +444,6 @@
     <Content Include="Views\RecursosHumanos\GestiondeRRHH.cshtml" />
     <Content Include="Views\Login\ActualizarPerfil.cshtml" />
     <Content Include="Views\RecursosHumanos\GestionarVacaciones.cshtml" />
-    <Content Include="Views\Login\MiPerfil.cshtml" />
     <Content Include="Views\Facturas\Historico.cshtml" />
     <Content Include="Views\Seguridad\GestionPermisos.cshtml" />
     <Content Include="Views\Seguridad\Seguridad.cshtml" />
@@ -472,6 +472,8 @@
     <Content Include="Views\Reserva\MisReservas.cshtml" />
     <Content Include="Views\Empleados\GestionTareas.cshtml" />
     <Content Include="Views\Facturas\MisFacturas.cshtml" />
+    <Content Include="Views\Perfil\MiPerfil.cshtml" />
+    <Content Include="Views\Login\MiPerfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

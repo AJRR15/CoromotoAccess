@@ -19,5 +19,7 @@ namespace CoromotoAccess.Models
         public bool Activo { get; set; }
         public bool TieneContrasennaTemp { get; set; }
         public DateTime? FechaVencimientoTemp { get; set; }
+
+        public int IdRol { get; set; } // Por si se necesita mostrar el rol
     }
 }
