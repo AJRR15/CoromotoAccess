@@ -1,70 +1,86 @@
-﻿@{
-    ViewBag.Title = "ActualizarPerfil";
+﻿@model CoromotoAccess.Models.Usuario
+@{
+    ViewBag.Title = "Mi Perfil";
 }
+@if (ViewBag.MensajePantalla != null)
+{
+    <div class="alert alert-info text-center" role="alert">
+        @ViewBag.MensajePantalla
+    </div>
+}
+@using (Html.BeginForm("MiPerfil", "Perfil", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+{
+    @Html.HiddenFor(m => m.ConsecutivoCliente)
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-dark text-white text-center">
-                    <h3 class="mb-0 text-white">Actualizar Perfil</h3>
-                </div>
-                <div class="card-body p-4">
-                    <form>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-dark text-white text-center">
+                        <h3 class="mb-0">Mi Perfil</h3>
+                    </div>
+                    <div class="card-body p-4">
+
                         <div class="row mb-3">
-                            <div class="col-md-4">
-                                <strong>Nombre:</strong>
-                            </div>
+                            <div class="col-md-4"><strong>Nombre:</strong></div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="Pedro Sanchez" disabled>
+                                @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", required = "required" })
                             </div>
                         </div>
+
                         <div class="row mb-3">
-                            <div class="col-md-4">
-                                <strong>ID:</strong>
-                            </div>
+                            <div class="col-md-4"><strong>Apellido:</strong></div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="12345" disabled>
+                                @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control", required = "required" })
                             </div>
                         </div>
+
                         <div class="row mb-3">
-                            <div class="col-md-4">
-                                <strong>Teléfono:</strong>
-                            </div>
+                            <div class="col-md-4"><strong>ID:</strong></div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="555-1234">
+                                @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control", @readonly = "readonly" })
                             </div>
                         </div>
+
                         <div class="row mb-3">
-                            <div class="col-md-4">
-                                <strong>Correo Electrónico:</strong>
-                            </div>
+                            <div class="col-md-4"><strong>Teléfono:</strong></div>
                             <div class="col-md-8">
-                                <input type="email" class="form-control" value="PedroSanchez@gmail.com">
+                                @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control", type = "tel", required = "required" })
                             </div>
                         </div>
+
                         <div class="row mb-3">
-                            <div class="col-md-4">
-                                <strong>Rol:</strong>
-                            </div>
+                            <div class="col-md-4"><strong>Correo Electrónico:</strong></div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="Empleado" disabled>
+                                @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", type = "email", required = "required" })
                             </div>
                         </div>
+
                         <div class="row mb-3">
-                            <div class="col-md-4">
-                                <strong>Imagen de Perfil:</strong>
-                            </div>
+                            <div class="col-md-4"><strong>Rol:</strong></div>
                             <div class="col-md-8">
-                                <input type="file" class="form-control" id="imagenPerfil" name="imagenPerfil">
+                                @if (Model != null)
+                                {
+                                    if (Model.ConsecutivoRol == 1)
+                                    {<span>Administrador</span>;
+                                    }
+                                    else if (Model.ConsecutivoRol == 2)
+                                    { <span>Empleado</span>;
+                                    }
+                                    else
+                                    { <span>Cliente</span>;
+                                    }
+                                }
                             </div>
                         </div>
+
                         <div class="text-center">
-                            <a href="@Url.Action("MiPerfil", "Login")" class="btn btn-dark btn-lg">Guardar Cambios</a>
+                            <button type="submit" class="btn btn-dark btn-lg">Ver Perfil y Actulizar Cambios</button>
                         </div>
-                    </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
