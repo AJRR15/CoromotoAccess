@@ -333,8 +333,19 @@ public ActionResult AgregarReserva(Reserva model)
         context.tReservas.Add(reserva);
         context.SaveChanges();
 
-        // Enviar correo de confirmación
-        string asunto = "Confirmación de Reserva";
+                // Actualizar el estado de la habitación a reservada mostrando que la reserva se ha realizado
+
+                TempData["MensajeExito"] = "La habitación se reservó exitosamente.";
+                return RedirectToAction("MisReservas", "Reserva");
+
+              //Muestra la alerta en pantalla
+              TempData["MostrarAlerta"] = true;
+                return RedirectToAction("MisReservas", "Reserva");
+
+
+
+                // Enviar correo de confirmación
+                string asunto = "Confirmación de Reserva";
         string contenido = GenerarContenidoCorreo(usuario.Nombre, reserva, habitacion.NombreHabitacion);
 
         EnviarCorreo(usuario.CorreoElectronico, asunto, contenido);

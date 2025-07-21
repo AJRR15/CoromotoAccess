@@ -4,6 +4,23 @@
     ViewBag.Title = "Ver Estado de las Reservas";
 }
 
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensajeExito"]
+    </div>
+}
+@section Scripts {
+    @if (TempData["MostrarAlerta"] != null && (bool)TempData["MostrarAlerta"])
+    {
+        <script>
+            alert("La habitación se reservó exitosamente.");
+        </script>
+    }
+}
+
+
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">Estado de las Reservas de @ViewBag.Usuario</h2>
 
@@ -52,7 +69,7 @@
                 </tbody>
             </table>
         </div>
-        
+
     }
 
     <div class="d-flex justify-content-end gap-2">

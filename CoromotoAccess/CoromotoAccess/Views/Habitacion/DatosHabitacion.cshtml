@@ -72,7 +72,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                @using (Html.BeginForm("AgregarReserva", "Reserva", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("AgregarReserva", "Reserva", FormMethod.Post, new { @class = "form-horizontal", onsubmit = "return confirmarReserva();" }))
+
                 {
                     @Html.HiddenFor(m => m.IdHabitacion)
                     @Html.Hidden("CheckIn", "", new { id = "CheckIn" })
@@ -159,6 +160,14 @@
         });
     });
 </script>
+
+<script type="text/javascript">
+    function confirmarReserva() {
+        alert("¡La habitación fue reservada exitosamente!");
+        return true; // continúa con el envío del formulario
+    }
+</script>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
