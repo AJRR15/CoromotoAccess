@@ -7,7 +7,7 @@ namespace CoromotoAccess.Controllers
 {
     public class ParametrosController : Controller
     {
-        //Vistas
+        [HttpGet]
         public ActionResult HojaDeConfiguracion()
         {
             using (var context = new BDCoromotoEntities())
@@ -26,6 +26,9 @@ namespace CoromotoAccess.Controllers
                     Villas = villas,
                     Categorias = categorias
                 };
+
+                ViewBag.MensajeExito = TempData["MensajeExito"];
+                ViewBag.MensajeError = TempData["MensajeError"];
 
                 return View(parametros);
             }
@@ -47,6 +50,7 @@ namespace CoromotoAccess.Controllers
                         context.tVillas.Add(nuevaVilla);
                         context.SaveChanges();
                     }
+                    TempData["MensajeExito"] = "Villa agregada exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion");
                 }
                 catch (Exception ex)
@@ -73,13 +77,13 @@ namespace CoromotoAccess.Controllers
                     context.tVillas.Remove(villa);
                     context.SaveChanges();
 
-                    TempData["Mensaje"] = "villa eliminada exitosamente.";
+                    TempData["MensajeExito"] = "Villa eliminada exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion");
                 }
             }
             catch (Exception ex)
             {
-                TempData["Mensaje"] = "Error al eliminar la villa.";
+                TempData["MensajeError"] = "Error al eliminar la villa: " + ex.Message;
                 return RedirectToAction("HojaDeConfiguracion");
             }
         }
@@ -119,6 +123,7 @@ namespace CoromotoAccess.Controllers
                     datos.NombreHabitacion = model.NombreHabitacion;
 
                     context.SaveChanges();
+                    TempData["MensajeExito"] = "Villa modificada exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion", "Parametros");
                 }
 
@@ -142,6 +147,7 @@ namespace CoromotoAccess.Controllers
                     };
                     context.tMetodoPago.Add(metodoP);
                     context.SaveChanges();
+                    TempData["MensajeExito"] = "Método de pago agregado exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion");
                 }
                 catch (Exception ex)
@@ -170,13 +176,13 @@ namespace CoromotoAccess.Controllers
                     context.tMetodoPago.Remove(metodoP);
                     context.SaveChanges();
 
-                    TempData["Mensaje"] = "Metodo de pago eliminado eliminada exitosamente.";
+                    TempData["MensajeExito"] = "Método de pago eliminado exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion");
                 }
             }
             catch (Exception ex)
             {
-                TempData["Mensaje"] = "Error al eliminar el metodo de pago.";
+                TempData["MensajeError"] = "Error al eliminar el método de pago: " + ex.Message;
                 return RedirectToAction("HojaDeConfiguracion");
             }
         }
@@ -217,6 +223,7 @@ namespace CoromotoAccess.Controllers
                     datos.NombreMetodoP = model.NombreMetodoP;
 
                     context.SaveChanges();
+                    TempData["MensajeExito"] = "Método de pago modificado exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion", "Parametros");
                 }
 
@@ -241,11 +248,12 @@ namespace CoromotoAccess.Controllers
                     };
                     context.tTiposHabitaciones.Add(tipoHabitacion);
                     context.SaveChanges();
+                    TempData["MensajeExito"] = "Tipo de habitación agregado exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion");
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.MensajePantalla = $"Error: {ex.Message}";
+                    TempData["MensajeError"] = $"Error: {ex.Message}";
                     return View(model);
                 }
             }
@@ -269,13 +277,13 @@ namespace CoromotoAccess.Controllers
                     context.tTiposHabitaciones.Remove(tipoHabitacion);
                     context.SaveChanges();
 
-                    TempData["Mensaje"] = "Tipo de habitación eliminado exitosamente.";
+                    TempData["MensajeExito"] = "Tipo de habitación eliminado exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion");
                 }
             }
             catch (Exception ex)
             {
-                TempData["Mensaje"] = "Error al eliminar el tipo de habitación.";
+                TempData["MensajeError"] = "Error al eliminar el tipo de habitación: " + ex.Message;
                 return RedirectToAction("HojaDeConfiguracion");
             }
         }
@@ -314,6 +322,7 @@ namespace CoromotoAccess.Controllers
                     datos.NombreTipodeHabitcion = model.NombreTipodeHabitcion;
 
                     context.SaveChanges();
+                    TempData["MensajeExito"] = "Tipo de habitación modificado exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion", "Parametros");
                 }
 
@@ -335,6 +344,7 @@ namespace CoromotoAccess.Controllers
                 };
                 context.tMonedas.Add(tipoMoneda);
                 context.SaveChanges();
+                TempData["MensajeExito"] = "Tipo de moneda agregado exitosamente.";
                 return RedirectToAction("HojaDeConfiguracion");
             }
         }
@@ -357,13 +367,13 @@ namespace CoromotoAccess.Controllers
                     context.tMonedas.Remove(tipoMoneda);
                     context.SaveChanges();
 
-                    TempData["Mensaje"] = "Tipo de moneda eliminado exitosamente.";
+                    TempData["MensajeExito"] = "Tipo de moneda eliminado exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion");
                 }
             }
             catch (Exception ex)
             {
-                TempData["Mensaje"] = "Error al eliminar el tipo de moneda.";
+                TempData["MensajeError"] = "Error al eliminar el tipo de moneda: " + ex.Message;
                 return RedirectToAction("HojaDeConfiguracion");
             }
         }
@@ -402,7 +412,7 @@ namespace CoromotoAccess.Controllers
                     datos.NombreMoneda = model.NombreMoneda;
 
                     context.SaveChanges();
-                    TempData["MensajeMoneda"] = true;
+                    TempData["MensajeExito"] = "Tipo de moneda modificado exitosamente.";
                     return RedirectToAction("ModificarMoneda", new { id = model.IdMoneda });
 
                  //   return RedirectToAction("HojaDeConfiguracion", "Parametros");
@@ -425,6 +435,7 @@ namespace CoromotoAccess.Controllers
                 context.tCategorias.Add(categoria);
                 context.SaveChanges();
 
+                TempData["MensajeExito"] = "Categoría agregada exitosamente.";
                 return RedirectToAction("HojaDeConfiguracion");
             }
         }
@@ -446,13 +457,13 @@ namespace CoromotoAccess.Controllers
                     context.tCategorias.Remove(categoria);
                     context.SaveChanges();
 
-                    TempData["Mensaje"] = "Categoría eliminada exitosamente.";
+                    TempData["MensajeExito"] = "Categoría eliminada exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion");
                 }
             }
             catch (Exception ex)
             {
-                TempData["Mensaje"] = "Error al eliminar la categoría.";
+                TempData["MensajeError"] = "Error al eliminar la categoría: " + ex.Message;
                 return RedirectToAction("HojaDeConfiguracion");
             }
         }
@@ -491,6 +502,7 @@ namespace CoromotoAccess.Controllers
                     datos.Nombre = model.Nombre;
 
                     context.SaveChanges();
+                    TempData["MensajeExito"] = "Categoría modificada exitosamente.";
                     return RedirectToAction("HojaDeConfiguracion");
                 }
 

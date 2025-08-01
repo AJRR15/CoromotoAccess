@@ -1,11 +1,20 @@
 ﻿@model CoromotoAccess.Models.Activo
 @{
-    ViewBag.Title = "ModificarActivo";
+    ViewBag.Title = "Modificar Activo";
 }
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Modificar Activo</h2>
+    <h2 class="text-center mb-4">@ViewBag.Title</h2>
 
+    <!-- Mensaje de éxito -->
+    @if (TempData["MensajeExito"] != null)
+    {
+        <div class="alert alert-success text-center" role="alert">
+            @TempData["MensajeExito"]
+        </div>
+    }
+
+    <!-- Mensaje de error -->
     @if (ViewBag.MensajePantalla != null)
     {
         <div class="alert alert-danger text-center" role="alert">
@@ -13,44 +22,129 @@
         </div>
     }
 
-    @using (Html.BeginForm("ModificarActivo", "Activos", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    @using (Html.BeginForm("ModificarActivo", "Activos", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate", onsubmit = "return validarFormulario()" }))
     {
+        @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.IdActivo)
 
         <div class="mb-4">
-            <label class="form-label fw-semibold">ID de Habitación:</label>
-            @Html.DropDownList("IdHabitacion", (SelectList)ViewBag.Habitaciones, "Seleccione una Habitación", new { @class = "form-control", required = "required" })
+            @Html.LabelFor(m => m.IdHabitacion, "Habitación:", new { @class = "form-label fw-semibold" })
+            @Html.DropDownListFor(m => m.IdHabitacion,
+                (SelectList)ViewBag.Habitaciones,
+                "Seleccione una Habitación",
+                new { @class = "form-control", required = "required" })
+            @Html.ValidationMessageFor(m => m.IdHabitacion, "", new { @class = "text-danger" })
         </div>
 
         <div class="mb-4">
-            <label class="form-label fw-semibold">Nombre:</label>
-            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", required = "required" })
+            @Html.LabelFor(m => m.Nombre, new { @class = "form-label fw-semibold" })
+            @Html.TextBoxFor(m => m.Nombre, new
+            {
+                @class = "form-control",
+                required = "required",
+                oninput = "validarEspacios(this)"
+            })
+            @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
         </div>
 
         <div class="mb-4">
-            <label class="form-label fw-semibold">Modelo:</label>
-            @Html.TextBoxFor(m => m.Modelo, new { @class = "form-control", required = "required" })
+            @Html.LabelFor(m => m.Modelo, new { @class = "form-label fw-semibold" })
+            @Html.TextBoxFor(m => m.Modelo, new
+            {
+                @class = "form-control",
+                required = "required",
+                oninput = "validarEspacios(this)"
+            })
+            @Html.ValidationMessageFor(m => m.Modelo, "", new { @class = "text-danger" })
         </div>
 
         <div class="mb-4">
-            <label class="form-label fw-semibold">Número de Serie:</label>
-            @Html.TextBoxFor(m => m.NumeroSerie, new { @class = "form-control", required = "required" })
+            @Html.LabelFor(m => m.NumeroSerie, "Número de Serie", new { @class = "form-label fw-semibold" })
+            @Html.TextBoxFor(m => m.NumeroSerie, new
+            {
+                @class = "form-control",
+                required = "required",
+                id = "numeroSerie",
+                oninput = "validarNumeroSerie(this)"
+            })
+            <small class="form-text text-muted">Solo se permiten números</small>
+            @Html.ValidationMessageFor(m => m.NumeroSerie, "", new { @class = "text-danger", id = "numeroSerieError" })
         </div>
 
         <div class="mb-4">
-            <label class="form-label fw-semibold">Descripción:</label>
-            @Html.TextBoxFor(m => m.Descripcion, new { @class = "form-control", required = "required" })
+            @Html.LabelFor(m => m.Descripcion, new { @class = "form-label fw-semibold" })
+            @Html.TextAreaFor(m => m.Descripcion, new
+            {
+                @class = "form-control",
+                required = "required",
+                rows = 3,
+                oninput = "validarEspacios(this)"
+            })
+            @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
         </div>
 
         <div class="mb-4">
-            <label class="form-label fw-semibold">ID de Categoria:</label>
-            @Html.DropDownList("IdCategoria", (SelectList)ViewBag.Categorias, "Seleccione una Categoria", new { @class = "form-control", required = "required" })
+            @Html.LabelFor(m => m.IdCategoria, "Categoría", new { @class = "form-label fw-semibold" })
+            @Html.DropDownListFor(m => m.IdCategoria,
+                (SelectList)ViewBag.Categorias,
+                "Seleccione una Categoría",
+                new { @class = "form-control", required = "required" })
+            @Html.ValidationMessageFor(m => m.IdCategoria, "", new { @class = "text-danger" })
         </div>
 
-      
         <div class="d-flex justify-content-end gap-2">
             <a href="@Url.Action("AdministrarActivos", "Activos")" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>
+        // Validar que solo se ingresen números en el número de serie
+        function validarNumeroSerie(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+
+            // Mostrar error si no es válido
+            const errorElement = document.getElementById('numeroSerieError');
+            if (isNaN(input.value) || input.value.trim() === '') {
+                errorElement.textContent = "El número de serie solo puede contener dígitos";
+                input.classList.add('is-invalid');
+            } else {
+                errorElement.textContent = "";
+                input.classList.remove('is-invalid');
+            }
+        }
+
+        // Eliminar espacios en blanco al principio/final mientras se escribe
+        function validarEspacios(input) {
+            input.value = input.value.trim();
+        }
+
+        // Validación completa al enviar el formulario
+        function validarFormulario() {
+            let valido = true;
+
+            // Validar campos vacíos
+            const inputs = document.querySelectorAll('input[required], textarea[required], select[required]');
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    input.classList.add('is-invalid');
+                    valido = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+
+            // Validar específicamente el número de serie
+            const numeroSerieInput = document.getElementById('numeroSerie');
+            if (isNaN(numeroSerieInput.value) || numeroSerieInput.value.trim() === '') {
+                document.getElementById('numeroSerieError').textContent = "El número de serie es requerido y solo puede contener dígitos";
+                numeroSerieInput.classList.add('is-invalid');
+                valido = false;
+            }
+
+            return valido;
+        }
+    </script>
+}

@@ -13,33 +13,35 @@
         </div>
     }
 
-    @using (Html.BeginForm("ModificarCliente", "Clientes", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+    @using (Html.BeginForm("ModificarCliente", "Clientes", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate", onsubmit = "return validateForm()" }))
     {
         @Html.HiddenFor(m => m.ConsecutivoCliente)
 
         <div class="mb-4">
             <label class="form-label fw-semibold">Identificación:</label>
-            @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control", required = "required", @disabled = "disabled" })
+            @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control", @disabled = "disabled" })
         </div>
 
         <div class="mb-4">
             <label class="form-label fw-semibold">Nombre:</label>
-            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", required = "required", @disabled = "disabled" })
+            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", @disabled = "disabled" })
         </div>
 
         <div class="mb-4">
             <label class="form-label fw-semibold">Apellido:</label>
-            @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control", required = "required", @disabled = "disabled" })
+            @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control", @disabled = "disabled" })
         </div>
 
         <div class="mb-4">
             <label class="form-label fw-semibold">Correo Electrónico:</label>
-            @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", type = "email", required = "required" })
+            @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", type = "email", required = "required", id = "correo" })
+            <div class="invalid-feedback">Por favor ingrese un correo electrónico válido</div>
         </div>
 
         <div class="mb-4">
             <label class="form-label fw-semibold">Teléfono:</label>
-            @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control", type = "tel", required = "required" })
+            @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control", type = "number", required = "required", id = "telefono" })
+            <div class="invalid-feedback">Por favor ingrese un número de teléfono válido</div>
         </div>
 
         <div class="d-flex justify-content-end gap-2">
@@ -48,3 +50,32 @@
         </div>
     }
 </div>
+
+<script>
+    function validateForm() {
+        // Validar que los campos no tengan solo espacios en blanco
+        const correo = document.getElementById('correo').value.trim();
+        const telefono = document.getElementById('telefono').value.trim();
+
+        if (!correo) {
+            alert('El correo electrónico no puede estar vacío');
+            return false;
+        }
+
+        if (!telefono) {
+            alert('El teléfono no puede estar vacío');
+            return false;
+        }
+
+        return true;
+    }
+
+    // Validación en tiempo real
+    document.getElementById('correo').addEventListener('input', function() {
+        this.value = this.value.trim();
+    });
+
+    document.getElementById('telefono').addEventListener('input', function() {
+        this.value = this.value.trim();
+    });
+</script>

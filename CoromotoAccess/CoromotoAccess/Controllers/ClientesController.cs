@@ -1,6 +1,7 @@
 ﻿using CoromotoAccess.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -25,6 +26,7 @@ namespace CoromotoAccess.Controllers
                     Telefono = u.Telefono
                 }).ToList();
 
+                ViewBag.MensajeExito = TempData["MensajeExito"];
                 ViewBag.MensajePantalla = TempData["MensajePantalla"];
                 return View(usuarios);
             }
@@ -58,20 +60,44 @@ namespace CoromotoAccess.Controllers
         [HttpPost]
         public ActionResult ModificarCliente(Usuario model)
         {
+            // Validar campos obligatorios
+            if (string.IsNullOrWhiteSpace(model.CorreoElectronico) ||
+                string.IsNullOrWhiteSpace(model.Telefono))
+            {
+                ModelState.AddModelError("", "Todos los campos son obligatorios");
+                return View(model);
+            }
+
             using (var context = new BDCoromotoEntities())
             {
                 var datos = context.tUsuario.Where(x => x.ConsecutivoCliente == model.ConsecutivoCliente).FirstOrDefault();
                 if (datos != null)
                 {
-                    datos.CorreoElectronico = model.CorreoElectronico;
-                    datos.Telefono = model.Telefono;
+                    // Eliminar espacios en blanco
+                    datos.CorreoElectronico = model.CorreoElectronico.Trim();
+                    datos.Telefono = model.Telefono.Trim();
 
-                    context.SaveChanges();
-                    TempData["MensajePantalla"] = "La información se ha actualizado correctamente.";
-                    return RedirectToAction("GestionClientes", "Clientes");
+                    try
+                    {
+                        context.SaveChanges();
+                        TempData["MensajeExito"] = "La información se ha actualizado correctamente.";
+                        return RedirectToAction("GestionClientes", "Clientes");
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        // Manejar errores de validación
+                        var errorMessages = ex.EntityValidationErrors
+                            .SelectMany(x => x.ValidationErrors)
+                            .Select(x => x.ErrorMessage);
+
+                        string fullErrorMessage = string.Join("; ", errorMessages);
+                        ModelState.AddModelError("", "Error de validación: " + fullErrorMessage);
+                    }
                 }
-
-                TempData["MensajePantalla"] = "La información no se ha podido actualizar correctamente.";
+                else
+                {
+                    TempData["MensajePantalla"] = "La información no se ha podido actualizar correctamente.";
+                }
             }
             return View(model);
         }
@@ -135,7 +161,8 @@ namespace CoromotoAccess.Controllers
 
                 if (respuesta > 0)
                 {
-                    return RedirectToAction("InicioSesion", "Login");
+                    TempData["MensajeExito"] = "Cliente registrado con éxito!";
+                    return RedirectToAction("GestionClientes", "Clientes");
                 }
                 else
                 {

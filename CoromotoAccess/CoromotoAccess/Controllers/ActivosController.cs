@@ -39,12 +39,13 @@ namespace CoromotoAccess.Controllers
                 {
                     listaActivos.Add(new Activo
                     {
+                        IdActivo = item.Activo.IdActivo, // AÑADIR ESTO
                         IdHabitacion = item.Activo.IdHabitacion,
                         Nombre = item.Activo.Nombre,
                         Modelo = item.Activo.Modelo,
                         NumeroSerie = item.Activo.NumeroSerie,
                         Descripcion = item.Activo.Descripcion,
-                        IdCategoria =item.Activo.IdCategoria,
+                        IdCategoria = item.Activo.IdCategoria,
                         CategoriaNombre = item.CategoriaNombre,
                         IdVilla = item.Villa.IdVilla,
                         VillaNombre = item.Villa.NombreHabitacion
@@ -152,8 +153,8 @@ namespace CoromotoAccess.Controllers
                 }
 
                 // Cargar las listas desplegables
-               ViewBag.Categorias = new SelectList(context.tCategorias.ToList(), "IdCategoria", "Nombre");
-               ViewBag.Habitaciones = new SelectList(context.tHabitaciones.ToList(), "IdHabitacion", "NombreHabitacion");
+                ViewBag.Categorias = new SelectList(context.tCategorias.ToList(), "IdCategoria", "Nombre");
+                ViewBag.Habitaciones = new SelectList(context.tHabitaciones.ToList(), "IdHabitacion", "NombreHabitacion");
 
                 var activo = new Activo()
                 {
@@ -171,34 +172,69 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ModificarActivo(Activo model)
         {
+            // Validación de campos vacíos
+            if (string.IsNullOrWhiteSpace(model.Nombre) ||
+                string.IsNullOrWhiteSpace(model.Modelo) ||
+                string.IsNullOrWhiteSpace(model.NumeroSerie) ||
+                string.IsNullOrWhiteSpace(model.Descripcion))
+            {
+                ModelState.AddModelError("", "Todos los campos son obligatorios");
+            }
+
+            // Validación específica para número de serie (solo números)
+            if (!long.TryParse(model.NumeroSerie, out _))
+            {
+                ModelState.AddModelError("NumeroSerie", "El número de serie solo puede contener dígitos");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                // Recargar listas si hay error
+                using (var context = new BDCoromotoEntities())
+                {
+                    ViewBag.Categorias = new SelectList(
+                        context.tCategorias.ToList(),
+                        "IdCategoria",
+                        "Nombre",
+                        model.IdCategoria
+                    );
+
+                    ViewBag.Habitaciones = new SelectList(
+                        context.tHabitaciones.ToList(),
+                        "IdHabitacion",
+                        "NombreHabitacion",
+                        model.IdHabitacion
+                    );
+                }
+                return View(model);
+            }
+
             using (var context = new BDCoromotoEntities())
             {
-                var datos = context.tActivos.Where(x => x.IdActivo == model.IdActivo).FirstOrDefault();
+                var activo = context.tActivos.Find(model.IdActivo);
 
-                if (datos != null)
+                if (activo == null)
                 {
-                    datos.IdHabitacion = model.IdHabitacion;
-                    datos.Nombre = model.Nombre;
-                    datos.Modelo = model.Modelo;
-                    datos.NumeroSerie = model.NumeroSerie;
-                    datos.Descripcion = model.Descripcion;
-                    datos.IdCategoria = model.IdCategoria;
-
-                    context.SaveChanges();
-
-                    TempData["Mensaje"] = "Activo modificado exitosamente.";
+                    TempData["MensajePantalla"] = "Activo no encontrado";
                     return RedirectToAction("AdministrarActivos");
                 }
 
-                ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente.";
+                // Actualizar propiedades con trim
+                activo.IdHabitacion = model.IdHabitacion;
+                activo.Nombre = model.Nombre.Trim();
+                activo.Modelo = model.Modelo.Trim();
+                activo.NumeroSerie = model.NumeroSerie.Trim();
+                activo.Descripcion = model.Descripcion.Trim();
+                activo.IdCategoria = model.IdCategoria;
 
-                // Recargar listas desplegables para la vista
-                ViewBag.Categorias = new SelectList(context.tCategorias.ToList(), "IdCategoria", "Nombre");
-                ViewBag.Habitaciones = new SelectList(context.tHabitaciones.ToList(), "IdHabitacion", "NombreHabitacion");
+                context.SaveChanges();
+
+                TempData["MensajeExito"] = "Activo modificado exitosamente.";
+                return RedirectToAction("AdministrarActivos");
             }
-            return View(model);
         }
     }
 }

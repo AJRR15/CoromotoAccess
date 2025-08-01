@@ -18,6 +18,14 @@
         </div>
     </div>
 
+    @if (TempData["MensajeExito"] != null)
+    {
+        <div class="alert alert-success text-center" role="alert">
+            @TempData["MensajeExito"]
+        </div>
+    }
+
+
     @if (ViewBag.MensajePantalla != null)
     {
         <div class="alert alert-danger text-center" role="alert">
@@ -111,7 +119,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-4" for="Telefono">Teléfono:</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="Telefono" required />
+                            <input type="number" class="form-control" name="Telefono" required />
                         </div>
                     </div>
 
