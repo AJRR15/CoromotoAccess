@@ -7,14 +7,18 @@ namespace CoromotoAccess.Controllers
 {
     public class LoginController : Controller
     {
+        [AllowAnonymous]
         [HttpGet]
-        public ActionResult InicioSesion()
+        public ActionResult InicioSesion(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
-        public ActionResult InicioSesion(Usuario model)
+        [ValidateAntiForgeryToken]
+        public ActionResult InicioSesion(Usuario model, string returnUrl)
         {
             using (var context = new BDCoromotoEntities())
             {
@@ -31,13 +35,18 @@ namespace CoromotoAccess.Controllers
                         return View();
                     }
 
-                    // Asignaciones de sesión
-                    Session["UsuarioId"] = resultadoUsuario.ConsecutivoCliente; // Esta es la clave que usa PerfilController
+                    // Opcional: regenerar SessionID para mitigar fijación de sesión
+                    Session.RemoveAll();
+
+                    Session["UsuarioId"] = resultadoUsuario.ConsecutivoCliente;
                     Session["Consecutivo"] = resultadoUsuario.ConsecutivoCliente;
                     Session["IdUsuario"] = resultadoUsuario.Identificacion;
                     Session["NombreUsuario"] = resultadoUsuario.Nombre;
                     Session["Rol"] = resultadoUsuario.ConsecutivoRol;
                     Session["NombreRol"] = rol != null ? rol.NombreRol : "Rol desconocido";
+
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -51,13 +60,17 @@ namespace CoromotoAccess.Controllers
                         return View();
                     }
 
-                    // Asignaciones de sesión
-                    Session["UsuarioId"] = resultadoEmpleado.ConsecutivoEmp; // También compatible con PerfilController
+                    Session.RemoveAll();
+
+                    Session["UsuarioId"] = resultadoEmpleado.ConsecutivoEmp;
                     Session["Consecutivo"] = resultadoEmpleado.ConsecutivoEmp;
                     Session["IdUsuario"] = resultadoEmpleado.Identificacion;
                     Session["NombreUsuario"] = resultadoEmpleado.Nombre;
                     Session["Rol"] = resultadoEmpleado.ConsecutivoRol;
                     Session["NombreRol"] = rol != null ? rol.NombreRol : "Rol desconocido";
+
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
 
                     return RedirectToAction("Index", "Home");
                 }

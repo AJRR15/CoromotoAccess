@@ -1,4 +1,5 @@
-﻿using CoromotoAccess.Models;
+﻿using CoromotoAccess.Filters;
+using CoromotoAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CoromotoAccess.Controllers
 {
+    [AuthRequired]
     public class HabitacionController : Controller
     {
         [HttpGet]
@@ -39,7 +41,7 @@ namespace CoromotoAccess.Controllers
                 return View(habitaciones);
             }
         }
-
+        [AuthRequired(Roles = "Administrador")]
         [HttpGet]
         public ActionResult AdministrarHabitaciones()
         {

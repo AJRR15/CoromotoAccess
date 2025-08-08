@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Página no encontrada";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ajusta si usas otro
+}
+
+<section class="container py-5 text-center">
+    <img src="~/Styles/imagenes/LogoCoromotoNegro.png" style="max-width: 160px; filter: brightness(0) invert(1);" />
+
+    <h1 class="display-5 fw-bold mt-4">Ooops, usted url equivocada.</h1>
+    <p class="lead">La página solicitada no existe o ha sido movida.</p>
+
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3 px-4 py-2 fw-bold">
+        Volver al menú principal
+    </a>
+</section>

@@ -136,6 +136,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActivosController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Filters\AuthRequiredAttribute.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\FacturasController.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Controllers\ReporteriaController.cs" />
     <Compile Include="Controllers\ReservaController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
+    <Compile Include="Filters\FilterConfig.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -525,10 +528,12 @@
     <Content Include="Views\Perfil\MiPerfil.cshtml" />
     <Content Include="Views\Login\MiPerfil.cshtml" />
     <Content Include="Views\Activos\ModificarActivo.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Views\AuthRequiredAttribute\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

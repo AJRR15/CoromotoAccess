@@ -29,6 +29,7 @@
 
                         @using (Html.BeginForm("InicioSesion", "Login", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
                         {
+                            @Html.AntiForgeryToken()
                             <div class="mb-4">
                                 <label for="Identificacion" class="form-label fw-bold small text-uppercase text-muted">Identificación</label>
                                 <div class="input-group">
