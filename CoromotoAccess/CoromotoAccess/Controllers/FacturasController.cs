@@ -107,40 +107,139 @@
                             return RedirectToAction("Historico");
                         }
 
-                        // Configurar documento PDF
-                        using (MemoryStream ms = new MemoryStream())
+                    // Configurar documento PDF
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        Document document = new Document(PageSize.A4, 36, 36, 36, 36);
+                        PdfWriter writer = PdfWriter.GetInstance(document, ms);
+                        document.Open();
+
+                        // ===== Estilos =====
+                        var negro = BaseColor.BLACK;
+                        var gris = new BaseColor(80, 80, 80);
+                        Font fTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18, negro);
+                        Font fSub = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, negro);
+                        Font fText = FontFactory.GetFont(FontFactory.HELVETICA, 10, negro);
+                        Font fTiny = FontFactory.GetFont(FontFactory.HELVETICA, 8, gris);
+                        Font fPaid = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 36, new BaseColor(5, 135, 60));
+                        Font fPend = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 36, new BaseColor(200, 0, 0));
+
+                        // ===== Encabezado con logo + empresa =====
+                        PdfPTable header = new PdfPTable(2) { WidthPercentage = 100 };
+                        header.SetWidths(new float[] { 1.2f, 2f });
+
+                        // LOGO (pon tu imagen en /Content/img/logo.png)
+                        var rutaLogo = Server.MapPath("~/Content/img/logo.png");
+                        PdfPCell cLogo;
+                        if (System.IO.File.Exists(rutaLogo))
                         {
-                            Document document = new Document(PageSize.A4, 25, 25, 30, 30);
-                            PdfWriter writer = PdfWriter.GetInstance(document, ms);
-
-                            document.Open();
-
-                            // Estilos
-                            Font tituloFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
-                            Font subtituloFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
-                            Font textoFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
-
-                            // Encabezado
-                            document.Add(new Paragraph("Factura Electrónica", tituloFont));
-                            document.Add(new Paragraph($"Número: {facturaData.Factura.IdFactura}", textoFont));
-                            document.Add(new Paragraph($"Fecha de Emisión: {facturaData.Factura.FechaEmision:dd/MM/yyyy}", textoFont));
-                            document.Add(new Paragraph($"Estado: {facturaData.Factura.Estado}\n\n", textoFont));
-
-                            // Datos del Cliente
-                            document.Add(new Paragraph("Datos del Cliente:", subtituloFont));
-                            document.Add(new Paragraph($"Nombre: {facturaData.Usuario.Nombre} {facturaData.Usuario.Apellido}", textoFont));
-                            document.Add(new Paragraph($"Cédula: {facturaData.Usuario.Identificacion}\n\n", textoFont));
-
-                            // Detalles de Pago
-                            document.Add(new Paragraph("Detalles de Pago:", subtituloFont));
-                            document.Add(new Paragraph($"Total: {facturaData.Factura.Total}", textoFont));
-
-                            document.Close();
-
-                            return File(ms.ToArray(), "application/pdf", $"Factura_{id}.pdf");
+                            var img = iTextSharp.text.Image.GetInstance(rutaLogo);
+                            img.ScaleToFit(120f, 60f);
+                            cLogo = new PdfPCell(img) { Border = Rectangle.NO_BORDER, VerticalAlignment = Element.ALIGN_MIDDLE };
                         }
+                        else
+                        {
+                            cLogo = new PdfPCell(new Phrase("TU EMPRESA", fSub)) { Border = Rectangle.NO_BORDER, VerticalAlignment = Element.ALIGN_MIDDLE };
+                        }
+                        header.AddCell(cLogo);
+
+                        // Datos de la empresa (EDITA A TU GUSTO)
+                        var datosEmpresa =
+                            "Coromoto Access S.A.\n" +
+                            "Ced. Jurídica: 3-101-000000\n" +
+                            "Dirección: San José, Costa Rica\n" +
+                            "Tel: +506 2222-2222  •  soporte@coromoto.com";
+                        header.AddCell(new PdfPCell(new Phrase(datosEmpresa, fText))
+                        { Border = Rectangle.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
+                        document.Add(header);
+
+                        document.Add(new Paragraph(" "));
+                        var line = new iTextSharp.text.pdf.draw.LineSeparator(0.5f, 100f, BaseColor.GRAY, Element.ALIGN_CENTER, -2);
+                        document.Add(new Chunk(line));
+                        document.Add(new Paragraph(" "));
+
+                        // ===== Título + estado =====
+                        var estadoTexto = facturaData.Factura.Estado ? "PAGADA" : "PENDIENTE";
+                        PdfPTable meta = new PdfPTable(2) { WidthPercentage = 100 };
+                        meta.SetWidths(new float[] { 1f, 1f });
+                        meta.AddCell(new PdfPCell(new Phrase("Factura Electrónica", fTitulo)) { Border = Rectangle.NO_BORDER });
+                        meta.AddCell(new PdfPCell(new Phrase(estadoTexto, facturaData.Factura.Estado ? fPaid : fPend))
+                        { Border = Rectangle.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
+                        document.Add(meta);
+
+                        // ===== Datos generales =====
+                        PdfPTable info = new PdfPTable(2) { WidthPercentage = 100 };
+                        info.SetWidths(new float[] { 1f, 2f });
+                        info.AddCell(new PdfPCell(new Phrase("Número:", fSub)) { Border = Rectangle.NO_BORDER });
+                        info.AddCell(new PdfPCell(new Phrase(facturaData.Factura.IdFactura.ToString(), fText)) { Border = Rectangle.NO_BORDER });
+                        info.AddCell(new PdfPCell(new Phrase("Fecha de Emisión:", fSub)) { Border = Rectangle.NO_BORDER });
+                        info.AddCell(new PdfPCell(new Phrase($"{facturaData.Factura.FechaEmision:dd/MM/yyyy}", fText)) { Border = Rectangle.NO_BORDER });
+                        document.Add(info);
+
+                        document.Add(new Paragraph(" "));
+                        document.Add(new Paragraph("Datos del Cliente", fSub));
+                        PdfPTable cliente = new PdfPTable(2) { WidthPercentage = 100 };
+                        cliente.SetWidths(new float[] { 1f, 2f });
+                        cliente.AddCell(new PdfPCell(new Phrase("Nombre:", fText)));
+                        cliente.AddCell(new PdfPCell(new Phrase($"{facturaData.Usuario.Nombre} {facturaData.Usuario.Apellido}", fText)));
+                        cliente.AddCell(new PdfPCell(new Phrase("Cédula:", fText)));
+                        cliente.AddCell(new PdfPCell(new Phrase(facturaData.Usuario.Identificacion ?? "-", fText)));
+                        cliente.SpacingAfter = 8f;
+                        document.Add(cliente);
+
+                        // ===== Total desde BD (cadena) – formateo SE PUEDE y si no, crudo =====
+                        var cultura = new System.Globalization.CultureInfo("es-CR");
+                        string totalStrOriginal = Convert.ToString(facturaData.Factura.Total);
+                        string totalFormateado = totalStrOriginal;  // por defecto, tal cual viene de BD
+
+                        decimal totalDecimal;
+                        if (decimal.TryParse(totalStrOriginal, System.Globalization.NumberStyles.Any,
+                                             System.Globalization.CultureInfo.InvariantCulture, out totalDecimal) ||
+                            decimal.TryParse(totalStrOriginal, out totalDecimal))
+                        {
+                            // si puede convertirse, lo mostramos bonito (₡ y separadores)
+                            totalFormateado = totalDecimal.ToString("C", cultura);
+                        }
+
+                        // ===== Tabla de ítems simple (sin tocar BD) =====
+                        PdfPTable items = new PdfPTable(4) { WidthPercentage = 100 };
+                        items.SetWidths(new float[] { 3f, 1f, 1f, 1f });
+                        PdfPCell H(string t) => new PdfPCell(new Phrase(t, fSub))
+                        { HorizontalAlignment = Element.ALIGN_CENTER, BackgroundColor = new BaseColor(245, 245, 245) };
+
+                        items.AddCell(H("Descripción"));
+                        items.AddCell(H("Cant."));
+                        items.AddCell(H("P. Unitario"));
+                        items.AddCell(H("Importe"));
+
+                        // Línea genérica (si más adelante tienes detalle real, aquí iteras)
+                        items.AddCell(new PdfPCell(new Phrase("Servicio/Reserva", fText)));
+                        items.AddCell(new PdfPCell(new Phrase("1", fText)) { HorizontalAlignment = Element.ALIGN_CENTER });
+                        items.AddCell(new PdfPCell(new Phrase(totalFormateado, fText)) { HorizontalAlignment = Element.ALIGN_RIGHT });
+                        items.AddCell(new PdfPCell(new Phrase(totalFormateado, fText)) { HorizontalAlignment = Element.ALIGN_RIGHT });
+                        items.SpacingAfter = 6f;
+                        document.Add(items);
+
+                        // ===== Totales (solo muestra TOTAL; sin cálculos si el Total es string) =====
+                        PdfPTable tot = new PdfPTable(2) { WidthPercentage = 40, HorizontalAlignment = Element.ALIGN_RIGHT };
+                        tot.SetWidths(new float[] { 1f, 1f });
+                        tot.AddCell(new PdfPCell(new Phrase("TOTAL", fSub)) { Border = Rectangle.TOP_BORDER });
+                        tot.AddCell(new PdfPCell(new Phrase(totalFormateado, fSub))
+                        { Border = Rectangle.TOP_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
+                        document.Add(tot);
+
+                        // ===== Pie =====
+                        document.Add(new Paragraph(" "));
+                        document.Add(new Paragraph("Observaciones:", fSub));
+                        document.Add(new Paragraph("Gracias por su compra.", fTiny));
+
+                        document.Close();
+                        byte[] bytes = ms.ToArray();
+                        return File(bytes, "application/pdf", $"Factura_{facturaData.Factura.IdFactura}.pdf");
                     }
-                    catch (Exception ex)
+
+                }
+                catch (Exception ex)
                     {
                         TempData["Error"] = $"Error al generar PDF: {ex.Message}";
                         return RedirectToAction("Historico");
