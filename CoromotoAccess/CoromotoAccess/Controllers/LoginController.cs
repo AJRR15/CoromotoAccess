@@ -141,10 +141,12 @@ namespace CoromotoAccess.Controllers
 
                 if (respuesta > 0)
                 {
+                    TempData["Mensaje"] = "Registro exitoso. Ahora puede iniciar sesión.";
                     return RedirectToAction("InicioSesion", "Login");
                 }
                 else
                 {
+                    TempData["Error"] = "No se ha podido registrar el usuario.";
                     ViewBag.MensajePantalla = "No se ha podido registrar el usuario.";
                     return View(model);
                 }
