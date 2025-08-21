@@ -54,12 +54,8 @@
                                 <td>
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modificarNominaModal"
-                                                onclick="document.getElementById('modificarIdNomina').value = @nomina.IdNomina;
-                                                 document.getElementById('modificarTotalNomina').value = @nomina.Total;
-                                                 document.getElementById('targetName').value='@nombreCompleto';
-                                                 document.getElementById('modificarSalario').value = @nomina.Salario;
-                                                 document.getElementById('modificarBono').value = @nomina.Bono;
-                                                 document.getElementById('modificarMulta').value = @nomina.Multa;">
+                                                data-nombre="@nombreCompleto" data-id="@nomina.IdNomina" data-salario="@nomina.Salario"
+                                                data-bono="@nomina.Bono" data-multa="@nomina.Multa">
                                             Modificar
                                         </button>
                                         @using (Html.BeginForm("EliminarNomina", "RecursosHumanos", FormMethod.Post))
@@ -78,7 +74,93 @@
     </div>
 </div>
 
+<div class="modal fade" id="crearNominaModal" tabindex="-1" aria-labelledby="crearNominaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm("CrearNomina", "RecursosHumanos", FormMethod.Post))
+            {
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearNominaLabel">Crear Nómina</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Empleado</label>
+                        @Html.DropDownList("IdEmpleado", (SelectList)ViewBag.Empleados, "Seleccione un empleado", new { @class = "form-select" })
+                    </div>
+                    <div class="mb-3">
+                        <label>Salario</label>
+                        <input type="number" step="0.01" name="Salario" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Bono</label>
+                        <input type="number" step="0.01" name="Bono" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Multa</label>
+                        <input type="number" step="0.01" name="Multa" class="form-control" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modificarNominaModal" tabindex="-1" aria-labelledby="modificarNominaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm("ModificarNomina", "RecursosHumanos", FormMethod.Post))
+            {
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modificarNominaLabel">Modificar Nómina</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    @Html.Hidden("IdNomina", null, new { id = "modificarIdNomina" })
+                    <div class="mb-3">
+                        <label>Empleado</label>
+                        <input type="text" id="targetName" class="form-control" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label>Salario</label>
+                        <input type="number" step="0.01" name="Salario" class="form-control" id="modificarSalario" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Bono</label>
+                        <input type="number" step="0.01" name="Bono" class="form-control" id="modificarBono" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Multa</label>
+                        <input type="number" step="0.01" name="Multa" class="form-control" id="modificarMulta" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-warning">Modificar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 <script>
+
+    var modificarModal = document.getElementById('modificarNominaModal');
+    modificarModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        document.getElementById('modificarIdNomina').value = button.getAttribute('data-id');
+        document.getElementById('targetName').value = button.getAttribute('data-nombre');
+        document.getElementById('modificarSalario').value = button.getAttribute('data-salario');
+        document.getElementById('modificarBono').value = button.getAttribute('data-bono');
+        document.getElementById('modificarMulta').value = button.getAttribute('data-multa');
+    });
+
     function buscarEmpleado() {
         var searchValue = document.getElementById("searchInput").value.trim().toLowerCase();
         var rows = document.querySelectorAll(".nominaRow");

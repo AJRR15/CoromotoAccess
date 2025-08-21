@@ -197,6 +197,8 @@
           <Property Name="Activo" Type="bit" Nullable="false" />
           <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
           <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
+          <Property Name="RecuperacionToken" Type="nvarchar" MaxLength="200" />
+          <Property Name="FechaExpiraToken" Type="datetime" />
         </EntityType>
         <EntityType Name="tVacaciones">
           <Key>
@@ -823,6 +825,8 @@
           <Property Name="Activo" Type="Boolean" Nullable="false" />
           <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
           <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RecuperacionToken" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FechaExpiraToken" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tContactenos" Relationship="Self.FK_tContactenos_tUsuario" FromRole="tUsuario" ToRole="tContactenos" />
           <NavigationProperty Name="tFacturas" Relationship="Self.FK_tFacturas_tUsuario" FromRole="tUsuario" ToRole="tFacturas" />
           <NavigationProperty Name="tReservas" Relationship="Self.FK_tReservas_tUsuario" FromRole="tUsuario" ToRole="tReservas" />
@@ -1472,6 +1476,8 @@
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
                 <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
+                <ScalarProperty Name="RecuperacionToken" ColumnName="RecuperacionToken" />
+                <ScalarProperty Name="FechaExpiraToken" ColumnName="FechaExpiraToken" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -187,6 +187,7 @@
     <Compile Include="Models\Nomina.cs" />
     <Compile Include="Models\Parametros.cs" />
     <Compile Include="Models\Reserva.cs" />
+    <Compile Include="Models\RestablecerContrasennaViewModel.cs" />
     <Compile Include="Models\tActivos.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -529,6 +530,7 @@
     <Content Include="Views\Login\MiPerfil.cshtml" />
     <Content Include="Views\Activos\ModificarActivo.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Login\RestablecerContrasenna.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -25,13 +25,13 @@
                             </div>
                         }
 
-                        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+                        @using (Html.BeginForm("RecuperarAcceso", "Login", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
                         {
                             <div class="mb-4">
                                 <label for="Identificacion" class="form-label fw-bold small text-uppercase text-muted">Identificación</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control py-3" id="Identificacion" required placeholder="Ingresa tu identificación" />
+                                    @Html.TextBox("Identificacion", null, new { @class = "form-control py-3", required = "required", placeholder = "Ingresa tu identificación" })
                                 </div>
                             </div>
 
