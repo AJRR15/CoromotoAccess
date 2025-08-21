@@ -1,4 +1,5 @@
-﻿using CoromotoAccess.Models;
+﻿using CoromotoAccess.Filters;
+using CoromotoAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,10 @@ using System.Web.Mvc;
 
 namespace CoromotoAccess.Controllers
 {
+    
     public class RecursosHumanosController : Controller
     {
+        [AuthRequired]
         // GET: RecursosHumanos
         public ActionResult GestiondeRRHH()
         {
@@ -36,6 +39,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult CrearVacaciones(Vacaciones model)
         {
             using (var context = new BDCoromotoEntities())
@@ -62,6 +66,7 @@ namespace CoromotoAccess.Controllers
             }
         }
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AprobarVacaciones()
         {
             using (var context = new BDCoromotoEntities())
@@ -84,6 +89,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AprobarVacaciones(int id)
         {
             using (var context = new BDCoromotoEntities())
@@ -102,6 +108,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult RechazarVacaciones(int id)
         {
             using (var context = new BDCoromotoEntities())
@@ -127,6 +134,7 @@ namespace CoromotoAccess.Controllers
             return View();
         }
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult GestionNomina()
         {
             using (var context = new BDCoromotoEntities())
@@ -150,6 +158,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult CrearNomina(Nomina model)
         {
             using (var context = new BDCoromotoEntities())
@@ -177,6 +186,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarNomina(Nomina model)
         {
             using (var context = new BDCoromotoEntities())
@@ -198,6 +208,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarNomina(int id)
         {
             using (var context = new BDCoromotoEntities())
@@ -215,6 +226,7 @@ namespace CoromotoAccess.Controllers
             }
         }
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EvaluacionEmpleados()
         {
             using (var context = new BDCoromotoEntities())
@@ -257,6 +269,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AsignarEvaluacion(Evaluacion model)
         {
             using (var context = new BDCoromotoEntities())

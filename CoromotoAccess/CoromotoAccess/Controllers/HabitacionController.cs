@@ -41,8 +41,9 @@ namespace CoromotoAccess.Controllers
                 return View(habitaciones);
             }
         }
-        [AuthRequired(Roles = "Administrador")]
+        
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AdministrarHabitaciones()
         {
             using (var context = new BDCoromotoEntities())
@@ -74,6 +75,7 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarHabitaciones()
         {
             using (var context = new BDCoromotoEntities())
@@ -85,6 +87,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarHabitacion(Habitacion model)
         {
             using (var context = new BDCoromotoEntities())
@@ -118,6 +121,7 @@ namespace CoromotoAccess.Controllers
             }
         }
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarHabitacion(long IdHabitacion)
         {
             try
@@ -149,6 +153,7 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarHabitacion(long id)
         {
 
@@ -182,6 +187,7 @@ namespace CoromotoAccess.Controllers
             }
         }
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarHabitacion(Habitacion model)
         {
             using (var context = new BDCoromotoEntities())

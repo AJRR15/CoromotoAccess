@@ -1,4 +1,5 @@
-﻿using CoromotoAccess.Models;
+﻿using CoromotoAccess.Filters;
+using CoromotoAccess.Models;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -7,7 +8,9 @@ namespace CoromotoAccess.Controllers
 {
     public class ParametrosController : Controller
     {
+        [AuthRequired]
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult HojaDeConfiguracion()
         {
             using (var context = new BDCoromotoEntities())
@@ -37,6 +40,7 @@ namespace CoromotoAccess.Controllers
 
         //Villas
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarVilla(Villa model)
         {
             using (var context = new BDCoromotoEntities())
@@ -60,6 +64,7 @@ namespace CoromotoAccess.Controllers
                 }
         }
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarVilla(long IdVilla)
         {
             try
@@ -88,6 +93,7 @@ namespace CoromotoAccess.Controllers
             }
         }
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarVilla(long id)
         {
 
@@ -113,6 +119,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarVilla(Villa model)
         {
             using (var context = new BDCoromotoEntities())
@@ -135,6 +142,7 @@ namespace CoromotoAccess.Controllers
 
         //Metodos de Pago
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarMetodoP(MetodoPago model)
         {
             using (var context = new BDCoromotoEntities())
@@ -159,6 +167,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarMetodoP(long IdMetodoP)
         {
             try
@@ -188,6 +197,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarMetodoPago(long id)
         {
 
@@ -213,6 +223,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarMetodoPago(MetodoPago model)
         {
             using (var context = new BDCoromotoEntities())
@@ -236,6 +247,7 @@ namespace CoromotoAccess.Controllers
 
         //Tipos de Habitaciones
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarTipoHabitacion(TipoHabitacion model)
         {
             using (var context = new BDCoromotoEntities())
@@ -260,6 +272,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarTipoHabitacion(long IdTipodeHabitacion)
         {
             try
@@ -289,6 +302,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarTipoHabitacion(long id)
         {
             using (var context = new BDCoromotoEntities())
@@ -312,6 +326,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarTipoHabitacion(TipoHabitacion model)
         {
             using (var context = new BDCoromotoEntities())
@@ -334,6 +349,7 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarTipoMoneda(TipoMoneda model)
         {
             using (var context = new BDCoromotoEntities())
@@ -350,6 +366,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarTipoMoneda(long IdMoneda)
         {
             try
@@ -379,6 +396,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarMoneda(long id)
         {
             using (var context = new BDCoromotoEntities())
@@ -402,6 +420,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarMoneda(TipoMoneda model)
         {
             using (var context = new BDCoromotoEntities())
@@ -424,6 +443,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarCategoria(Categoria model)
         {
             using (var context = new BDCoromotoEntities())
@@ -440,6 +460,7 @@ namespace CoromotoAccess.Controllers
             }
         }
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarCategoria(int IdCategoria)
         {
             try
@@ -469,6 +490,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarCategoria(int id)
         {
             using (var context = new BDCoromotoEntities())
@@ -492,6 +514,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarCategoria(Categoria model)
         {
             using (var context = new BDCoromotoEntities())
@@ -510,11 +533,6 @@ namespace CoromotoAccess.Controllers
             }
             return View(model);
         }
-
-
-
-
-
 
     }
 }

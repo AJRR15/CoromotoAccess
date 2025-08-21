@@ -1,4 +1,5 @@
-﻿using CoromotoAccess.Models;
+﻿using CoromotoAccess.Filters;
+using CoromotoAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -12,6 +13,7 @@ namespace CoromotoAccess.Controllers
     {
         // GET: Clientes
         [HttpGet]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult GestionClientes()
         {
             using (var context = new BDCoromotoEntities())
@@ -33,6 +35,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult ModificarCliente(long id)
         {
             using (var context = new BDCoromotoEntities())
@@ -58,6 +61,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult ModificarCliente(Usuario model)
         {
             // Validar campos obligatorios
@@ -104,11 +108,13 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult AgregarCliente()
         {
             return View();
         }
         [HttpPost]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult AgregarCliente(Usuario model)
         {
             if (model == null || !ModelState.IsValid)

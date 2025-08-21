@@ -1,4 +1,5 @@
-﻿using CoromotoAccess.Models;
+﻿using CoromotoAccess.Filters;
+using CoromotoAccess.Models;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
@@ -12,8 +13,10 @@ using System.Xml.Linq;
 
 namespace CoromotoAccess.Controllers
 {
+    [AuthRequired]
     public class ReservaController : Controller
     {
+        [AuthRequired(Roles = "Administrador, Empleado")]
         [HttpGet]
         public ActionResult AdministrarReservas()
         {
@@ -52,6 +55,7 @@ namespace CoromotoAccess.Controllers
             }
         }
         
+
         private void CargarListas()
         {
             using (var context = new BDCoromotoEntities())
@@ -61,7 +65,9 @@ namespace CoromotoAccess.Controllers
             }
         }
 
+        
         [HttpGet]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult ModificarReserva(long id)
         {
             using (var context = new BDCoromotoEntities())
@@ -92,6 +98,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult ModificarReserva(Reserva model)
         {
             using (var context = new BDCoromotoEntities())
@@ -117,6 +124,7 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult CancelarReserva(long Id)
         {
             try
@@ -146,6 +154,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult DetallesReserva(long id)
         {
             using (var context = new BDCoromotoEntities())
@@ -223,6 +232,7 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult DescargarReserva(long id)
         {
             using (var context = new BDCoromotoEntities())
@@ -260,6 +270,7 @@ namespace CoromotoAccess.Controllers
                 return File(pdfContent, "application/pdf", $"Reserva_{reserva.IdReserva}.pdf");
             }
         }
+
         private byte[] GenerarPDFReserva(Reserva reserva)
         {
             using (var memoryStream = new MemoryStream())

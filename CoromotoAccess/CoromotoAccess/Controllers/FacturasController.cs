@@ -1,65 +1,69 @@
-﻿    using System;
+﻿using CoromotoAccess.Filters;
+using CoromotoAccess.Models; // Asegúrate de tener el namespace correcto para los modelos
+    using iTextSharp.text;
+    using iTextSharp.text.pdf;
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Web.Mvc;
-    using CoromotoAccess.Models; // Asegúrate de tener el namespace correcto para los modelos
-    using iTextSharp.text;
-    using iTextSharp.text.pdf;
 
 
     namespace CoromotoAccess.Controllers
     {
+        [AuthRequired]
         public class FacturasController : Controller
         {
             // GET: Facturas/Historico
             [HttpGet]
+            [AuthRequired(Roles = "Administrador, Empleado")]
             public ActionResult Historico(DateTime? filtroFechaInicio, DateTime? filtroFechaFin, string cedulaCliente)
-            {
-                using (var context = new BDCoromotoEntities())
                 {
-                    var query = context.tFacturas.AsQueryable();
-
-                    // Filtrar por rango de fechas
-                    if (filtroFechaInicio != null && filtroFechaFin != null)
+                    using (var context = new BDCoromotoEntities())
                     {
-                        query = query.Where(f => f.FechaEmision >= filtroFechaInicio && f.FechaEmision <= filtroFechaFin);
-                    }
+                        var query = context.tFacturas.AsQueryable();
 
-                    // Filtrar por cédula del cliente
-                    if (!string.IsNullOrEmpty(cedulaCliente))
-                    {
-                        var idsUsuarios = context.tUsuario
-                                                .Where(u => u.Identificacion == cedulaCliente)
-                                                .Select(u => u.ConsecutivoCliente)
-                                                .ToList();
-                        query = query.Where(f => idsUsuarios.Contains(f.IdUsuario));
-                    }
-
-                    var datos = query.ToList();
-
-                    var facturas = new List<Factura>();
-                    foreach (var item in datos)
-                    {
-                        facturas.Add(new Factura
+                        // Filtrar por rango de fechas
+                        if (filtroFechaInicio != null && filtroFechaFin != null)
                         {
-                            IdFactura = item.IdFactura,
-                            IdUsuario = item.IdUsuario,
-                            CedulaCliente = item.tUsuario.Identificacion,
-                            FechaEmision = item.FechaEmision,
-                            imagen = item.Imagen,
-                            total = item.Total,
-                            Estado = item.Estado
-                        });
-                    }
+                            query = query.Where(f => f.FechaEmision >= filtroFechaInicio && f.FechaEmision <= filtroFechaFin);
+                        }
 
-                    ViewBag.Usuarios = new SelectList(context.tUsuario.ToList(), "ConsecutivoCliente", "Nombre");
-                    return View(facturas);
+                        // Filtrar por cédula del cliente
+                        if (!string.IsNullOrEmpty(cedulaCliente))
+                        {
+                            var idsUsuarios = context.tUsuario
+                                                    .Where(u => u.Identificacion == cedulaCliente)
+                                                    .Select(u => u.ConsecutivoCliente)
+                                                    .ToList();
+                            query = query.Where(f => idsUsuarios.Contains(f.IdUsuario));
+                        }
+
+                        var datos = query.ToList();
+
+                        var facturas = new List<Factura>();
+                        foreach (var item in datos)
+                        {
+                            facturas.Add(new Factura
+                            {
+                                IdFactura = item.IdFactura,
+                                IdUsuario = item.IdUsuario,
+                                CedulaCliente = item.tUsuario.Identificacion,
+                                FechaEmision = item.FechaEmision,
+                                imagen = item.Imagen,
+                                total = item.Total,
+                                Estado = item.Estado
+                            });
+                        }
+
+                        ViewBag.Usuarios = new SelectList(context.tUsuario.ToList(), "ConsecutivoCliente", "Nombre");
+                        return View(facturas);
+                    }
                 }
-            }
 
             // POST: Facturas/AgregarFactura
             [HttpPost]
+            [AuthRequired(Roles = "Administrador")]
             public ActionResult AgregarFactura(Factura factura)
             {
                 using (var context = new BDCoromotoEntities())
@@ -247,27 +251,28 @@
                 }
             }
             [HttpPost]
+            [AuthRequired(Roles = "Administrador, Empleado")]
             public ActionResult MarcarComoPagado(int id)
-            {
-                using (var context = new BDCoromotoEntities())
                 {
-                    try
+                    using (var context = new BDCoromotoEntities())
                     {
-                        var factura = context.tFacturas.Find(id);
-                        if (factura != null)
+                        try
                         {
-                            factura.Estado = true;
-                            context.SaveChanges();
-                            TempData["Mensaje"] = "Factura marcada como pagada exitosamente.";
+                            var factura = context.tFacturas.Find(id);
+                            if (factura != null)
+                            {
+                                factura.Estado = true;
+                                context.SaveChanges();
+                                TempData["Mensaje"] = "Factura marcada como pagada exitosamente.";
+                            }
                         }
+                        catch (Exception ex)
+                        {
+                            TempData["Error"] = $"Error al actualizar el estado: {ex.Message}";
+                        }
+                        return RedirectToAction("Historico");
                     }
-                    catch (Exception ex)
-                    {
-                        TempData["Error"] = $"Error al actualizar el estado: {ex.Message}";
-                    }
-                    return RedirectToAction("Historico");
                 }
-            }
 
 
 

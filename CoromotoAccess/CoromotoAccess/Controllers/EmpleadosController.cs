@@ -1,4 +1,5 @@
-﻿using CoromotoAccess.Models;
+﻿using CoromotoAccess.Filters;
+using CoromotoAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -12,6 +13,7 @@ namespace CoromotoAccess.Controllers
     {
         // GET: Empleados
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult GestionEmpleados()
         {
             using (var context = new BDCoromotoEntities())
@@ -43,6 +45,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarEmpleado(int id)
         {
             using (var context = new BDCoromotoEntities())
@@ -78,6 +81,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarEmpleado(Empleado model)
         {
             using (var context = new BDCoromotoEntities())
@@ -125,12 +129,14 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarEmpleado()
         {
             return View();
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarEmpleado(Empleado model)
         {
             if (!ModelState.IsValid)
@@ -176,6 +182,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarEmpleado(int id)
         {
             using (var context = new BDCoromotoEntities())
@@ -199,6 +206,7 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult GestionTareas()
         {
             using (var context = new BDCoromotoEntities())
@@ -223,6 +231,7 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarTarea(Tarea model)
         {
             using (var context = new BDCoromotoEntities())
@@ -242,6 +251,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarTarea(int id)
         {
             using (var context = new BDCoromotoEntities())
@@ -260,6 +270,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarTarea(int ConsecutivoEmp)
         {
             ViewBag.IdEmpleado = ConsecutivoEmp;
@@ -268,6 +279,7 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AgregarTarea(Tarea model)
         {
             using (var context = new BDCoromotoEntities())
@@ -306,6 +318,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult CrearTurno()
         {
             using (var context = new BDCoromotoEntities())
@@ -324,6 +337,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult CrearTurno(Turnos turno)
         {
             using (var context = new BDCoromotoEntities())
@@ -367,6 +381,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AsignarTurno(Empleado model)
         {
             using (var context = new BDCoromotoEntities())
@@ -388,6 +403,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult DesasignarTurno(Empleado model)
         {
             using (var context = new BDCoromotoEntities())
@@ -408,6 +424,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarTurno(int id)
         {
             using (var context = new BDCoromotoEntities())
@@ -426,6 +443,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarTurno(Turnos model)
         {
             using (var context = new BDCoromotoEntities())

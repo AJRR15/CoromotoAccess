@@ -1,4 +1,5 @@
 ﻿using Antlr.Runtime.Misc;
+using CoromotoAccess.Filters;
 using CoromotoAccess.Models;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,12 @@ using System.Web.Mvc;
 
 namespace CoromotoAccess.Controllers
 {
+    [AuthRequired]
+
     public class ActivosController : Controller
     {
+
+        [AuthRequired(Roles = "Administrador, Empleado")]
         [HttpGet]
         public ActionResult AdministrarActivos()
         {
@@ -61,6 +66,7 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult CrearActivo()
         {
             using (var context = new BDCoromotoEntities())
@@ -74,6 +80,7 @@ namespace CoromotoAccess.Controllers
 
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult CrearActivo(Activo activo)
         {
             using (var context = new BDCoromotoEntities())
@@ -109,6 +116,7 @@ namespace CoromotoAccess.Controllers
         //Eliminar Actvo
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarActivo(long IdActivo)
         {
             try
@@ -140,6 +148,7 @@ namespace CoromotoAccess.Controllers
     //Modificar Activo
         
         [HttpGet]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult ModificarActivo(long id)
         {
             using (var context = new BDCoromotoEntities())
@@ -173,6 +182,7 @@ namespace CoromotoAccess.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult ModificarActivo(Activo model)
         {
             // Validación de campos vacíos

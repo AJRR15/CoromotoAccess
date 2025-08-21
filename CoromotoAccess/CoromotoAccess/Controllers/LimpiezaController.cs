@@ -1,19 +1,22 @@
-﻿using CoromotoAccess.Models;
-using iTextSharp.text.pdf;
+﻿using CoromotoAccess.Filters;
+using CoromotoAccess.Models;
 using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
-using System.Net.Mail;
-using System.Data.Entity;
 
 namespace CoromotoAccess.Controllers
 {
+    [AuthRequired]
     public class LimpiezaController : Controller
     {
+        [AuthRequired(Roles = "Administrador, Empleado")]
         [HttpGet]
         public ActionResult ControlDeLimpieza()
         {
@@ -67,6 +70,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpGet]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AsignarLimpieza()
         {
             using (var context = new BDCoromotoEntities())
@@ -78,6 +82,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador")]
         public ActionResult AsignarLimpieza(Limpieza model)
         {
             using (var context = new BDCoromotoEntities())
@@ -111,6 +116,7 @@ namespace CoromotoAccess.Controllers
         }
 
         [HttpPost]
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult ConfirmarLimpieza(int id)
         {
             using (var context = new BDCoromotoEntities())
