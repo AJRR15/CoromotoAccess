@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<CoromotoAccess.Models.Vacaciones>
 @{ ViewBag.Title = "GestionarVacaciones"; }
 
+
+
 <link href="~/Styles/css/tabla.css" rel="stylesheet" />
 
 <div class="container mt-5">
@@ -17,7 +19,7 @@
             <table class="villa-table table table-striped">
                 <thead class="table-dark">
                     <tr>
-                        <th>ID Empleado</th>
+                        <th>Empleado</th>
                         <th>Días de Vacaciones Disponibles</th>
                         <th>Fecha de Inicio</th>
                         <th>Fecha de Fin</th>
@@ -31,24 +33,13 @@
                         foreach (var vacacion in Model)
                         {
                             var empleado = ViewBag.DiccionarioEmpleados[vacacion.IdEmpleado];
+                            var nombreCompleto = empleado.Nombre + " " + empleado.Apellido;
 
-                            var estadoVacacion = "-";
-
-                            if (vacacion.Estado == 0)
-                            {
-                                estadoVacacion = "Pendiente";
-                            }
-                            else if (vacacion.Estado == 1)
-                            {
-                                estadoVacacion = "Aprobada";
-                            }
-                            else if (vacacion.Estado == 2)
-                            {
-                                estadoVacacion = "Rechazada";
-                            }
+                            var estadoVacacion = vacacion.Estado == 0 ? "Pendiente" :
+                                                 vacacion.Estado == 1 ? "Aprobada" : "Rechazada";
 
                             <tr>
-                                <td>@vacacion.IdEmpleado</td>
+                                <td>@nombreCompleto</td>
                                 <td>@empleado.Vacaciones</td>
                                 <td>@vacacion.FechaInicio.ToString("dd/MM/yyyy")</td>
                                 <td>@vacacion.FechaFin.ToString("dd/MM/yyyy")</td>
@@ -67,6 +58,7 @@
                                 </td>
                             </tr>
                         }
+
                     }
                 </tbody>
             </table>
@@ -91,13 +83,14 @@
                             {
                                 @class = "form-control",
                                 required = "required",
-                                @onchange = "document.getElementById('diasDisponibles').value = '';"
+                                @onchange = "actualizarDiasDisponibles();"
                             })
                         </div>
                         <div class="form-group">
                             <label class="form-label">Días de vacaciones disponibles:</label>
                             <input id="diasDisponibles" type="number" class="form-control" readonly>
                         </div>
+
                         <div class="form-group">
                             <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
                             <input id="fechaInicio" name="FechaInicio" type="date" class="form-control" required>
@@ -120,12 +113,26 @@
     </div>
 
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        function aprobarVacaciones(idEmpleado) {
-            if (confirm('¿Está seguro de que desea aprobar las vacaciones para el empleado con ID: ' + idEmpleado + '?')) {
-                alert('Vacaciones aprobadas para el empleado con ID: ' + idEmpleado);
-                // Lógica para aprobar las vacaciones
-            }
+        var empleados = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.EmpleadosParaJs));
+
+        function actualizarDiasDisponibles() {
+            var select = document.getElementById("IdEmpleado");
+            var empleadoId = parseInt(select.value);
+
+            var empleado = empleados.find(e => e.Id === empleadoId);
+            document.getElementById("diasDisponibles").value = empleado ? empleado.Vacaciones : 0;
         }
+
+        document.getElementById("IdEmpleado").addEventListener("change", actualizarDiasDisponibles);
+
+        document.querySelector('form').addEventListener('submit', function(e){
+            var dias = parseInt(document.getElementById("diasDisponibles").value);
+            if(dias <= 0){
+                e.preventDefault();
+                alert("No tiene días de vacaciones disponibles.");
+            }
+        });
+
+        actualizarDiasDisponibles();
     </script>

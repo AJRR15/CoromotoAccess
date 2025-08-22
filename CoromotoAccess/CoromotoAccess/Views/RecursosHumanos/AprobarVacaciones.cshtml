@@ -31,38 +31,35 @@
                     @foreach (var vacacion in Model)
                     {
                         var empleado = ViewBag.DiccionarioEmpleados[vacacion.IdEmpleado];
+                        string nombreCompleto = empleado.Nombre + " " + empleado.Apellido;
 
                         <tr>
-                            <td>@vacacion.IdEmpleado</td>
+                            <td>@nombreCompleto</td>  <!-- Muestra nombre completo -->
                             <td>@empleado.Vacaciones</td>
                             <td>@vacacion.FechaInicio.ToString("dd/MM/yyyy")</td>
                             <td>@vacacion.FechaFin.ToString("dd/MM/yyyy")</td>
-                            <td>@vacacion.Estado</td>
-                            @if (vacacion.Estado == 0)
-                            {
-                                <td style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-                                    @using (Html.BeginForm("AprobarVacaciones", "RecursosHumanos", FormMethod.Post))
-                                    {
-                                        @Html.Hidden("id", vacacion.IdVacacion)
-                                        <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('¿Estás seguro de que deseas aprobar estas vacaciones?')">
-                                            Aprobar
-                                        </button>
-                                    }
-
-                                    @using (Html.BeginForm("RechazarVacaciones", "RecursosHumanos", FormMethod.Post))
-                                    {
-                                        @Html.Hidden("id", vacacion.IdVacacion)
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas rechazar estas vacaciones?')">
-                                            Rechazar
-                                        </button>
-                                    }
-                                </td>
-                            }
-                            else
-                            {
-                                <td></td>
-                            }
-
+                            <td>@(vacacion.Estado == 0 ? "Pendiente" : vacacion.Estado == 1 ? "Aprobada" : "Rechazada")</td>
+                            <td>
+                                @if (vacacion.Estado == 0)
+                                {
+                                    <div class="d-flex gap-2">
+                                        @using (Html.BeginForm("AprobarVacaciones", "RecursosHumanos", FormMethod.Post, new { @class = "m-0" }))
+                                        {
+                                            @Html.Hidden("id", vacacion.IdVacacion)
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                Aprobar
+                                            </button>
+                                        }
+                                        @using (Html.BeginForm("RechazarVacaciones", "RecursosHumanos", FormMethod.Post, new { @class = "m-0" }))
+                                        {
+                                            @Html.Hidden("id", vacacion.IdVacacion)
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                Rechazar
+                                            </button>
+                                        }
+                                    </div>
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>

@@ -6,8 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace CoromotoAccess.Controllers
 {
+
+
     
     public class RecursosHumanosController : Controller
     {
@@ -17,11 +20,24 @@ namespace CoromotoAccess.Controllers
         {
             return View();
         }
+        [HttpGet]
+        [AuthRequired]
         public ActionResult GestionarVacaciones()
         {
             using (var context = new BDCoromotoEntities())
             {
-                var vacaciones = context.tVacaciones.Select(e => new Vacaciones
+                var usuarioActual = (int)Session["UsuarioId"];
+                var rolUsuario = Session["UsuarioRol"]?.ToString(); // "Administrador" o "Empleado"
+
+                // Obtener vacaciones
+                var vacacionesQuery = context.tVacaciones.AsQueryable();
+
+                if (rolUsuario != "Administrador")
+                {
+                    vacacionesQuery = vacacionesQuery.Where(v => v.IdEmpleado == usuarioActual);
+                }
+
+                var vacaciones = vacacionesQuery.Select(e => new Vacaciones
                 {
                     IdVacacion = e.IdVacacion,
                     IdEmpleado = e.IdEmpleado,
@@ -31,15 +47,36 @@ namespace CoromotoAccess.Controllers
                     Estado = e.Estado
                 }).ToList();
 
-                ViewBag.Empleados = new SelectList(context.tEmpleados.ToList(), "ConsecutivoEmp", "Nombre");
-                ViewBag.DiccionarioEmpleados = context.tEmpleados.ToDictionary(e => e.ConsecutivoEmp, e => e);
+                // Obtener empleados según rol
+                var empleados = context.tEmpleados.ToList();
+                if (rolUsuario != "Administrador")
+                {
+                    empleados = empleados.Where(emp => emp.ConsecutivoEmp == usuarioActual).ToList();
+                }
+
+                // Crear diccionario directamente desde la lista
+                var empleadosDic = empleados.ToDictionary(e => e.ConsecutivoEmp, e => e);
+
+                // Preparar lista para JS
+                var empleadosParaJs = empleadosDic.Values
+                    .Select(e => new {
+                        Id = e.ConsecutivoEmp,
+                        Nombre = e.Nombre + " " + e.Apellido,
+                        Vacaciones = e.Vacaciones
+                    })
+                    .ToList();
+
+                ViewBag.EmpleadosParaJs = empleadosParaJs;
+                ViewBag.Empleados = new SelectList(empleados, "ConsecutivoEmp", "Nombre");
+                ViewBag.DiccionarioEmpleados = empleadosDic;
 
                 return View(vacaciones);
             }
         }
 
-        [HttpPost]
-        [AuthRequired(Roles = "Administrador")]
+
+        [HttpPost]  
+        [AuthRequired(Roles = "Administrador, Empleado")]
         public ActionResult CrearVacaciones(Vacaciones model)
         {
             using (var context = new BDCoromotoEntities())
@@ -99,11 +136,19 @@ namespace CoromotoAccess.Controllers
                 if (vacacion != null)
                 {
                     vacacion.Estado = 1;
+
+                    // Descontar los días de vacaciones del empleado
+                    var empleado = context.tEmpleados.Find(vacacion.IdEmpleado);
+                    if (empleado != null)
+                    {
+                        int diasSolicitados = int.Parse(vacacion.DiasSolicitados);
+                        empleado.Vacaciones -= diasSolicitados;
+                    }
+
                     context.SaveChanges();
                     TempData["MensajePantalla"] = "Vacaciones aprobadas.";
                 }
-
-                return RedirectToAction("GestionarVacaciones");
+                return RedirectToAction("AprobarVacaciones", "RecursosHumanos");
             }
         }
 
@@ -122,7 +167,7 @@ namespace CoromotoAccess.Controllers
                     TempData["MensajePantalla"] = "Vacaciones rechazadas.";
                 }
 
-                return RedirectToAction("GestionarVacaciones");
+                return RedirectToAction("AprobarVacaciones", "RecursosHumanos");
             }
         }
         public ActionResult AutoGestion()
