@@ -59,20 +59,26 @@
                                 <div class="col habitacion-card" data-tipo-habitacion-id="@habitacion.IdTipoHabitacion">
                                     <div class="card border-0 shadow-sm h-100 overflow-hidden transition-all hover-shadow">
                                         <div class="position-relative">
-                                            <img src="~/Styles/imagenes/AfuerasVilla.jpg"
+                                            <img src="@(string.IsNullOrEmpty(habitacion.img1)
+                                                ? Url.Content("~/Styles/imagenes/AfuerasVilla.jpg")
+                                                : Url.Content(habitacion.img1))"
                                                  class="card-img-top img-fluid"
                                                  alt="@habitacion.NombreHabitacion"
                                                  style="height: 250px; object-fit: cover;">
+
                                             <div class="position-absolute top-0 end-0 m-3">
                                                 <span class="badge bg-primary">$@habitacion.Precio.ToString("N2")/noche</span>
                                             </div>
+
                                             @if (!habitacion.Estado)
                                             {
-                                                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style="background: rgba(0,0,0,0.5);">
+                                                <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                                                     style="background: rgba(0,0,0,0.5);">
                                                     <span class="badge bg-danger py-2 px-3">NO DISPONIBLE</span>
                                                 </div>
                                             }
                                         </div>
+
                                         <div class="card-body">
                                             <h5 class="card-title mb-2">@habitacion.NombreHabitacion</h5>
                                             <p class="card-text text-muted small mb-3">@habitacion.Descripcion</p>

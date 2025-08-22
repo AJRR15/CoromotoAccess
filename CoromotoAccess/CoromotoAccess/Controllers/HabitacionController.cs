@@ -32,7 +32,8 @@ namespace CoromotoAccess.Controllers
                         Precio = item.Precio,
                         Estado = item.Estado,
                         IdVilla = item.IdVilla,
-                        IdTipoHabitacion = item.IdTipoHabitacion
+                        IdTipoHabitacion = item.IdTipoHabitacion,
+                        img1 = item.img1
 
                     });
                 }
@@ -88,14 +89,46 @@ namespace CoromotoAccess.Controllers
 
         [HttpPost]
         [AuthRequired(Roles = "Administrador")]
-        public ActionResult AgregarHabitacion(Habitacion model)
+        public ActionResult AgregarHabitacion(Habitacion model,
+     HttpPostedFileBase img1File,
+     HttpPostedFileBase img2File,
+     HttpPostedFileBase img3File,
+     HttpPostedFileBase img4File,
+     HttpPostedFileBase img5File,
+     HttpPostedFileBase img6File)
         {
             using (var context = new BDCoromotoEntities())
             {
-                ViewBag.Villas = new SelectList(context.tVillas.ToList(), "IdVilla", "NombreHabitacion");
-                ViewBag.TiposHabitacion = new SelectList(context.tTiposHabitaciones.ToList(), "IdTipodeHabitacion", "NombreTipodeHabitcion");
+                // Método interno para guardar archivos y devolver la ruta
+                string GuardarImagen(HttpPostedFileBase file)
+                {
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        var folderPath = Server.MapPath("~/Content/ImagenesHabitaciones");
+
+                        // Crear carpeta si no existe
+                        if (!Directory.Exists(folderPath))
+                            Directory.CreateDirectory(folderPath);
+
+                        var fullPath = Path.Combine(folderPath, fileName);
+                        file.SaveAs(fullPath);
+
+                        return "/Content/ImagenesHabitaciones/" + fileName;
+                    }
+                    return null;
+                }
+
                 try
                 {
+                    if (!ModelState.IsValid)
+                    {
+                        // Recargar combos si hay error de validación
+                        ViewBag.Villas = new SelectList(context.tVillas, "IdVilla", "NombreHabitacion");
+                        ViewBag.TiposHabitacion = new SelectList(context.tTiposHabitaciones, "IdTipodeHabitacion", "NombreTipodeHabitacion");
+                        return View(model);
+                    }
+
                     var nuevaHabitacion = new tHabitaciones
                     {
                         NombreHabitacion = model.NombreHabitacion,
@@ -105,7 +138,13 @@ namespace CoromotoAccess.Controllers
                         CheckOut = model.CheckOut,
                         Estado = model.Estado,
                         IdVilla = model.IdVilla,
-                        IdTipoHabitacion = model.IdTipoHabitacion
+                        IdTipoHabitacion = model.IdTipoHabitacion,
+                        img1 = GuardarImagen(img1File),
+                        img2 = GuardarImagen(img2File),
+                        img3 = GuardarImagen(img3File),
+                        img4 = GuardarImagen(img4File),
+                        img5 = GuardarImagen(img5File),
+                        img6 = GuardarImagen(img6File)
                     };
 
                     context.tHabitaciones.Add(nuevaHabitacion);
@@ -115,11 +154,19 @@ namespace CoromotoAccess.Controllers
                 }
                 catch (Exception ex)
                 {
+                    // Mostrar mensaje de error
                     ViewBag.MensajePantalla = $"Error: {ex.Message}";
+
+                    // Recargar combos para que el modal no quede vacío
+                    ViewBag.Villas = new SelectList(context.tVillas, "IdVilla", "NombreHabitacion");
+                    ViewBag.TiposHabitacion = new SelectList(context.tTiposHabitaciones, "IdTipodeHabitacion", "NombreTipodeHabitacion");
+
                     return View(model);
                 }
             }
         }
+
+
         [HttpPost]
         [AuthRequired(Roles = "Administrador")]
         public ActionResult EliminarHabitacion(long IdHabitacion)
@@ -180,7 +227,13 @@ namespace CoromotoAccess.Controllers
                     CheckOut = model.CheckOut,
                     Estado = model.Estado,
                     IdVilla = model.IdVilla,
-                    IdTipoHabitacion = model.IdTipoHabitacion
+                    IdTipoHabitacion = model.IdTipoHabitacion,
+                    img1 = model.img1,
+                    img2 = model.img2,
+                    img3 = model.img3,
+                    img4 = model.img4,
+                    img5 = model.img5,
+                    img6 = model.img6
                 };
 
                 return View(habitacion);

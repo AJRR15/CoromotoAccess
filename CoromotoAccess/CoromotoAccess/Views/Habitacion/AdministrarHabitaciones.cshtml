@@ -1,183 +1,232 @@
-﻿    @model List<CoromotoAccess.Models.Habitacion>
-    @{
-        ViewBag.Title = "AdministrarHabitaciones";
-    }
-    <link href="~/Styles/css/tabla.css" rel="stylesheet" />
-    <section id="content" class="prod">
-        <div class="container_24">
-            <div class="wrapper">
-                <article class="grid_24">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h2 class="p17 text-black font-weight-bold mb-0">Nuestras Habitaciones</h2>
-                        <button class="btn btn-outline-dark ml-3" data-bs-toggle="modal" data-bs-target="#agregarHabitacionModal">Agregar Habitaciones</button>
-                    </div>
-                    <br />
-                    <!-- Filtros -->
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="input-group mb-3">
-                                <select class="form-control" id="buscarHabitacion" onchange="filtrarHabitacion()">
-                                    <option value="">Todos los tipos</option>
-                                    @foreach (var tipo in ViewBag.TiposHabitacion)
-                                    {
-                                        <option value="@tipo.Value">@tipo.Text</option>
-                                    }
-                                </select>
-                            </div>
+﻿@model List<CoromotoAccess.Models.Habitacion>
+@{
+    ViewBag.Title = "AdministrarHabitaciones";
+}
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+<section id="content" class="prod">
+    <div class="container_24">
+        <div class="wrapper">
+            <article class="grid_24">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h2 class="p17 text-black font-weight-bold mb-0">Nuestras Habitaciones</h2>
+                    <button class="btn btn-outline-dark ml-3" data-bs-toggle="modal" data-bs-target="#agregarHabitacionModal">Agregar Habitaciones</button>
+                </div>
+                <br />
+                <!-- Filtros -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group mb-3">
+                            <select class="form-control" id="buscarHabitacion" onchange="filtrarHabitacion()">
+                                <option value="">Todos los tipos</option>
+                                @foreach (var tipo in ViewBag.TiposHabitacion)
+                                {
+                                    <option value="@tipo.Value">@tipo.Text</option>
+                                }
+                            </select>
                         </div>
                     </div>
+                </div>
 
-                    <br />
-                    @foreach (var villa in ViewBag.Villas)
-                    {
-                        <div class="villa-container">
-                            <h3 class="villa-title">@villa.Text</h3>
-                            <table class="villa-table">
-                                <thead>
-                                    <tr>
-                                        <th>Habitación</th>
-                                        <th>Descripción</th>
-                                        <th>Check-in</th>
-                                        <th>Check-out</th>
-                                        <th>Precio por noche</th>
-                                        <th>Acciones</th>
+                <br />
+                @foreach (var villa in ViewBag.Villas)
+                {
+                    <div class="villa-container">
+                        <h3 class="villa-title">@villa.Text</h3>
+                        <table class="villa-table">
+                            <thead>
+                                <tr>
+                                    <th>Habitación</th>
+                                    <th>Descripción</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Precio por noche</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var habitacion in Model.Where(h => h.IdVilla.ToString() == villa.Value))
+                                {
+                                    <tr data-tipo-habitacion-id="@habitacion.IdTipoHabitacion">
+                                        <td>@habitacion.NombreHabitacion</td>
+                                        <td>@habitacion.Descripcion</td>
+                                        <td>@habitacion.CheckIn.ToString("hh:mm tt")</td>
+                                        <td>@habitacion.CheckOut.ToString("hh:mm tt")</td>
+                                        <td>$@habitacion.Precio.ToString("N2")</td>
+                                        <td style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                            <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })">Modificar</a>
+                                            <form action="@Url.Action("EliminarHabitacion", "Habitacion")" method="post">
+                                                <input type="hidden" name="IdHabitacion" value="@habitacion.IdHabitacion" />
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta habitación?')">Eliminar</button>
+                                            </form>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var habitacion in Model.Where(h => h.IdVilla.ToString() == villa.Value))
-                                    {
-                                        <tr data-tipo-habitacion-id="@habitacion.IdTipoHabitacion">
-                                            <td>@habitacion.NombreHabitacion</td>
-                                            <td>@habitacion.Descripcion</td>
-                                            <td>@habitacion.CheckIn.ToString("hh:mm tt")</td>
-                                            <td>@habitacion.CheckOut.ToString("hh:mm tt")</td>
-                                            <td>$@habitacion.Precio.ToString("N2")</td>
-                                            <td style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-                                                <a class="btn btn-warning btn-sm" href="@Url.Action("ModificarHabitacion", "Habitacion", new { id = habitacion.IdHabitacion })">Modificar</a>
-                                                <form action="@Url.Action("EliminarHabitacion", "Habitacion")" method="post">
-                                                    <input type="hidden" name="IdHabitacion" value="@habitacion.IdHabitacion" />
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta habitación?')">Eliminar</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <br />
-                    }
-                </article>
-            </div>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <br />
+                }
+            </article>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Modal -->
-    <div class="modal fade" id="agregarHabitacionModal" tabindex="-1" role="dialog" aria-labelledby="agregarHabitacionModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="agregarHabitacionModalLabel">Agregar Habitación</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @using (Html.BeginForm("AgregarHabitacion", "Habitacion", FormMethod.Post, new { @class = "form-horizontal" }))
-                    {
-                        <div class="form-group">
-                            <label class="control-label col-md-4" for="NombreHabitacion">Nombre:</label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="NombreHabitacion" required />
-                            </div>
-                        </div>
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="agregarHabitacionModal" tabindex="-1" role="dialog" aria-labelledby="agregarHabitacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
 
-                        <div class="form-group">
-                            <label class="control-label col-md-4" for="Descripcion">Descripción:</label>
-                            <div class="col-md-8">
-                                <textarea class="form-control" name="Descripcion" required></textarea>
-                            </div>
-                        </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarHabitacionModalLabel">Agregar Habitación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-4" for="CheckIn">Check-in:</label>
-                            <div class="col-md-8">
-                                <input type="time" class="form-control" name="CheckIn" required />
-                            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("AgregarHabitacion", "Habitacion", FormMethod.Post,
+                    new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="NombreHabitacion">Nombre:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="NombreHabitacion" required />
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-4" for="CheckOut">Check-out:</label>
-                            <div class="col-md-8">
-                                <input type="time" class="form-control" name="CheckOut" required />
-                            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Descripcion">Descripción:</label>
+                        <div class="col-md-8">
+                            <textarea class="form-control" name="Descripcion" required></textarea>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-4" for="Precio">Precio por noche:</label>
-                            <div class="col-md-8">
-                                <input type="number" step="0.01" class="form-control" name="Precio" required />
-                            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="CheckIn">Check-in:</label>
+                        <div class="col-md-8">
+                            <input type="time" class="form-control" name="CheckIn" required />
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-4" for="Estado">Estado:</label>
-                            <div class="col-md-8">
-                                <select class="form-control" name="Estado" required>
-                                    <option value="True">Disponible</option>
-                                    <option value="False">Ocupada</option>
-                                </select>
-                            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="CheckOut">Check-out:</label>
+                        <div class="col-md-8">
+                            <input type="time" class="form-control" name="CheckOut" required />
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-4" for="IdVilla">Villa:</label>
-                            <div class="col-md-8">
-                                @Html.DropDownList("IdVilla", (SelectList)ViewBag.Villas, "Seleccione una villa", new { @class = "form-control", required = "required" })
-                            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Precio">Precio por noche:</label>
+                        <div class="col-md-8">
+                            <input type="number" step="0.01" class="form-control" name="Precio" required />
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-4" for="IdTipoHabitacion">Tipo de Habitación:</label>
-                            <div class="col-md-8">
-                                @Html.DropDownList("IdTipoHabitacion", (SelectList)ViewBag.TiposHabitacion, "Seleccione un tipo", new { @class = "form-control", required = "required" })
-                            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Estado">Estado:</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="Estado" required>
+                                <option value="True">Disponible</option>
+                                <option value="False">Ocupada</option>
+                            </select>
                         </div>
+                    </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="IdVilla">Villa:</label>
+                        <div class="col-md-8">
+                            @Html.DropDownList("IdVilla", (SelectList)ViewBag.Villas, "Seleccione una villa",
+                                new { @class = "form-control", required = "required" })
                         </div>
-                    }
-                </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="IdTipoHabitacion">Tipo de Habitación:</label>
+                        <div class="col-md-8">
+                            @Html.DropDownList("IdTipoHabitacion", (SelectList)ViewBag.TiposHabitacion, "Seleccione un tipo",
+                                new { @class = "form-control", required = "required" })
+                        </div>
+                    </div>
+
+                    <!-- Campos para imágenes -->
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="img1File">Imagen 1:</label>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control" name="img1File" accept="image/*" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="img2File">Imagen 2:</label>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control" name="img2File" accept="image/*" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="img3File">Imagen 3:</label>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control" name="img3File" accept="image/*" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="img4File">Imagen 4:</label>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control" name="img4File" accept="image/*" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="img5File">Imagen 5:</label>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control" name="img5File" accept="image/*" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="img6File">Imagen 6:</label>
+                        <div class="col-md-8">
+                            <input type="file" class="form-control" name="img6File" accept="image/*" />
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                }
             </div>
         </div>
     </div>
+</div>
 
 
-    <script>
-        function filtrarHabitacion() {
-            var tipoSeleccionado = document.getElementById("buscarHabitacion").value;
-            var tablas = document.getElementsByClassName("villa-table");
+<script>
+    function filtrarHabitacion() {
+        var tipoSeleccionado = document.getElementById("buscarHabitacion").value;
+        var tablas = document.getElementsByClassName("villa-table");
 
-            for (var j = 0; j < tablas.length; j++) {
-                var tabla = tablas[j];
-                var filas = tabla.getElementsByTagName("tr");
+        for (var j = 0; j < tablas.length; j++) {
+            var tabla = tablas[j];
+            var filas = tabla.getElementsByTagName("tr");
 
-                for (var i = 1; i < filas.length; i++) {
-                    var fila = filas[i];
-                    var tipoHabitacionId = fila.getAttribute("data-tipo-habitacion-id");
+            for (var i = 1; i < filas.length; i++) {
+                var fila = filas[i];
+                var tipoHabitacionId = fila.getAttribute("data-tipo-habitacion-id");
 
-                    if (tipoSeleccionado === "" || tipoSeleccionado === tipoHabitacionId) {
-                        fila.style.display = "";
-                    } else {
-                        fila.style.display = "none";
-                    }
+                if (tipoSeleccionado === "" || tipoSeleccionado === tipoHabitacionId) {
+                    fila.style.display = "";
+                } else {
+                    fila.style.display = "none";
                 }
             }
         }
-        document.querySelector('select[name="Estado"]').addEventListener('change', function () {
-            let estado = this.value === "True";
-            console.log("Estado como booleano:", estado);
-        });
+    }
+    document.querySelector('select[name="Estado"]').addEventListener('change', function () {
+        let estado = this.value === "True";
+        console.log("Estado como booleano:", estado);
+    });
 
-    </script>
+</script>
