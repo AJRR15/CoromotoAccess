@@ -1,7 +1,9 @@
 ﻿using CoromotoAccess.Filters;
 using CoromotoAccess.Models;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -241,65 +243,75 @@ namespace CoromotoAccess.Controllers
             }
         }
 
-        [HttpPost]
-        [AuthRequired(Roles = "Administrador")]
-        public ActionResult ModificarHabitacion(Habitacion model,
-                    HttpPostedFileBase img1File, HttpPostedFileBase img2File,
-                    HttpPostedFileBase img3File, HttpPostedFileBase img4File,
-                    HttpPostedFileBase img5File, HttpPostedFileBase img6File)
+
+    [HttpPost]
+    [AuthRequired(Roles = "Administrador")]
+    public ActionResult ModificarHabitacion(Habitacion model,
+                        HttpPostedFileBase img1File, HttpPostedFileBase img2File,
+                        HttpPostedFileBase img3File, HttpPostedFileBase img4File,
+                        HttpPostedFileBase img5File, HttpPostedFileBase img6File)
+    {
+        // Parsear precio manualmente desde el campo "Precio"
+        var rawPrecio = Request.Form["Precio"];
+        if (!decimal.TryParse(rawPrecio, NumberStyles.Any, CultureInfo.InvariantCulture, out var precio))
         {
-            using (var context = new BDCoromotoEntities())
+            ViewBag.MensajePantalla = "El precio ingresado no es válido.";
+            return View(model);
+        }
+        model.Precio = precio;
+
+        using (var context = new BDCoromotoEntities())
+        {
+            var datos = context.tHabitaciones.FirstOrDefault(x => x.IdHabitacion == model.IdHabitacion);
+            if (datos != null)
             {
-                var datos = context.tHabitaciones.FirstOrDefault(x => x.IdHabitacion == model.IdHabitacion);
-                if (datos != null)
+                // Método para guardar imágenes
+                string GuardarImagen(HttpPostedFileBase file, string actual)
                 {
-                    // método para guardar imágenes
-                    string GuardarImagen(HttpPostedFileBase file, string actual)
+                    if (file != null && file.ContentLength > 0)
                     {
-                        if (file != null && file.ContentLength > 0)
-                        {
-                            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-                            var folderPath = Server.MapPath("~/Content/ImagenesHabitaciones");
+                        var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                        var folderPath = Server.MapPath("~/Content/ImagenesHabitaciones");
 
-                            if (!Directory.Exists(folderPath))
-                                Directory.CreateDirectory(folderPath);
+                        if (!Directory.Exists(folderPath))
+                            Directory.CreateDirectory(folderPath);
 
-                            var fullPath = Path.Combine(folderPath, fileName);
-                            file.SaveAs(fullPath);
+                        var fullPath = Path.Combine(folderPath, fileName);
+                        file.SaveAs(fullPath);
 
-                            return "/Content/ImagenesHabitaciones/" + fileName;
-                        }
-                        return actual; // si no subieron nada, mantengo la imagen anterior
+                        return "/Content/ImagenesHabitaciones/" + fileName;
                     }
-
-                    datos.NombreHabitacion = model.NombreHabitacion;
-                    datos.Descripcion = model.Descripcion;
-                    datos.Precio = model.Precio;
-                    datos.CheckIn = model.CheckIn;
-                    datos.CheckOut = model.CheckOut;
-                    datos.Estado = model.Estado;
-                    datos.IdVilla = model.IdVilla;
-                    datos.IdTipoHabitacion = model.IdTipoHabitacion;
-
-                    // actualizar imágenes solo si se subió una nueva
-                    datos.img1 = GuardarImagen(img1File, datos.img1);
-                    datos.img2 = GuardarImagen(img2File, datos.img2);
-                    datos.img3 = GuardarImagen(img3File, datos.img3);
-                    datos.img4 = GuardarImagen(img4File, datos.img4);
-                    datos.img5 = GuardarImagen(img5File, datos.img5);
-                    datos.img6 = GuardarImagen(img6File, datos.img6);
-
-                    context.SaveChanges();
-                    return RedirectToAction("AdministrarHabitaciones", "Habitacion");
+                    return actual; // si no subieron nada, mantener imagen anterior
                 }
 
-                ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente";
-                return View(model);
+                // Actualizar campos
+                datos.NombreHabitacion = model.NombreHabitacion;
+                datos.Descripcion = model.Descripcion;
+                datos.Precio = model.Precio;
+                datos.CheckIn = model.CheckIn;
+                datos.CheckOut = model.CheckOut;
+                datos.Estado = model.Estado;
+                datos.IdVilla = model.IdVilla;
+                datos.IdTipoHabitacion = model.IdTipoHabitacion;
+
+                // Actualizar imágenes solo si se subió una nueva
+                datos.img1 = GuardarImagen(img1File, datos.img1);
+                datos.img2 = GuardarImagen(img2File, datos.img2);
+                datos.img3 = GuardarImagen(img3File, datos.img3);
+                datos.img4 = GuardarImagen(img4File, datos.img4);
+                datos.img5 = GuardarImagen(img5File, datos.img5);
+                datos.img6 = GuardarImagen(img6File, datos.img6);
+
+                context.SaveChanges();
+                return RedirectToAction("AdministrarHabitaciones", "Habitacion");
             }
+
+            ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente";
+            return View(model);
         }
+    }
 
-
-        [HttpGet]
+    [HttpGet]
         public ActionResult DatosHabitacion(int id, string errorMessage = null)
         {
             try
