@@ -327,9 +327,20 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="obj\Debug\Coromoto.F92A3C25.Up2Date" />
+    <Content Include="obj\Debug\CoromotoAccess.csproj.AssemblyReference.cache" />
+    <Content Include="obj\Debug\CoromotoAccess.csproj.CoreCompileInputs.cache" />
     <Content Include="obj\Debug\CoromotoAccess.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\CoromotoAccess.dll" />
     <Content Include="obj\Debug\CoromotoAccess.pdb" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\Model1.csdl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\Model1.msl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\Model1.ssdl" />
+    <Content Include="obj\Debug\TempPE\Models.Model1.Context.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.Model1.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Models.Model1.Designer.cs.dll" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -337,13 +348,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="bin\CoromotoAccess.dll.config" />
-    <Content Include="obj\Debug\Coromoto.F92A3C25.Up2Date" />
-    <Content Include="obj\Debug\CoromotoAccess.csproj.AssemblyReference.cache" />
-    <Content Include="obj\Debug\CoromotoAccess.csproj.CoreCompileInputs.cache" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\Model1.csdl" />
-    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\Model1.msl" />
-    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\Model1.ssdl" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -534,7 +538,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="obj\Debug\TempPE\" />
     <Folder Include="Views\AuthRequiredAttribute\" />
   </ItemGroup>
   <ItemGroup>

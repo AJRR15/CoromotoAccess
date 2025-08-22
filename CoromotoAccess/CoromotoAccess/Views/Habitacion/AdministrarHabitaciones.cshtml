@@ -3,6 +3,229 @@
     ViewBag.Title = "AdministrarHabitaciones";
 }
 <link href="~/Styles/css/tabla.css" rel="stylesheet" />
+<style>
+    :root {
+        --primary: #2c3e50;
+        --secondary: #3498db;
+        --accent: #e74c3c;
+        --light: #ecf0f1;
+        --dark: #2c3e50;
+        --gold: #f1c40f;
+    }
+
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+    }
+
+    .hero-section {
+        background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=400&q=80');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+        border-radius: 0 0 10px 10px;
+    }
+
+    .room-card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        margin-bottom: 2rem;
+        background: white;
+    }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+    .room-image-container {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .room-image {
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+        width: 100%;
+    }
+
+    .room-card:hover .room-image {
+        transform: scale(1.05);
+    }
+
+    .room-price {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background: var(--accent);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 30px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .room-status {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        padding: 6px 15px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .room-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin: 15px 0;
+    }
+
+    .feature {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+    }
+
+        .feature i {
+            color: var(--secondary);
+            margin-right: 5px;
+            font-size: 1.1rem;
+        }
+
+    .btn-reserve {
+        background: linear-gradient(to right, var(--secondary), var(--primary));
+        border: none;
+        padding: 10px 25px;
+        border-radius: 30px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-reserve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            color: white;
+        }
+
+    .section-title {
+        position: relative;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+        text-align: center;
+        font-weight: 700;
+        color: var(--dark);
+    }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+    media (max-width: 768px) {
+        .room-image
+
+    {
+        height: 250px;
+    }
+
+    .hero-section {
+        padding: 2rem 0;
+    }
+
+    .room-features {
+        gap: 10px;
+    }
+
+    }
+
+    /* Estilos específicos para el modal y el dropdown */
+    .modal {
+        overflow: visible !important;
+    }
+
+    .modal-dialog {
+        max-height: 90vh; /* limita la altura al 90% de la pantalla */
+        overflow-y: scroll !important; /* fuerza scroll siempre */
+    }
+
+    .modal-content {
+        overflow: visible !important;
+    }
+
+    .modal-body {
+        max-height: 70vh; /* altura fija relativa a la ventana */
+        overflow-y: scroll !important; /* siempre mostrar scroll */
+    }
+
+    /* Estilo mejorado para los dropdowns */
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+
+    .calendar-container {
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+    }
+
+
+    .room-image-container {
+        min-height: 320px;
+    }
+
+    .carousel, .carousel-inner, .carousel-item {
+        height: 100%;
+    }
+
+        .carousel-item img.room-image {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+        }
+
+    media (max-width: 768px) {
+        .room-image-container
+
+    {
+        min-height: 240px;
+    }
+
+    .carousel-item img.room-image {
+        height: 240px;
+    }
+    }
+</style>
 <section id="content" class="prod">
     <div class="container_24">
         <div class="wrapper">
@@ -71,60 +294,63 @@
     </div>
 </section>
 
-<!-- Modal -->
-<!-- Modal -->
+<!-- Modal Agregar Habitación -->
 <div class="modal fade" id="agregarHabitacionModal" tabindex="-1" role="dialog" aria-labelledby="agregarHabitacionModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="agregarHabitacionModalLabel">Agregar Habitación</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <!-- Header con degradado -->
+            <div class="modal-header" style="background: linear-gradient(to right, var(--secondary), var(--primary));">
+                <h5 class="modal-title font-weight-bold" style="color: white;">
+                    <i class="fas fa-bed me-2"></i>Agregar Habitación
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
+            <!-- Body -->
             <div class="modal-body">
                 @using (Html.BeginForm("AgregarHabitacion", "Habitacion", FormMethod.Post,
                     new { @class = "form-horizontal", enctype = "multipart/form-data" }))
                 {
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="NombreHabitacion">Nombre:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="NombreHabitacion">Nombre:</label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="NombreHabitacion" required />
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="Descripcion">Descripción:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="Descripcion">Descripción:</label>
                         <div class="col-md-8">
-                            <textarea class="form-control" name="Descripcion" required></textarea>
+                            <textarea class="form-control" name="Descripcion" rows="3" required></textarea>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="CheckIn">Check-in:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="CheckIn">Check-in:</label>
                         <div class="col-md-8">
                             <input type="time" class="form-control" name="CheckIn" required />
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="CheckOut">Check-out:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="CheckOut">Check-out:</label>
                         <div class="col-md-8">
                             <input type="time" class="form-control" name="CheckOut" required />
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="Precio">Precio por noche:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="Precio">Precio por noche:</label>
                         <div class="col-md-8">
                             <input type="number" step="0.01" class="form-control" name="Precio" required />
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="Estado">Estado:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="Estado">Estado:</label>
                         <div class="col-md-8">
                             <select class="form-control" name="Estado" required>
                                 <option value="True">Disponible</option>
@@ -133,74 +359,82 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="IdVilla">Villa:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="IdVilla">Villa:</label>
                         <div class="col-md-8">
                             @Html.DropDownList("IdVilla", (SelectList)ViewBag.Villas, "Seleccione una villa",
                                 new { @class = "form-control", required = "required" })
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="IdTipoHabitacion">Tipo de Habitación:</label>
+                    <div class="form-group row mb-4">
+                        <label class="control-label col-md-4 form-label" for="IdTipoHabitacion">Tipo de Habitación:</label>
                         <div class="col-md-8">
                             @Html.DropDownList("IdTipoHabitacion", (SelectList)ViewBag.TiposHabitacion, "Seleccione un tipo",
                                 new { @class = "form-control", required = "required" })
                         </div>
                     </div>
 
-                    <!-- Campos para imágenes -->
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="img1File">Imagen 1:</label>
+                    <!-- Imágenes -->
+                    <h5 class="mb-3 text-secondary"><i class="fas fa-images me-2"></i> Imágenes</h5>
+
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="img1File">Imagen 1:</label>
                         <div class="col-md-8">
                             <input type="file" class="form-control" name="img1File" accept="image/*" />
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="img2File">Imagen 2:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="img2File">Imagen 2:</label>
                         <div class="col-md-8">
                             <input type="file" class="form-control" name="img2File" accept="image/*" />
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="img3File">Imagen 3:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="img3File">Imagen 3:</label>
                         <div class="col-md-8">
                             <input type="file" class="form-control" name="img3File" accept="image/*" />
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="img4File">Imagen 4:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="img4File">Imagen 4:</label>
                         <div class="col-md-8">
                             <input type="file" class="form-control" name="img4File" accept="image/*" />
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="img5File">Imagen 5:</label>
+                    <div class="form-group row mb-3">
+                        <label class="control-label col-md-4 form-label" for="img5File">Imagen 5:</label>
                         <div class="col-md-8">
                             <input type="file" class="form-control" name="img5File" accept="image/*" />
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="img6File">Imagen 6:</label>
+                    <div class="form-group row mb-4">
+                        <label class="control-label col-md-4 form-label" for="img6File">Imagen 6:</label>
                         <div class="col-md-8">
                             <input type="file" class="form-control" name="img6File" accept="image/*" />
                         </div>
                     </div>
 
+                    <!-- Footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fas fa-times me-2"></i> Cerrar
+                        </button>
+                        <button type="submit" class="btn btn-primary" style="background: linear-gradient(to right, var(--secondary), var(--primary));">
+                            <i class="fas fa-save me-2"></i> Guardar
+                        </button>
                     </div>
                 }
             </div>
         </div>
     </div>
 </div>
+
 
 
 <script>
