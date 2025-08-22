@@ -236,18 +236,42 @@ namespace CoromotoAccess.Controllers
                     img6 = model.img6
                 };
 
+
                 return View(habitacion);
             }
         }
+
         [HttpPost]
         [AuthRequired(Roles = "Administrador")]
-        public ActionResult ModificarHabitacion(Habitacion model)
+        public ActionResult ModificarHabitacion(Habitacion model,
+                    HttpPostedFileBase img1File, HttpPostedFileBase img2File,
+                    HttpPostedFileBase img3File, HttpPostedFileBase img4File,
+                    HttpPostedFileBase img5File, HttpPostedFileBase img6File)
         {
             using (var context = new BDCoromotoEntities())
             {
-                var datos = context.tHabitaciones.Where(x => x.IdHabitacion == model.IdHabitacion).FirstOrDefault();
+                var datos = context.tHabitaciones.FirstOrDefault(x => x.IdHabitacion == model.IdHabitacion);
                 if (datos != null)
                 {
+                    // método para guardar imágenes
+                    string GuardarImagen(HttpPostedFileBase file, string actual)
+                    {
+                        if (file != null && file.ContentLength > 0)
+                        {
+                            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                            var folderPath = Server.MapPath("~/Content/ImagenesHabitaciones");
+
+                            if (!Directory.Exists(folderPath))
+                                Directory.CreateDirectory(folderPath);
+
+                            var fullPath = Path.Combine(folderPath, fileName);
+                            file.SaveAs(fullPath);
+
+                            return "/Content/ImagenesHabitaciones/" + fileName;
+                        }
+                        return actual; // si no subieron nada, mantengo la imagen anterior
+                    }
+
                     datos.NombreHabitacion = model.NombreHabitacion;
                     datos.Descripcion = model.Descripcion;
                     datos.Precio = model.Precio;
@@ -257,14 +281,24 @@ namespace CoromotoAccess.Controllers
                     datos.IdVilla = model.IdVilla;
                     datos.IdTipoHabitacion = model.IdTipoHabitacion;
 
+                    // actualizar imágenes solo si se subió una nueva
+                    datos.img1 = GuardarImagen(img1File, datos.img1);
+                    datos.img2 = GuardarImagen(img2File, datos.img2);
+                    datos.img3 = GuardarImagen(img3File, datos.img3);
+                    datos.img4 = GuardarImagen(img4File, datos.img4);
+                    datos.img5 = GuardarImagen(img5File, datos.img5);
+                    datos.img6 = GuardarImagen(img6File, datos.img6);
+
                     context.SaveChanges();
                     return RedirectToAction("AdministrarHabitaciones", "Habitacion");
                 }
 
                 ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente";
+                return View(model);
             }
-            return View(model);
         }
+
+
         [HttpGet]
         public ActionResult DatosHabitacion(int id, string errorMessage = null)
         {
