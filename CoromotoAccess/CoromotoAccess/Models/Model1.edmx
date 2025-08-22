@@ -87,6 +87,12 @@
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="IdVilla" Type="int" Nullable="false" />
           <Property Name="IdTipoHabitacion" Type="int" Nullable="false" />
+          <Property Name="img1" Type="varchar" MaxLength="500" />
+          <Property Name="img2" Type="varchar" MaxLength="500" />
+          <Property Name="img3" Type="varchar" MaxLength="500" />
+          <Property Name="img4" Type="varchar" MaxLength="500" />
+          <Property Name="img5" Type="varchar" MaxLength="500" />
+          <Property Name="img6" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="tLimpiezas">
           <Key>
@@ -698,6 +704,12 @@
           <NavigationProperty Name="tVillas" Relationship="Self.FK_tHabitaciones_tVillas" FromRole="tHabitaciones" ToRole="tVillas" />
           <NavigationProperty Name="tLimpiezas" Relationship="Self.FK_tLimpiezas_tHabitaciones" FromRole="tHabitaciones" ToRole="tLimpiezas" />
           <NavigationProperty Name="tReservas" Relationship="Self.FK_tReservas_tHabitaciones" FromRole="tHabitaciones" ToRole="tReservas" />
+          <Property Name="img1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img4" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img5" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img6" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tLimpiezas">
           <Key>
@@ -1345,6 +1357,12 @@
           <EntitySetMapping Name="tHabitaciones">
             <EntityTypeMapping TypeName="BDCoromotoModel.tHabitaciones">
               <MappingFragment StoreEntitySet="tHabitaciones">
+                <ScalarProperty Name="img6" ColumnName="img6" />
+                <ScalarProperty Name="img5" ColumnName="img5" />
+                <ScalarProperty Name="img4" ColumnName="img4" />
+                <ScalarProperty Name="img3" ColumnName="img3" />
+                <ScalarProperty Name="img2" ColumnName="img2" />
+                <ScalarProperty Name="img1" ColumnName="img1" />
                 <ScalarProperty Name="IdHabitacion" ColumnName="IdHabitacion" />
                 <ScalarProperty Name="NombreHabitacion" ColumnName="NombreHabitacion" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />

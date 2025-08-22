@@ -16,5 +16,12 @@ namespace CoromotoAccess.Models
         public bool Estado { get; set; }
         public int IdVilla {get; set; } 
         public int IdTipoHabitacion {get; set; }
+        public string img1 { get; set; }
+        public string img2 { get; set; }
+        public string img3 { get; set; }
+        public string img4 { get; set; }
+        public string img5 { get; set; }
+        public string img6 { get; set; }
+
     }
 }

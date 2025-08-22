@@ -241,6 +241,12 @@ namespace CoromotoAccess.Controllers
                     CheckOut = habitacion.CheckOut,
                     Estado = habitacion.Estado,
                     IdVilla = habitacion.IdVilla,
+                    img1 = habitacion.img1,
+                    img2 = habitacion.img2,
+                    img3 = habitacion.img3,
+                    img4 = habitacion.img4,
+                    img5 = habitacion.img5,
+                    img6 = habitacion.img6,
                 }
             };
 

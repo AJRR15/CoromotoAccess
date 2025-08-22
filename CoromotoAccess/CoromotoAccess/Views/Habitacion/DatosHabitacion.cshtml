@@ -2,9 +2,6 @@
 @{
     ViewBag.Title = "Datos de la Habitación";
 }
-
-<!DOCTYPE html>
-<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -212,6 +209,20 @@
             margin-bottom: 20px;
             border: 1px solid #eee;
         }
+
+
+          .room-image-container { min-height: 320px; }
+          .carousel, .carousel-inner, .carousel-item { height: 100%; }
+          .carousel-item img.room-image { width: 100%; height: 320px; object-fit: cover; }
+          media (max-width: 768px) {
+            .room-image-container { min-height: 240px; }
+            .carousel-item img.room-image { height: 240px; }
+          }
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -242,15 +253,65 @@
             {
                 <div class="room-card">
                     <div class="row no-gutters">
+                        <!-- Columna izquierda: carrusel -->
                         <div class="col-md-6">
                             <div class="room-image-container">
-                                <img src="~/Styles/imagenes/AfuerasVilla.jpg" class="room-image" alt="@habitacion.NombreHabitacion">
+                                @{
+                                    var imgsRaw = new[] { habitacion.img1, habitacion.img2, habitacion.img3, habitacion.img4, habitacion.img5, habitacion.img6 };
+                                    var imagenes = imgsRaw.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+                                    var carouselId = $"carousel-{habitacion.IdHabitacion}";
+                                }
+
+                                @if (imagenes.Count > 0)
+                                {
+                                    <div id="@carouselId" class="carousel slide" data-ride="carousel" data-interval="4000">
+                                        <ol class="carousel-indicators">
+                                            @for (int idx = 0; idx < imagenes.Count; idx++)
+                                            {
+                                                <li data-target="#@carouselId"
+                                                    data-slide-to="@idx"
+                                                    class="@(idx == 0 ? "active" : "")"></li>
+                                            }
+                                        </ol>
+
+                                        <div class="carousel-inner">
+                                            @for (int k = 0; k < imagenes.Count; k++)
+                                            {
+                                                var img = imagenes[k];
+                                                <div class="carousel-item @(k == 0 ? "active" : "")">
+                                                    <img src="@Url.Content($"~/Styles/imagenes/{img}")"
+                                                         class="room-image d-block w-100"
+                                                         alt="@habitacion.NombreHabitacion" />
+                                                </div>
+                                            }
+                                        </div>
+
+                                        <a class="carousel-control-prev" href="#@carouselId" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Anterior</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#@carouselId" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Siguiente</span>
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <!-- Fallback si no hay imágenes -->
+                                    <img src="@Url.Content("~/Styles/imagenes/AfuerasVilla.jpg")"
+                                         class="room-image d-block w-100"
+                                         alt="@habitacion.NombreHabitacion" />
+                                }
+
                                 <div class="room-price">$@habitacion.Precio.ToString("N2")</div>
                                 <span class="room-status @(habitacion.Estado ? "bg-success" : "bg-danger")">
                                     @(habitacion.Estado ? "Disponible" : "No disponible")
                                 </span>
                             </div>
                         </div>
+
+                        <!-- Columna derecha: lo más importante que pediste -->
                         <div class="col-md-6">
                             <div class="card-body">
                                 <h3 class="card-title mb-3">@habitacion.NombreHabitacion</h3>
@@ -272,9 +333,7 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-
-                                    </div>
+                                    <div></div>
 
                                     @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() != "Empleado")
                                     {
@@ -289,7 +348,8 @@
                                     else
                                     {
                                         <div class="alert alert-warning" role="alert">
-                                            <i class="fas fa-exclamation-triangle me-2"></i>Por favor, inicie sesión para poder realizar una reserva.
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            Por favor, inicie sesión para poder realizar una reserva.
                                         </div>
                                     }
                                 </div>
@@ -298,6 +358,7 @@
                     </div>
                 </div>
             }
+
         </div>
     </section>
 
@@ -414,4 +475,3 @@
     </script>
 
 </body>
-</html>
