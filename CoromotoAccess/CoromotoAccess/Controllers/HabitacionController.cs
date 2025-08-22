@@ -230,26 +230,54 @@ namespace CoromotoAccess.Controllers
                     }
 
                     var habitaciones = new List<Habitacion>
-                    {
-                        new Habitacion
-                        {
-                            IdHabitacion = habitacion.IdHabitacion,
-                            NombreHabitacion = habitacion.NombreHabitacion,
-                            Descripcion = habitacion.Descripcion,
-                            Precio = habitacion.Precio,
-                            CheckIn = habitacion.CheckIn,
-                            CheckOut = habitacion.CheckOut,
-                            Estado = habitacion.Estado,
-                            IdVilla = habitacion.IdVilla,
-                        }
-                    };
+            {
+                new Habitacion
+                {
+                    IdHabitacion = habitacion.IdHabitacion,
+                    NombreHabitacion = habitacion.NombreHabitacion,
+                    Descripcion = habitacion.Descripcion,
+                    Precio = habitacion.Precio,
+                    CheckIn = habitacion.CheckIn,
+                    CheckOut = habitacion.CheckOut,
+                    Estado = habitacion.Estado,
+                    IdVilla = habitacion.IdVilla,
+                }
+            };
 
                     ViewBag.Habitaciones = habitaciones;
                     ViewBag.ErrorMessage = errorMessage;
+
+                    // Cargar reservas válidas y materializar ANTES de transformar fechas
+                    var reservas = context.tReservas
+                        .Where(r => r.IdHabitacion == habitacion.IdHabitacion
+                                 && r.CheckIn != null
+                                 && r.CheckOut != null
+                                 && r.CheckOut >= r.CheckIn
+                                 && r.Estado == true) // solo reservas activas
+                        .Select(r => new { r.CheckIn, r.CheckOut })
+                        .ToList();
+
+                    // Generar lista de días ocupados (yyyy-MM-dd) en memoria
+                    var fechasOcupadas = reservas
+                        .SelectMany(r =>
+                        {
+                            var inicio = r.CheckIn.Date;
+                            var fin = r.CheckOut.Date;
+                            var dias = (fin - inicio).Days + 1; // inclusivo
+                                                                // Limitar a una ventana razonable para evitar bloquear todo el calendario si hay datos malos
+                            if (dias <= 0 || dias > 730) return Enumerable.Empty<string>();
+                            return Enumerable.Range(0, dias)
+                                .Select(offset => inicio.AddDays(offset).ToString("yyyy-MM-dd"));
+                        })
+                        .Distinct()
+                        .ToList();
+
+                    ViewBag.FechasOcupadas = fechasOcupadas;
+
                     return View(new Reserva { IdHabitacion = habitacion.IdHabitacion });
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 ViewBag.ErrorMessage = "Ocurrió un error al cargar los datos de la habitación.";
                 return View("Error");

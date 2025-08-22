@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tActivos">
           <Key>
             <PropertyRef Name="IdActivo" />
@@ -593,8 +593,7 @@
             <End Role="tVacaciones" EntitySet="tVacaciones" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BDCoromotoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -825,12 +824,12 @@
           <Property Name="Activo" Type="Boolean" Nullable="false" />
           <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
           <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="RecuperacionToken" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FechaExpiraToken" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tContactenos" Relationship="Self.FK_tContactenos_tUsuario" FromRole="tUsuario" ToRole="tContactenos" />
           <NavigationProperty Name="tFacturas" Relationship="Self.FK_tFacturas_tUsuario" FromRole="tUsuario" ToRole="tFacturas" />
           <NavigationProperty Name="tReservas" Relationship="Self.FK_tReservas_tUsuario" FromRole="tUsuario" ToRole="tReservas" />
           <NavigationProperty Name="tRoles" Relationship="Self.FK_tUsuario_tRoles" FromRole="tUsuario" ToRole="tRoles" />
+          <Property Name="RecuperacionToken" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FechaExpiraToken" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="tVacaciones">
           <Key>
@@ -1464,6 +1463,8 @@
           <EntitySetMapping Name="tUsuario">
             <EntityTypeMapping TypeName="BDCoromotoModel.tUsuario">
               <MappingFragment StoreEntitySet="tUsuario">
+                <ScalarProperty Name="FechaExpiraToken" ColumnName="FechaExpiraToken" />
+                <ScalarProperty Name="RecuperacionToken" ColumnName="RecuperacionToken" />
                 <ScalarProperty Name="ConsecutivoCliente" ColumnName="ConsecutivoCliente" />
                 <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1476,8 +1477,6 @@
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
                 <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
-                <ScalarProperty Name="RecuperacionToken" ColumnName="RecuperacionToken" />
-                <ScalarProperty Name="FechaExpiraToken" ColumnName="FechaExpiraToken" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

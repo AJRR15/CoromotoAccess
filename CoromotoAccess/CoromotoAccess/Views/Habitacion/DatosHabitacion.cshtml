@@ -73,16 +73,17 @@
             </div>
             <div class="modal-body">
                 @using (Html.BeginForm("AgregarReserva", "Reserva", FormMethod.Post, new { @class = "form-horizontal", onsubmit = "return confirmarReserva();" }))
-
                 {
-                    @Html.HiddenFor(m => m.IdHabitacion)
+                    @Html.HiddenFor(m => m.IdHabitacion, new { id = "IdHabitacion" })
                     @Html.Hidden("CheckIn", "", new { id = "CheckIn" })
                     @Html.Hidden("CheckOut", "", new { id = "CheckOut" })
 
                     <div class="form-group">
                         <label for="fechaReserva">Seleccione las fechas:</label>
-                        <input type="text" class="form-control" id="fechaReserva" name="FechaReserva" required>
+                        <input type="text" class="form-control" id="fechaReserva" name="FechaReserva" required readonly tabindex="0">
+                        <small class="text-muted">Las fechas en gris ya están ocupadas.</small>
                     </div>
+
                     <div class="form-group">
                         <label class="control-label col-md-4" for="Comentario">Comentario:</label>
                         <div class="col-md-8">
@@ -116,7 +117,6 @@
     </div>
 </div>
 
-<!-- Estilos adicionales para mejorar el diseño -->
 <style>
     .modal-header {
         background-color: #f8f9fa;
@@ -128,47 +128,54 @@
     }
 </style>
 
-<!-- Scripts necesarios -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Inicializar flatpickr con modo rango para seleccionar Check-In y Check-Out
-        flatpickr("#fechaReserva", {
-            mode: "range",
-            dateFormat: "Y-m-d",
-            disable: @Html.Raw(Json.Encode(ViewBag.FechasOcupadas ?? new List<string>())),
-            onClose: function (selectedDates, dateStr) {
-                if (selectedDates.length === 2) {
-                    let checkIn = selectedDates[0].toISOString().split("T")[0]; // Primera fecha
-                    let checkOut = selectedDates[1].toISOString().split("T")[0]; // Segunda fecha
-                    $("#CheckIn").val(checkIn);
-                    $("#CheckOut").val(checkOut);
-                } else {
-                    $("#CheckIn").val("");  // Limpiar si no se seleccionan dos fechas
-                    $("#CheckOut").val("");
-                }
-            }
-        });
-
-        // Capturar el ID de la habitación y asignarlo al modal
-        $('.reservar-btn').on('click', function () {
-            let habitacionId = $(this).data('habitacion-id');
-            console.log("ID Habitación seleccionada:", habitacionId); // Depuración
-            $('#IdHabitacion').val(habitacionId);
-        });
-    });
-</script>
-
-<script type="text/javascript">
-    function confirmarReserva() {
-        alert("¡La habitación fue reservada exitosamente!");
-        return true; // continúa con el envío del formulario
-    }
-</script>
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="~/Scripts/CoromotoAccess/Reservar.js"></script>
+
+<script>
+$(function () {
+    // Instancia única de Flatpickr al cargar la página
+    var fp = flatpickr("#fechaReserva", {
+        mode: "range",
+        dateFormat: "Y-m-d",
+        locale: "es",
+        // Fechas deshabilitadas del servidor (lista de 'yyyy-MM-dd')
+        disable: @Html.Raw(Json.Encode(ViewBag.FechasOcupadas ?? new List<string>())),
+        clickOpens: true,
+        allowInput: false,
+        // Opcional: limitar calendario a futuro cercano para evitar rangos absurdos
+        minDate: "today",
+        maxDate: new Date().fp_incr(730),
+        onClose: function (selectedDates) {
+            if (selectedDates.length === 2) {
+                $("#CheckIn").val(selectedDates[0].toISOString().split("T")[0]);
+                $("#CheckOut").val(selectedDates[1].toISOString().split("T")[0]);
+            } else {
+                $("#CheckIn").val("");
+                $("#CheckOut").val("");
+            }
+        }
+    });
+
+    // Cada vez que abres el modal, limpiamos selección y aseguramos el IdHabitacion
+    $('.reservar-btn').on('click', function () {
+        $('#IdHabitacion').val($(this).data('habitacion-id'));
+        if (fp) { fp.clear(); }
+        // Abrir el calendario automáticamente al abrir el modal
+        setTimeout(function() {
+            $("#fechaReserva").focus().click();
+        }, 250);
+    });
+});
+
+function confirmarReserva() {
+    // Validación mínima antes de enviar
+    if (!$("#CheckIn").val() || !$("#CheckOut").val()) {
+        alert("Selecciona un rango de fechas válido.");
+        return false;
+    }
+    return true;
+}
+</script>
