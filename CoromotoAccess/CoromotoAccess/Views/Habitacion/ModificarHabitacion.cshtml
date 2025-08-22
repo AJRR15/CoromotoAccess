@@ -33,12 +33,26 @@
         </div>
         <div class="mb-4">
             <label class="form-label fw-semibold">CheckIn:</label>
-            @Html.TextBoxFor(m => m.CheckIn, new { @class = "form-control", type = "datetime-local", required = "required" })
+            @Html.TextBoxFor(m => m.CheckIn, new
+            {
+                @class = "form-control",
+                type = "datetime-local",
+                required = "required",
+                Value = Model.CheckIn.ToString("yyyy-MM-ddTHH:mm")  // 👈 formato correcto
+            })
         </div>
+
         <div class="mb-4">
             <label class="form-label fw-semibold">CheckOut:</label>
-            @Html.TextBoxFor(m => m.CheckOut, new { @class = "form-control", type = "datetime-local", required = "required" })
+            @Html.TextBoxFor(m => m.CheckOut, new
+            {
+                @class = "form-control",
+                type = "datetime-local",
+                required = "required",
+                Value = Model.CheckOut.ToString("yyyy-MM-ddTHH:mm") // 👈 formato correcto
+            })
         </div>
+
         <div class="mb-4 form-check">
             @Html.CheckBoxFor(m => m.Estado, new { @class = "form-check-input" })
             <label class="form-check-label">Activo</label>
