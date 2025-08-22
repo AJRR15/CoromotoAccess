@@ -3,179 +3,415 @@
     ViewBag.Title = "Datos de la Habitación";
 }
 
-<section id="content" class="prod">
-    <div class="container">
-        <div class="wrapper">
-            <article class="grid_24">
-                @if (ViewBag.ErrorMessage != null)
-                {
-                    <div class="alert alert-danger">
-                        @ViewBag.ErrorMessage
-                    </div>
-                }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos de la Habitación - Hotel Coromoto Access</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gold: #f1c40f;
+        }
 
-                @foreach (var habitacion in ViewBag.Habitaciones)
-                {
-                    <h2 class="p17 text-black font-weight-bold">@habitacion.NombreHabitacion</h2>
-                    <div class="card mb-4 shadow-sm">
-                        <div class="row no-gutters">
-                            <div class="col-md-6">
-                                <img src="~/Styles/imagenes/AfuerasVilla.jpg" class="card-img" alt="@habitacion.NombreHabitacion" style="object-fit: cover; height: 100%;">
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=400&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .room-card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            background: white;
+        }
+
+            .room-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            }
+
+        .room-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .room-image {
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            width: 100%;
+        }
+
+        .room-card:hover .room-image {
+            transform: scale(1.05);
+        }
+
+        .room-price {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .room-status {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .room-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+            .feature i {
+                color: var(--secondary);
+                margin-right: 5px;
+                font-size: 1.1rem;
+            }
+
+        .btn-reserve {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .btn-reserve:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+                color: white;
+            }
+
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+            .section-title:after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: var(--secondary);
+                border-radius: 2px;
+            }
+
+        media (max-width: 768px) {
+            .room-image
+
+        {
+            height: 250px;
+        }
+
+        .hero-section {
+            padding: 2rem 0;
+        }
+
+        .room-features {
+            gap: 10px;
+        }
+
+        }
+
+        /* Estilos específicos para el modal y el dropdown */
+        .modal {
+            overflow: visible !important;
+        }
+
+        .modal-dialog {
+            overflow-y: initial !important;
+        }
+
+        .modal-content {
+            overflow: visible !important;
+        }
+
+        .modal-body {
+            overflow: visible !important;
+            position: relative;
+        }
+
+        /* Asegurar que el dropdown se muestre completamente */
+        select.form-control {
+            z-index: 1060; /* Mayor que el z-index del modal (1050) */
+            position: relative;
+        }
+
+        /* Estilo mejorado para los dropdowns */
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .calendar-container {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 font-weight-bold mb-3">Hotel Coromoto Access</h1>
+            <p class="lead mb-4">Disfrute de una experiencia única en nuestras habitaciones</p>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <section id="content" class="prod">
+        <div class="container">
+            <h2 class="section-title">Nuestras Habitaciones</h2>
+
+            <!-- Error Message -->
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger alert-box">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+
+            <!-- Room Listing -->
+            @foreach (var habitacion in ViewBag.Habitaciones)
+            {
+                <div class="room-card">
+                    <div class="row no-gutters">
+                        <div class="col-md-6">
+                            <div class="room-image-container">
+                                <img src="~/Styles/imagenes/AfuerasVilla.jpg" class="room-image" alt="@habitacion.NombreHabitacion">
+                                <div class="room-price">$@habitacion.Precio.ToString("N2")</div>
+                                <span class="room-status @(habitacion.Estado ? "bg-success" : "bg-danger")">
+                                    @(habitacion.Estado ? "Disponible" : "No disponible")
+                                </span>
                             </div>
-                            <div class="col-md-6">
-                                <div class="card-body">
-                                    <h5 class="text-dark font-weight-bold">Descripción:</h5>
-                                    <p class="card-text">@habitacion.Descripcion</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h3 class="card-title mb-3">@habitacion.NombreHabitacion</h3>
+                                <p class="card-text mb-4">@habitacion.Descripcion</p>
 
-                                    <h5 class="text-dark font-weight-bold">Precio:</h5>
-                                    <p class="card-text">$@habitacion.Precio.ToString("N2") por noche</p>
+                                <div class="room-features mb-4">
+                                    <div class="feature">
+                                        <i class="fas fa-wifi"></i>
+                                        <span>WiFi gratis</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-tv"></i>
+                                        <span>TV Incluida</span>
+                                    </div>
+                                    <div class="feature">
+                                        <i class="fas fa-snowflake"></i>
+                                        <span>Aire acondicionado</span>
+                                    </div>
+                                </div>
 
-                                    <h5 class="text-dark font-weight-bold">Estado:</h5>
-                                    <p class="card-text">@(habitacion.Estado ? "Disponible" : "No disponible")</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+
+                                    </div>
 
                                     @if (Session["NombreRol"] != null && Session["NombreRol"].ToString() != "Empleado")
                                     {
-                                        <div class="d-flex justify-content-end">
-                                            <button type="button" class="btn btn-primary reservar-btn"
-                                                    data-toggle="modal"
-                                                    data-target="#reservarModal"
-                                                    data-habitacion-id="@habitacion.IdHabitacion"
-                                                    data-habitacion-nombre="@habitacion.NombreHabitacion">
-                                                Reservar
-                                            </button>
-                                        </div>
+                                        <button type="button" class="btn btn-reserve reservar-btn"
+                                                data-toggle="modal"
+                                                data-target="#reservarModal"
+                                                data-habitacion-id="@habitacion.IdHabitacion"
+                                                data-habitacion-nombre="@habitacion.NombreHabitacion">
+                                            <i class="fas fa-calendar-plus"></i>Reservar
+                                        </button>
                                     }
                                     else
                                     {
                                         <div class="alert alert-warning" role="alert">
-                                            Por favor, inicie sesión para poder realizar una reserva.
+                                            <i class="fas fa-exclamation-triangle me-2"></i>Por favor, inicie sesión para poder realizar una reserva.
                                         </div>
                                     }
                                 </div>
                             </div>
                         </div>
                     </div>
-                }
-            </article>
-        </div>
-    </div>
-</section>
-
-<!-- Modal de reserva -->
-<div class="modal fade" id="reservarModal" tabindex="-1" role="dialog" aria-labelledby="reservarModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title font-weight-bold">Reservar Habitación</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                @using (Html.BeginForm("AgregarReserva", "Reserva", FormMethod.Post, new { @class = "form-horizontal", onsubmit = "return confirmarReserva();" }))
-                {
-                    @Html.HiddenFor(m => m.IdHabitacion, new { id = "IdHabitacion" })
-                    @Html.Hidden("CheckIn", "", new { id = "CheckIn" })
-                    @Html.Hidden("CheckOut", "", new { id = "CheckOut" })
-
-                    <div class="form-group">
-                        <label for="fechaReserva">Seleccione las fechas:</label>
-                        <input type="text" class="form-control" id="fechaReserva" name="FechaReserva" required readonly tabindex="0">
-                        <small class="text-muted">Las fechas en gris ya están ocupadas.</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="Comentario">Comentario:</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="Comentario" required />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-4" for="PersonasHospedados">Personas a Hospedar:</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="PersonasHospedados" required />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="IdMoneda">Moneda:</label>
-                        @Html.DropDownList("IdMoneda", (SelectList)ViewBag.Monedas, "Seleccione una moneda", new { @class = "form-control", required = "required" })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="IdMetodoP">Método de Pago:</label>
-                        @Html.DropDownList("IdMetodoP", (SelectList)ViewBag.MetodosPago, "Seleccione un método de pago", new { @class = "form-control", required = "required" })
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Registrar</button>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    .modal-header {
-        background-color: #f8f9fa;
-        font-weight: bold;
-    }
-
-    .modal-footer {
-        justify-content: space-between;
-    }
-</style>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<script>
-$(function () {
-    // Instancia única de Flatpickr al cargar la página
-    var fp = flatpickr("#fechaReserva", {
-        mode: "range",
-        dateFormat: "Y-m-d",
-        locale: "es",
-        // Fechas deshabilitadas del servidor (lista de 'yyyy-MM-dd')
-        disable: @Html.Raw(Json.Encode(ViewBag.FechasOcupadas ?? new List<string>())),
-        clickOpens: true,
-        allowInput: false,
-        // Opcional: limitar calendario a futuro cercano para evitar rangos absurdos
-        minDate: "today",
-        maxDate: new Date().fp_incr(730),
-        onClose: function (selectedDates) {
-            if (selectedDates.length === 2) {
-                $("#CheckIn").val(selectedDates[0].toISOString().split("T")[0]);
-                $("#CheckOut").val(selectedDates[1].toISOString().split("T")[0]);
-            } else {
-                $("#CheckIn").val("");
-                $("#CheckOut").val("");
+                </div>
             }
+        </div>
+    </section>
+
+    <!-- Modal de reserva -->
+    <div class="modal fade" id="reservarModal" tabindex="-1" role="dialog" aria-labelledby="reservarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(to right, var(--secondary), var(--primary));">
+                    <h5 class="modal-title font-weight-bold" style="color: white;">
+                        <i class="fas fa-calendar-check me-2"></i>Reservar Habitación
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" onsubmit="return confirmarReserva();">
+                        <input type="hidden" id="IdHabitacion" name="IdHabitacion">
+                        <input type="hidden" id="CheckIn" name="CheckIn">
+                        <input type="hidden" id="CheckOut" name="CheckOut">
+
+                        <div class="form-group mb-4">
+                            <label for="fechaReserva" class="form-label">Seleccione las fechas:</label>
+                            <div class="calendar-container">
+                                <input type="text" class="form-control" id="fechaReserva" name="FechaReserva" required readonly tabindex="0">
+                                <small class="text-muted">Las fechas en gris ya están ocupadas.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="control-label col-md-4 form-label" for="Comentario">Comentario:</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="Comentario" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="control-label col-md-4 form-label" for="PersonasHospedados">Personas a Hospedar:</label>
+                            <div class="col-md-8">
+                                <input type="number" class="form-control" name="PersonasHospedados" required min="1" max="10" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="control-label col-md-4 form-label" for="IdMoneda">Moneda:</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("IdMoneda", (SelectList)ViewBag.Monedas, "Seleccione una moneda", new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-4">
+                            <label class="control-label col-md-4 form-label" for="IdMetodoP">Método de Pago:</label>
+                            <div class="col-md-8">
+                                @Html.DropDownList("IdMetodoP", (SelectList)ViewBag.MetodosPago, "Seleccione un método de pago", new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" style="background: linear-gradient(to right, var(--secondary), var(--primary));">
+                                <i class="fas fa-check-circle me-2"></i>Registrar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+    <script>
+        $(function () {
+            // Configuración de Flatpickr
+            var fp = flatpickr("#fechaReserva", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                locale: "es",
+                disable: ["2023-08-15", "2023-08-16", "2023-08-20", "2023-08-21"],
+                minDate: "today",
+                maxDate: new Date().fp_incr(365),
+                onClose: function (selectedDates) {
+                    if (selectedDates.length === 2) {
+                        $("#CheckIn").val(selectedDates[0].toISOString().split("T")[0]);
+                        $("#CheckOut").val(selectedDates[1].toISOString().split("T")[0]);
+                    } else {
+                        $("#CheckIn").val("");
+                        $("#CheckOut").val("");
+                    }
+                }
+            });
+
+            // Manejar el clic en el botón de reservar
+            $('.reservar-btn').on('click', function () {
+                $('#IdHabitacion').val($(this).data('habitacion-id'));
+                if (fp) { fp.clear(); }
+                setTimeout(function () {
+                    $("#fechaReserva").focus().click();
+                }, 250);
+            });
+        });
+
+        function confirmarReserva() {
+            if (!$("#CheckIn").val() || !$("#CheckOut").val()) {
+                alert("Selecciona un rango de fechas válido.");
+                return false;
+            }
+            return true;
         }
-    });
+    </script>
 
-    // Cada vez que abres el modal, limpiamos selección y aseguramos el IdHabitacion
-    $('.reservar-btn').on('click', function () {
-        $('#IdHabitacion').val($(this).data('habitacion-id'));
-        if (fp) { fp.clear(); }
-        // Abrir el calendario automáticamente al abrir el modal
-        setTimeout(function() {
-            $("#fechaReserva").focus().click();
-        }, 250);
-    });
-});
-
-function confirmarReserva() {
-    // Validación mínima antes de enviar
-    if (!$("#CheckIn").val() || !$("#CheckOut").val()) {
-        alert("Selecciona un rango de fechas válido.");
-        return false;
-    }
-    return true;
-}
-</script>
+</body>
+</html>
