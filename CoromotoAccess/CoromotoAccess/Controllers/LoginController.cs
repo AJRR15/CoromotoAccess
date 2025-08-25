@@ -37,9 +37,26 @@ namespace CoromotoAccess.Controllers
                         return View();
                     }
 
-                    // Opcional: regenerar SessionID para mitigar fijación de sesión
+                    // 🚫 Verificar si ya tiene sesión activa
+                    var usuarioBD = context.tUsuario.FirstOrDefault(u => u.Identificacion == resultadoUsuario.Identificacion);
+                    if (usuarioBD != null && usuarioBD.SesionActiva.GetValueOrDefault())
+
+                    {
+                        ViewBag.MensajePantalla = "Ya existe una sesión activa para este usuario.";
+                        return View();
+                    }
+
+                    // ✅ Marcar sesión como activa
+                    if (usuarioBD != null)
+                    {
+                        usuarioBD.SesionActiva = true;
+                        usuarioBD.UltimaSesion = DateTime.Now;
+                        context.SaveChanges();
+                    }
+
                     Session.RemoveAll();
 
+                    Session["TipoUsuario"] = "Cliente";
                     Session["UsuarioId"] = resultadoUsuario.ConsecutivoCliente;
                     Session["Consecutivo"] = resultadoUsuario.ConsecutivoCliente;
                     Session["IdUsuario"] = resultadoUsuario.Identificacion;
@@ -62,8 +79,25 @@ namespace CoromotoAccess.Controllers
                         return View();
                     }
 
+                    // 🚫 Verificar si ya tiene sesión activa
+                    var empleadoBD = context.tEmpleados.FirstOrDefault(e => e.Identificacion == resultadoEmpleado.Identificacion);
+                    if (empleadoBD != null && empleadoBD.SesionActiva.GetValueOrDefault())
+                    {
+                        ViewBag.MensajePantalla = "Ya existe una sesión activa para este empleado.";
+                        return View();
+                    }
+
+                    // ✅ Marcar sesión como activa
+                    if (empleadoBD != null)
+                    {
+                        empleadoBD.SesionActiva = true;
+                        empleadoBD.UltimaSesion = DateTime.Now;
+                        context.SaveChanges();
+                    }
+
                     Session.RemoveAll();
 
+                    Session["TipoUsuario"] = "Empleado";
                     Session["UsuarioId"] = resultadoEmpleado.ConsecutivoEmp;
                     Session["Consecutivo"] = resultadoEmpleado.ConsecutivoEmp;
                     Session["IdUsuario"] = resultadoEmpleado.Identificacion;
@@ -84,9 +118,39 @@ namespace CoromotoAccess.Controllers
             }
         }
 
+
+
         [HttpGet]
         public ActionResult CerrarSesion()
         {
+            if (Session["IdUsuario"] != null && Session["TipoUsuario"] != null)
+            {
+                string identificacion = Session["IdUsuario"].ToString();
+                string tipoUsuario = Session["TipoUsuario"].ToString();
+
+                using (var context = new BDCoromotoEntities())
+                {
+                    if (tipoUsuario == "Cliente")
+                    {
+                        var usuario = context.tUsuario.FirstOrDefault(u => u.Identificacion == identificacion);
+                        if (usuario != null)
+                        {
+                            usuario.SesionActiva = false;
+                            context.SaveChanges();
+                        }
+                    }
+                    else if (tipoUsuario == "Empleado")
+                    {
+                        var empleado = context.tEmpleados.FirstOrDefault(e => e.Identificacion == identificacion);
+                        if (empleado != null)
+                        {
+                            empleado.SesionActiva = false;
+                            context.SaveChanges();
+                        }
+                    }
+                }
+            }
+
             Session.Clear();
             return RedirectToAction("Index", "Home");
         }

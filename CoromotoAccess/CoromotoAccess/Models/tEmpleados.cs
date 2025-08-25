@@ -40,6 +40,8 @@ namespace CoromotoAccess.Models
         public int IdTurno { get; set; }
         public int Vacaciones { get; set; }
         public int HorasTrabajadas { get; set; }
+        public Nullable<bool> SesionActiva { get; set; }
+        public Nullable<System.DateTime> UltimaSesion { get; set; }
     
         public virtual tRoles tRoles { get; set; }
         public virtual tTurnos tTurnos { get; set; }

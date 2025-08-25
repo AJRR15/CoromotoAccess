@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tActivos">
           <Key>
             <PropertyRef Name="IdActivo" />
@@ -52,6 +52,8 @@
           <Property Name="IdTurno" Type="int" Nullable="false" />
           <Property Name="Vacaciones" Type="int" Nullable="false" />
           <Property Name="HorasTrabajadas" Type="int" Nullable="false" />
+          <Property Name="SesionActiva" Type="bit" />
+          <Property Name="UltimaSesion" Type="datetime" />
         </EntityType>
         <EntityType Name="tEvaluaciones">
           <Key>
@@ -87,12 +89,12 @@
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="IdVilla" Type="int" Nullable="false" />
           <Property Name="IdTipoHabitacion" Type="int" Nullable="false" />
-          <Property Name="img1" Type="varchar" MaxLength="500" />
-          <Property Name="img2" Type="varchar" MaxLength="500" />
-          <Property Name="img3" Type="varchar" MaxLength="500" />
-          <Property Name="img4" Type="varchar" MaxLength="500" />
-          <Property Name="img5" Type="varchar" MaxLength="500" />
-          <Property Name="img6" Type="varchar" MaxLength="500" />
+          <Property Name="img1" Type="nvarchar" MaxLength="255" />
+          <Property Name="img2" Type="nvarchar" MaxLength="255" />
+          <Property Name="img3" Type="nvarchar" MaxLength="255" />
+          <Property Name="img4" Type="nvarchar" MaxLength="255" />
+          <Property Name="img5" Type="nvarchar" MaxLength="255" />
+          <Property Name="img6" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="tLimpiezas">
           <Key>
@@ -205,6 +207,8 @@
           <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
           <Property Name="RecuperacionToken" Type="nvarchar" MaxLength="200" />
           <Property Name="FechaExpiraToken" Type="datetime" />
+          <Property Name="SesionActiva" Type="bit" />
+          <Property Name="UltimaSesion" Type="datetime" />
         </EntityType>
         <EntityType Name="tVacaciones">
           <Key>
@@ -599,7 +603,8 @@
             <End Role="tVacaciones" EntitySet="tVacaciones" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BDCoromotoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -654,6 +659,8 @@
           <Property Name="IdTurno" Type="Int32" Nullable="false" />
           <Property Name="Vacaciones" Type="Int32" Nullable="false" />
           <Property Name="HorasTrabajadas" Type="Int32" Nullable="false" />
+          <Property Name="SesionActiva" Type="Boolean" />
+          <Property Name="UltimaSesion" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tRoles" Relationship="Self.FK_tEmpleados_tRoles" FromRole="tEmpleados" ToRole="tRoles" />
           <NavigationProperty Name="tTurnos" Relationship="Self.FK_tEmpleados_tTurnos" FromRole="tEmpleados" ToRole="tTurnos" />
           <NavigationProperty Name="tVillas" Relationship="Self.FK_tEmpleados_tVillas" FromRole="tEmpleados" ToRole="tVillas" />
@@ -699,12 +706,12 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdVilla" Type="Int32" Nullable="false" />
           <Property Name="IdTipoHabitacion" Type="Int32" Nullable="false" />
-          <Property Name="img1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="img2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="img3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="img4" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="img5" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="img6" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="img2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="img3" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="img4" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="img5" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="img6" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tActivos" Relationship="Self.FK_tActivos_tHabitaciones" FromRole="tHabitaciones" ToRole="tActivos" />
           <NavigationProperty Name="tTiposHabitaciones" Relationship="Self.FK_tHabitaciones_tTipoHabitacion" FromRole="tHabitaciones" ToRole="tTiposHabitaciones" />
           <NavigationProperty Name="tVillas" Relationship="Self.FK_tHabitaciones_tVillas" FromRole="tHabitaciones" ToRole="tVillas" />
@@ -838,6 +845,8 @@
           <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RecuperacionToken" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="FechaExpiraToken" Type="DateTime" Precision="3" />
+          <Property Name="SesionActiva" Type="Boolean" />
+          <Property Name="UltimaSesion" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tContactenos" Relationship="Self.FK_tContactenos_tUsuario" FromRole="tUsuario" ToRole="tContactenos" />
           <NavigationProperty Name="tFacturas" Relationship="Self.FK_tFacturas_tUsuario" FromRole="tUsuario" ToRole="tFacturas" />
           <NavigationProperty Name="tReservas" Relationship="Self.FK_tReservas_tUsuario" FromRole="tUsuario" ToRole="tReservas" />
@@ -1328,6 +1337,8 @@
                 <ScalarProperty Name="IdTurno" ColumnName="IdTurno" />
                 <ScalarProperty Name="Vacaciones" ColumnName="Vacaciones" />
                 <ScalarProperty Name="HorasTrabajadas" ColumnName="HorasTrabajadas" />
+                <ScalarProperty Name="SesionActiva" ColumnName="SesionActiva" />
+                <ScalarProperty Name="UltimaSesion" ColumnName="UltimaSesion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1495,6 +1506,8 @@
                 <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
                 <ScalarProperty Name="RecuperacionToken" ColumnName="RecuperacionToken" />
                 <ScalarProperty Name="FechaExpiraToken" ColumnName="FechaExpiraToken" />
+                <ScalarProperty Name="SesionActiva" ColumnName="SesionActiva" />
+                <ScalarProperty Name="UltimaSesion" ColumnName="UltimaSesion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
