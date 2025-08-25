@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Sesión expirada";
+    var mostrar = (ViewBag.MostrarExpirada as bool?) ?? false;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-warning text-center">
+                <h2>⏳ Sesión expirada</h2>
+                <p>Tu sesión ha finalizado por inactividad.</p>
+                <a href="@Url.Action("InicioSesion", "Login")" class="btn btn-primary mt-3">
+                    Iniciar sesión nuevamente
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (mostrar)
+{
+    <script>
+        // Modal Bootstrap si lo tienes cargado; si no, usa alert como fallback
+        (function () {
+            var hasBootstrap = !!window.bootstrap || !!document.querySelector('[data-bs-toggle]');
+            if (hasBootstrap) {
+                // Si tienes un modal, puedes dispararlo aquí
+                // new bootstrap.Modal(document.getElementById('modalSesionExpirada')).show();
+            } else {
+                alert("⚠️ Tu sesión ha expirado. Por favor, inicia sesión nuevamente.");
+            }
+            // Redirección opcional tras 5s
+            setTimeout(function () {
+                window.location.href = '@Url.Action("InicioSesion", "Login")';
+            }, 5000);
+        })();
+    </script>
+}

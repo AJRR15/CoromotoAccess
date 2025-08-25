@@ -152,6 +152,7 @@
     <Compile Include="Controllers\ReservaController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Filters\FilterConfig.cs" />
+    <Compile Include="Filters\ValidarSesionActiva.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -536,6 +537,7 @@
     <Content Include="Views\Activos\ModificarActivo.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Login\RestablecerContrasenna.cshtml" />
+    <Content Include="Views\Login\SesionExpirada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

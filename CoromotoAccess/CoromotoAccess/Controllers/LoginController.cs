@@ -289,6 +289,19 @@ namespace CoromotoAccess.Controllers
         {
             return View();
         }
+
+
+        public ActionResult SesionExpirada(string expired)
+        {
+            // Si viene del filtro por inactividad, expired=1
+            ViewBag.MostrarExpirada = (expired == "1");
+
+            // Ahora sí, limpia duro la sesión
+            Session.Clear();
+            Session.Abandon();
+
+            return View();
+        }
     }
 }
 
