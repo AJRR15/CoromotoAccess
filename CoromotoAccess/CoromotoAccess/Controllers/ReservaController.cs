@@ -329,70 +329,75 @@ namespace CoromotoAccess.Controllers
 
         //Metodos a implementar proximamente:
 
-        
-         [HttpPost]
-public ActionResult AgregarReserva(Reserva model)
-{
-    using (var context = new BDCoromotoEntities())
-    {
-        var idUsuario = int.Parse(Session["Consecutivo"].ToString());
 
-        var habitacion = context.tHabitaciones.Find(model.IdHabitacion);
-        if (habitacion == null)
+        [HttpPost]
+        public ActionResult AgregarReserva(Reserva model)
         {
-            return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion, errorMessage = "La habitación seleccionada no existe." });
-        }
+            using (var context = new BDCoromotoEntities())
+            {
+                var idUsuarioRaw = Session["Consecutivo"];
+                if (idUsuarioRaw == null)
+                {
+                    TempData["ErrorMessage"] = "Sesión expirada. Por favor, inicie sesión nuevamente.";
+                    return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion });
+                }
 
-        var usuario = context.tUsuario.Find(idUsuario);
-        if (usuario == null)
-        {
-            return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion, errorMessage = "El usuario seleccionado no existe." });
-        }
+                var idUsuario = int.Parse(idUsuarioRaw.ToString());
 
-        var reservasExistentes = context.tReservas.Where(r => r.IdHabitacion == model.IdHabitacion && ((model.CheckIn >= r.CheckIn && model.CheckIn <= r.CheckOut) || (model.CheckOut >= r.CheckIn && model.CheckOut <= r.CheckOut))).ToList();
+                var habitacion = context.tHabitaciones.Find(model.IdHabitacion);
+                if (habitacion == null)
+                {
+                    TempData["ErrorMessage"] = "La habitación seleccionada no existe.";
+                    return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion });
+                }
 
-        if (reservasExistentes.Any())
-        {
-            return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion, errorMessage = "La habitación ya está reservada en las fechas seleccionadas." });
-        }
+                var usuario = context.tUsuario.Find(idUsuario);
+                if (usuario == null)
+                {
+                    TempData["ErrorMessage"] = "El usuario seleccionado no existe.";
+                    return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion });
+                }
 
-        var Estado = true;
-        var reserva = new tReservas
-        {
-            IdUsuario = idUsuario,
-            IdHabitacion = model.IdHabitacion,
-            CheckIn = model.CheckIn,
-            CheckOut = model.CheckOut,
-            Comentario = model.Comentario,
-            PersonasHospedadas = model.PersonasHospedados,
-            Estado = Estado,
-            IdMoneda = model.IdMoneda,
-            IdMetodoP = model.IdMetodoP,
-        };
+                // Validación robusta de solapamiento de fechas
+                var reservasExistentes = context.tReservas
+                    .Where(r => r.IdHabitacion == model.IdHabitacion &&
+                                model.CheckIn < r.CheckOut &&
+                                model.CheckOut > r.CheckIn)
+                    .ToList();
 
-        context.tReservas.Add(reserva);
-        context.SaveChanges();
+                if (reservasExistentes.Any())
+                {
+                    TempData["ErrorMessage"] = "La habitación ya está reservada en las fechas seleccionadas.";
+                    return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion });
+                }
 
-                // Actualizar el estado de la habitación a reservada mostrando que la reserva se ha realizado
+                var reserva = new tReservas
+                {
+                    IdUsuario = idUsuario,
+                    IdHabitacion = model.IdHabitacion,
+                    CheckIn = model.CheckIn,
+                    CheckOut = model.CheckOut,
+                    Comentario = model.Comentario,
+                    PersonasHospedadas = model.PersonasHospedados,
+                    Estado = true,
+                    IdMoneda = model.IdMoneda,
+                    IdMetodoP = model.IdMetodoP,
+                };
 
-                TempData["MensajeExito"] = "La habitación se reservó exitosamente.";
-                return RedirectToAction("MisReservas", "Reserva");
-
-              //Muestra la alerta en pantalla
-              TempData["MostrarAlerta"] = true;
-                return RedirectToAction("MisReservas", "Reserva");
-
-
+                context.tReservas.Add(reserva);
+                context.SaveChanges();
 
                 // Enviar correo de confirmación
                 string asunto = "Confirmación de Reserva";
-        string contenido = GenerarContenidoCorreo(usuario.Nombre, reserva, habitacion.NombreHabitacion);
+                string contenido = GenerarContenidoCorreo(usuario.Nombre, reserva, habitacion.NombreHabitacion);
+                EnviarCorreo(usuario.CorreoElectronico, asunto, contenido);
 
-        EnviarCorreo(usuario.CorreoElectronico, asunto, contenido);
+                // Mensaje de éxito
+                TempData["MensajeExito"] = "La habitación se reservó exitosamente.";
 
-        return RedirectToAction("CatalogoHabitaciones", "Habitacion");
-    }
-}
+                return RedirectToAction("DatosHabitacion", "Habitacion", new { id = model.IdHabitacion });
+            }
+        }
 
 
         private string GenerarContenidoCorreo(string nombre, tReservas reserva, string nombreHabitacion)

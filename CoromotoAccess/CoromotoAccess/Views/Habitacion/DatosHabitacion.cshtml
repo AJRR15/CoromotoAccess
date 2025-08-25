@@ -239,6 +239,24 @@
         <div class="container">
             <h2 class="section-title">Nuestras Habitaciones</h2>
 
+            @if (TempData["MensajeExito"] != null)
+            {
+                <div class="alert alert-success alert-box">
+                    <i class="fas fa-check-circle me-2"></i>
+                    @TempData["MensajeExito"]
+                </div>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-box">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+ 
+
+
             <!-- Error Message -->
             @if (ViewBag.ErrorMessage != null)
             {

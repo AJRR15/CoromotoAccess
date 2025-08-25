@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BDCoromotoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tActivos">
           <Key>
             <PropertyRef Name="IdActivo" />
@@ -87,12 +87,12 @@
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="IdVilla" Type="int" Nullable="false" />
           <Property Name="IdTipoHabitacion" Type="int" Nullable="false" />
-          <Property Name="img1" Type="nvarchar" MaxLength="500" />
-          <Property Name="img2" Type="nvarchar" MaxLength="500" />
-          <Property Name="img3" Type="nvarchar" MaxLength="500" />
-          <Property Name="img4" Type="nvarchar" MaxLength="500" />
-          <Property Name="img5" Type="nvarchar" MaxLength="500" />
-          <Property Name="img6" Type="nvarchar" MaxLength="500" />
+          <Property Name="img1" Type="varchar" MaxLength="500" />
+          <Property Name="img2" Type="varchar" MaxLength="500" />
+          <Property Name="img3" Type="varchar" MaxLength="500" />
+          <Property Name="img4" Type="varchar" MaxLength="500" />
+          <Property Name="img5" Type="varchar" MaxLength="500" />
+          <Property Name="img6" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="tLimpiezas">
           <Key>
@@ -599,8 +599,7 @@
             <End Role="tVacaciones" EntitySet="tVacaciones" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BDCoromotoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -700,12 +699,12 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdVilla" Type="Int32" Nullable="false" />
           <Property Name="IdTipoHabitacion" Type="Int32" Nullable="false" />
-          <Property Name="img1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="img2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="img3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="img4" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="img5" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="img6" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="img1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img4" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img5" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img6" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tActivos" Relationship="Self.FK_tActivos_tHabitaciones" FromRole="tHabitaciones" ToRole="tActivos" />
           <NavigationProperty Name="tTiposHabitaciones" Relationship="Self.FK_tHabitaciones_tTipoHabitacion" FromRole="tHabitaciones" ToRole="tTiposHabitaciones" />
           <NavigationProperty Name="tVillas" Relationship="Self.FK_tHabitaciones_tVillas" FromRole="tHabitaciones" ToRole="tVillas" />
