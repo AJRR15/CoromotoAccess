@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace CoromotoAccess.Controllers
 {
@@ -424,6 +426,204 @@ namespace CoromotoAccess.Controllers
                 return View(evaluaciones);
             }
         }
+        public ActionResult DescargarBoletaPago(int idNomina)
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                var nomina = context.tNominas.FirstOrDefault(n => n.IdNomina == idNomina);
+                var empleado = context.tEmpleados.FirstOrDefault(e => e.ConsecutivoEmp == nomina.IdEmpleado);
+
+                if (nomina == null || empleado == null)
+                {
+                    return HttpNotFound();
+                }
+
+                using (var ms = new MemoryStream())
+                {
+                    var doc = new Document(PageSize.A4, 50, 50, 80, 50);
+                    PdfWriter.GetInstance(doc, ms);
+                    doc.Open();
+
+                    // Logo centrado
+                    string logoPath = Server.MapPath("~/Styles/imagenes/LogoCoromotoNegro.png");
+                    var logo = Image.GetInstance(logoPath);
+                    logo.ScaleToFit(120f, 120f);
+                    logo.Alignment = Element.ALIGN_CENTER;
+                    doc.Add(logo);
+
+                    // Título
+                    var titulo = new Paragraph("Boleta de Pago", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLACK))
+                    {
+                        Alignment = Element.ALIGN_CENTER,
+                        SpacingAfter = 20f
+                    };
+                    doc.Add(titulo);
+
+                    // Datos del empleado
+                    var datosEmpleado = new PdfPTable(2)
+                    {
+                        WidthPercentage = 80,
+                        HorizontalAlignment = Element.ALIGN_CENTER,
+                        SpacingAfter = 20f
+                    };
+                    datosEmpleado.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                    datosEmpleado.AddCell("Empleado:");
+                    datosEmpleado.AddCell($"{empleado.Nombre} {empleado.Apellido}");
+
+                    datosEmpleado.AddCell("Rol:");
+                    datosEmpleado.AddCell(empleado.tRoles?.NombreRol ?? "Sin rol");
+
+                    doc.Add(datosEmpleado);
+
+                    // Tabla de pagos con estilo
+                    var tablaPagos = new PdfPTable(4)
+                    {
+                        WidthPercentage = 80,
+                        HorizontalAlignment = Element.ALIGN_CENTER,
+                        SpacingBefore = 10f,
+                        SpacingAfter = 20f
+                    };
+
+                    // Encabezados
+                    var headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
+                    BaseColor headerBackground = new BaseColor(52, 58, 64); // Gris oscuro
+
+                    string[] headers = { "Salario", "Bono", "Multa", "Total" };
+                    foreach (var h in headers)
+                    {
+                        var cell = new PdfPCell(new Phrase(h, headerFont))
+                        {
+                            BackgroundColor = headerBackground,
+                            Padding = 8f,
+                            HorizontalAlignment = Element.ALIGN_CENTER
+                        };
+                        tablaPagos.AddCell(cell);
+                    }
+
+                    // Valores
+                    var valueFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK);
+                    tablaPagos.AddCell(new PdfPCell(new Phrase($"${nomina.Salario}", valueFont)) { Padding = 6f, HorizontalAlignment = Element.ALIGN_CENTER });
+                    tablaPagos.AddCell(new PdfPCell(new Phrase($"${nomina.Bono}", valueFont)) { Padding = 6f, HorizontalAlignment = Element.ALIGN_CENTER });
+                    tablaPagos.AddCell(new PdfPCell(new Phrase($"${nomina.Multa}", valueFont)) { Padding = 6f, HorizontalAlignment = Element.ALIGN_CENTER });
+                    tablaPagos.AddCell(new PdfPCell(new Phrase($"${nomina.Salario + nomina.Bono - nomina.Multa}", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.GREEN)))
+                    {
+                        Padding = 6f,
+                        HorizontalAlignment = Element.ALIGN_CENTER
+                    });
+
+                    doc.Add(tablaPagos);
+
+                    doc.Close();
+                    byte[] pdfBytes = ms.ToArray();
+                    return File(pdfBytes, "application/pdf", "BoletaPago.pdf");
+                }
+            }
+        }
+
+
+        public ActionResult DescargarHistoricoNominas()
+        {
+            using (var context = new BDCoromotoEntities())
+            {
+                // Obtener el ID del empleado desde la sesión
+                if (Session["UsuarioId"] == null)
+                {
+                    return HttpNotFound();
+                }
+
+                int idEmpleado = (int)Session["UsuarioId"];
+
+                var empleado = context.tEmpleados.FirstOrDefault(e => e.ConsecutivoEmp == idEmpleado);
+                if (empleado == null)
+                {
+                    return HttpNotFound();
+                }
+
+                var nominas = context.tNominas
+                    .Where(n => n.IdEmpleado == idEmpleado)
+                    .ToList();
+
+                if (!nominas.Any())
+                {
+                    return HttpNotFound();
+                }
+
+                using (var ms = new MemoryStream())
+                {
+                    var doc = new Document(PageSize.A4, 50, 50, 80, 50);
+                    PdfWriter.GetInstance(doc, ms);
+                    doc.Open();
+
+                    // Logo
+                    string logoPath = Server.MapPath("~/Styles/imagenes/LogoCoromotoNegro.png");
+                    var logo = Image.GetInstance(logoPath);
+                    logo.ScaleToFit(100f, 100f);
+                    logo.Alignment = Element.ALIGN_CENTER;
+                    doc.Add(logo);
+
+                    // Título
+                    var titulo = new Paragraph("Histórico de Boletas de Pago",
+                        new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLACK))
+                    {
+                        Alignment = Element.ALIGN_CENTER,
+                        SpacingAfter = 20f
+                    };
+                    doc.Add(titulo);
+
+                    // Datos del empleado
+                    var datosEmpleado = new Paragraph(
+                        $"Empleado: {empleado.Nombre} {empleado.Apellido}\n" +
+                        $"Rol: {empleado.tRoles?.NombreRol ?? "Sin rol"}\n\n",
+                        new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK));
+                    doc.Add(datosEmpleado);
+
+                    // Tabla de nóminas
+                    var tabla = new PdfPTable(4)
+                    {
+                        WidthPercentage = 100,
+                        SpacingBefore = 10f,
+                        SpacingAfter = 20f
+                    };
+
+                    var headerFont = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD, BaseColor.WHITE);
+                    BaseColor headerBg = new BaseColor(33, 37, 41);
+
+                    string[] headers = { "Salario", "Bono", "Multa", "Total" };
+                    foreach (var h in headers)
+                    {
+                        var c = new PdfPCell(new Phrase(h, headerFont))
+                        {
+                            BackgroundColor = headerBg,
+                            Padding = 6f,
+                            HorizontalAlignment = Element.ALIGN_CENTER
+                        };
+                        tabla.AddCell(c);
+                    }
+
+                    var valueFont = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.BLACK);
+                    foreach (var n in nominas)
+                    {
+                        decimal total = n.Salario + n.Bono - n.Multa;
+                        tabla.AddCell(new PdfPCell(new Phrase($"${n.Salario}", valueFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5f });
+                        tabla.AddCell(new PdfPCell(new Phrase($"${n.Bono}", valueFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5f });
+                        tabla.AddCell(new PdfPCell(new Phrase($"${n.Multa}", valueFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5f });
+                        tabla.AddCell(new PdfPCell(new Phrase($"${total}", new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.GREEN)))
+                        {
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            Padding = 5f
+                        });
+                    }
+
+                    doc.Add(tabla);
+                    doc.Close();
+
+                    byte[] pdfBytes = ms.ToArray();
+                    return File(pdfBytes, "application/pdf", "HistoricoBoletasPago.pdf");
+                }
+            }
+        }
+
 
     }
 }

@@ -11,7 +11,15 @@
     </div>
 
     <div class="villa-container">
-        <h3 class="villa-title">Historial de Pagos</h3>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="villa-title m-0">Historial de Pagos</h3>
+            <a href="@Url.Action("DescargarHistoricoNominas", "RecursosHumanos")"
+               class="btn btn-sm btn-success"
+               title="Descargar histórico de pagos">
+                <i class="fas fa-file-download"></i> Histórico PDF
+            </a>
+        </div>
+
         <div class="table-responsive">
             <table class="villa-table table table-sm table-striped text-center">
                 <thead class="table-dark">
@@ -20,6 +28,7 @@
                         <th>Bono</th>
                         <th>Multa</th>
                         <th>Total</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,8 +40,13 @@
                                 <td>$@nomina.Salario</td>
                                 <td>$@nomina.Bono</td>
                                 <td>$@nomina.Multa</td>
-                                <td class="fw-bold text-success">
-                                    $@(nomina.Total)
+                                <td class="fw-bold text-success">$@nomina.Total</td>
+                                <td>
+                                    <a href="@Url.Action("DescargarBoletaPago", "RecursosHumanos", new { idNomina = nomina.IdNomina })"
+                                       class="btn btn-sm btn-outline-primary"
+                                       title="Descargar PDF">
+                                        <i class="fas fa-file-pdf"></i> PDF
+                                    </a>
                                 </td>
                             </tr>
                         }
@@ -40,7 +54,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="4" class="text-muted">No hay boletas de pago disponibles.</td>
+                            <td colspan="5" class="text-muted">No hay boletas de pago disponibles.</td>
                         </tr>
                     }
                 </tbody>
