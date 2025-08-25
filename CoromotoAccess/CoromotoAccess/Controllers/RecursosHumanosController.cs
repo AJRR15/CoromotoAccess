@@ -174,10 +174,41 @@ namespace CoromotoAccess.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        [AuthRequired(Roles = "Administrador,Empleados")]
         public ActionResult ConsultarBoletasPago()
         {
-            return View();
+            // Evita "as int?" porque si guardaste un int, devuelve null.
+            if (Session["UsuarioId"] == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            int usuarioId = Convert.ToInt32(Session["UsuarioId"]);
+
+            using (var context = new BDCoromotoEntities())
+            {
+                var nominas = context.tNominas
+                    .Where(n => n.IdEmpleado == usuarioId)
+                    .Select(e => new Nomina
+                    {
+                        IdNomina = e.IdNomina,
+                        IdEmpleado = e.IdEmpleado,
+                        Salario = e.Salario,
+                        Bono = e.Bono,
+                        Multa = e.Multa,
+                        Total = e.Salario + e.Bono - e.Multa
+                    })
+                    .ToList();
+
+                return View(nominas);
+            }
         }
+
+
+
+
         [HttpGet]
         [AuthRequired(Roles = "Administrador")]
         public ActionResult GestionNomina()
@@ -342,14 +373,6 @@ namespace CoromotoAccess.Controllers
                     return RedirectToAction("EvaluacionEmpleados");
                 }
             }
-        }
-        public ActionResult BoletasPago()
-        {
-            return View();
-        }
-        public ActionResult HistoricoSalarios()
-        {
-            return View();
         }
 
         [HttpGet]
