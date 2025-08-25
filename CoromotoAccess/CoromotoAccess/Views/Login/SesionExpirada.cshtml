@@ -1,122 +1,39 @@
-﻿<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sesión expirada - CoromotoAccess</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --primary-soft: rgba(44, 62, 80, 0.1);
-        }
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Sesión expirada";
+    var mostrar = (ViewBag.MostrarExpirada as bool?) ?? false;
+}
 
-        .bg-primary {
-            background-color: var(--primary) !important;
-        }
-
-        .bg-primary-soft {
-            background-color: var(--primary-soft) !important;
-        }
-
-        .text-primary {
-            color: var(--primary) !important;
-        }
-
-        .divider {
-            width: 80px;
-            height: 3px;
-            margin: 0 auto;
-        }
-
-        .icon-shape {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-        }
-
-        section {
-            background-color: #f8f9fa;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .card {
-            border: none;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            padding: 10px 24px;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-
-            .btn-primary:hover {
-                background-color: #1a2530;
-                border-color: #1a2530;
-            }
-    </style>
-</head>
-<body>
-    <section class="py-8 position-relative overflow-hidden">
-        <!-- Fondo decorativo -->
-        <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%); z-index: -1;"></div>
-
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="card shadow-lg">
-                        <div class="card-body p-5 text-center">
-                            <div class="icon-shape bg-primary-soft text-primary mb-4 mx-auto">
-                                <i class="fas fa-clock fs-2"></i>
-                            </div>
-
-                            <span class="badge bg-primary-soft text-primary mb-3">Sesión finalizada</span>
-                            <h2 class="fw-bold mb-3">Sesión <span class="text-primary">Expirada</span></h2>
-                            <div class="divider bg-primary mb-4"></div>
-
-                            <p class="text-muted mb-4">Tu sesión en CoromotoAccess ha finalizado por inactividad. Para continuar disfrutando de nuestros servicios, por favor inicia sesión nuevamente.</p>
-
-                            <div class="d-flex mb-4">
-                                <div class="me-3">
-                                    <span class="icon-shape bg-primary text-white" style="width: 32px; height: 32px;">
-                                        <i class="fas fa-check"></i>
-                                    </span>
-                                </div>
-                                <div class="text-start">
-                                    <p class="text-muted mb-0">Tu seguridad es importante para nosotros</p>
-                                </div>
-                            </div>
-
-                            <a href="@Url.Action("InicioSesion", "Login")" class="btn btn-primary mt-3">
-                                <i class="fas fa-sign-in-alt me-2"></i> Iniciar sesión nuevamente
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <p class="text-muted">¿Necesitas ayuda? <a href="#" class="text-primary">Contacta con soporte</a></p>
-                    </div>
-                </div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="alert alert-warning text-center">
+                <h2>⏳ Sesión expirada</h2>
+                <p>Tu sesión ha finalizado por inactividad.</p>
+                <a href="@Url.Action("InicioSesion", "Login")" class="btn btn-primary mt-3">
+                    Iniciar sesión nuevamente
+                </a>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@if (mostrar)
+{
     <script>
-        // Redirección opcional tras 5s
-        setTimeout(function () {
-            window.location.href = '@Url.Action("InicioSesion", "Login")';
-        }, 5000);
+        // Modal Bootstrap si lo tienes cargado; si no, usa alert como fallback
+        (function () {
+            var hasBootstrap = !!window.bootstrap || !!document.querySelector('[data-bs-toggle]');
+            if (hasBootstrap) {
+                // Si tienes un modal, puedes dispararlo aquí
+                // new bootstrap.Modal(document.getElementById('modalSesionExpirada')).show();
+            } else {
+                alert("⚠️ Tu sesión ha expirado. Por favor, inicia sesión nuevamente.");
+            }
+            // Redirección opcional tras 5s
+            setTimeout(function () {
+                window.location.href = '@Url.Action("InicioSesion", "Login")';
+            }, 5000);
+        })();
     </script>
-</body>
-</html>
+}
