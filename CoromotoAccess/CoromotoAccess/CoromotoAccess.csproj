@@ -520,7 +520,7 @@
     <Content Include="Views\RecursosHumanos\AprobarVacaciones.cshtml" />
     <Content Include="Views\RecursosHumanos\GestionNomina.cshtml" />
     <Content Include="Views\RecursosHumanos\EvaluacionEmpleados.cshtml" />
-    <Content Include="Views\Login\MiEvaluacion.cshtml" />
+    <Content Include="Views\RecursosHumanos\MiEvaluacion.cshtml" />
     <Content Include="Views\RecursosHumanos\BoletasPago.cshtml" />
     <Content Include="Views\RecursosHumanos\HistoricoSalarios.cshtml" />
     <Content Include="Views\Parametros\ModificarVilla.cshtml" />

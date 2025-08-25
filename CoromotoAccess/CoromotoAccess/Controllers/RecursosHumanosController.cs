@@ -351,7 +351,56 @@ namespace CoromotoAccess.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        [AuthRequired(Roles = "Administrador,Empleados")]
+        public ActionResult MiEvaluacion()
+        {
+            var usuarioId = Session["UsuarioId"] as int?;
+            if (usuarioId == null)
+            {
+                return RedirectToAction("Login", "Auth"); 
+            }
+
+            using (var context = new BDCoromotoEntities())
+            {
+                var evaluaciones = context.tEvaluaciones
+                    .Where(e => e.IdEmpleado == usuarioId) 
+                    .Join(context.tEmpleados,
+                        e => e.IdEmpleado,
+                        emp => emp.ConsecutivoEmp,
+                        (e, emp) => new { Evaluacion = e, Empleado = emp })
+                    .Join(context.tRoles,
+                        combined => combined.Empleado.ConsecutivoRol,
+                        r => r.IdRol,
+                        (combined, r) => new Evaluacion
+                        {
+                            IdEvaluacion = combined.Evaluacion.IdEvaluacion,
+                            IdEmpleado = combined.Evaluacion.IdEmpleado,
+                            Comentario = combined.Evaluacion.Comentario,
+                            Calificacion = combined.Evaluacion.Calificacion,
+                            FechaEvaluacion = combined.Evaluacion.FechaEvaluacion,
+                            NombreEmpleado = combined.Empleado.Nombre,
+                            ApellidoEmpleado = combined.Empleado.Apellido,
+                            RolEmpleado = r.NombreRol,
+                            HorasTrabajadas = combined.Empleado.HorasTrabajadas
+                        })
+                    .OrderByDescending(e => e.FechaEvaluacion)
+                    .ToList();
+
+                ViewBag.DiccionarioCalificaciones = new Dictionary<int, string> {
+            { 1, "Pobre" },
+            { 2, "Regular" },
+            { 3, "Bueno" },
+            { 4, "Excelente" }
+        };
+
+                ViewBag.OpcionesCalificacion = new SelectList(ViewBag.DiccionarioCalificaciones, "Key", "Value");
+                ViewBag.Empleados = new SelectList(context.tEmpleados.ToList(), "ConsecutivoEmp", "Nombre");
+
+                return View(evaluaciones);
+            }
+        }
+
     }
-
-
 }

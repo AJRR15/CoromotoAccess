@@ -1,0 +1,77 @@
+﻿@model List<CoromotoAccess.Models.Evaluacion>
+@{
+    ViewBag.Title = "MiEvaluacion";
+}
+
+<link href="~/Styles/css/tabla.css" rel="stylesheet" />
+
+<div class="container mt-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-4 p-3 bg-light rounded shadow-sm">
+        <h2 class="m-0 text-dark fw-bold">Mi Evaluación</h2>
+    </div>
+
+    <!-- Filtro por calificación -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text bg-dark text-white">
+                    <i class="fas fa-filter"></i>
+                </span>
+                <select class="form-select border-secondary"
+                        id="filtroCalificacion"
+                        onchange="filtrarCalificacion()">
+                    <option value="">Todas las calificaciones</option>
+                    @foreach (var calificacion in ViewBag.DiccionarioCalificaciones)
+                    {
+                        <option value="@calificacion.Key">@calificacion.Value</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="villa-container">
+        <h3 class="villa-title">Registro de Evaluaciones</h3>
+        <div class="table-responsive">
+            <table class="villa-table table table-sm table-striped text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Empleado</th>
+                        <th>Rol</th>
+                        <th>Comentario</th>
+                        <th>Calificación</th>
+                    </tr>
+                </thead>
+                <tbody id="evaluacionesTable">
+                    @foreach (var evaluacion in Model)
+                    {
+                        <tr class="evaluacionRow"
+                            data-calificacion="@evaluacion.Calificacion"
+                            data-empleado="@($"{evaluacion.NombreEmpleado} {evaluacion.ApellidoEmpleado}")">
+                            <td>
+                                @(evaluacion.FechaEvaluacion?.ToString("dd/MM/yyyy") ?? "Sin fecha")
+                            </td>
+                            <td class="nombreEmpleado">@($"{evaluacion.NombreEmpleado} {evaluacion.ApellidoEmpleado}")</td>
+                            <td>@evaluacion.RolEmpleado</td>
+                            <td>@evaluacion.Comentario</td>
+                            <td>@ViewBag.DiccionarioCalificaciones[evaluacion.Calificacion]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filtrarCalificacion() {
+        const valor = document.getElementById('filtroCalificacion').value;
+        const filas = document.querySelectorAll('.evaluacionRow');
+
+        filas.forEach(fila => {
+            const calificacion = fila.getAttribute('data-calificacion');
+            fila.style.display = (valor === "" || calificacion === valor) ? '' : 'none';
+        });
+    }
+</script>
