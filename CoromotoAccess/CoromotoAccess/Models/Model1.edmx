@@ -87,12 +87,12 @@
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="IdVilla" Type="int" Nullable="false" />
           <Property Name="IdTipoHabitacion" Type="int" Nullable="false" />
-          <Property Name="img1" Type="varchar" MaxLength="500" />
-          <Property Name="img2" Type="varchar" MaxLength="500" />
-          <Property Name="img3" Type="varchar" MaxLength="500" />
-          <Property Name="img4" Type="varchar" MaxLength="500" />
-          <Property Name="img5" Type="varchar" MaxLength="500" />
-          <Property Name="img6" Type="varchar" MaxLength="500" />
+          <Property Name="img1" Type="nvarchar" MaxLength="500" />
+          <Property Name="img2" Type="nvarchar" MaxLength="500" />
+          <Property Name="img3" Type="nvarchar" MaxLength="500" />
+          <Property Name="img4" Type="nvarchar" MaxLength="500" />
+          <Property Name="img5" Type="nvarchar" MaxLength="500" />
+          <Property Name="img6" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="tLimpiezas">
           <Key>
@@ -700,12 +700,12 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="IdVilla" Type="Int32" Nullable="false" />
           <Property Name="IdTipoHabitacion" Type="Int32" Nullable="false" />
-          <Property Name="img1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="img2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="img3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="img4" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="img5" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="img6" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="img1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="img2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="img3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="img4" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="img5" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="img6" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tActivos" Relationship="Self.FK_tActivos_tHabitaciones" FromRole="tHabitaciones" ToRole="tActivos" />
           <NavigationProperty Name="tTiposHabitaciones" Relationship="Self.FK_tHabitaciones_tTipoHabitacion" FromRole="tHabitaciones" ToRole="tTiposHabitaciones" />
           <NavigationProperty Name="tVillas" Relationship="Self.FK_tHabitaciones_tVillas" FromRole="tHabitaciones" ToRole="tVillas" />

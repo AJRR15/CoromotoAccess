@@ -275,21 +275,50 @@ namespace CoromotoAccess.Controllers
         {
             using (var memoryStream = new MemoryStream())
             {
-                Document document = new Document();
+                Document document = new Document(PageSize.A4, 50, 50, 80, 50);
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
                 document.Open();
 
-                document.Add(new Paragraph("Detalles de la Reserva"));
-                document.Add(new Paragraph(" ")); 
+                // Título con formato
+                var fontTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLUE);
+                Paragraph titulo = new Paragraph("Factura de Reserva", fontTitulo);
+                titulo.Alignment = Element.ALIGN_CENTER;
+                document.Add(titulo);
+                document.Add(new Paragraph(" "));
 
-                document.Add(new Paragraph($"ID Reserva: {reserva.IdReserva}"));
-                document.Add(new Paragraph($"Usuario: {reserva.NombreUsuario}"));
-                document.Add(new Paragraph($"Habitación: {reserva.NombreHabitacion}"));
-                document.Add(new Paragraph($"CheckIn: {reserva.CheckIn:dd/MM/yyyy HH:mm}"));
-                document.Add(new Paragraph($"CheckOut: {reserva.CheckOut:dd/MM/yyyy HH:mm}"));
-                document.Add(new Paragraph($"Estado: {(reserva.Estado ? "Confirmada" : "Cancelada")}"));
-                document.Add(new Paragraph($"Moneda: {reserva.NombreMoneda}"));
-                document.Add(new Paragraph($"Método de Pago: {reserva.NombreMetodoPago}"));
+                // Tabla de detalles
+                PdfPTable tabla = new PdfPTable(2);
+                tabla.WidthPercentage = 60;
+                tabla.HorizontalAlignment = Element.ALIGN_LEFT;
+                tabla.DefaultCell.Border = Rectangle.NO_BORDER;
+
+                var fontLabel = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.DARK_GRAY);
+                var fontValue = FontFactory.GetFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
+
+                tabla.AddCell(new Phrase("ID Reserva:", fontLabel));
+                tabla.AddCell(new Phrase(reserva.IdReserva.ToString(), fontValue));
+                tabla.AddCell(new Phrase("Usuario:", fontLabel));
+                tabla.AddCell(new Phrase(reserva.NombreUsuario, fontValue));
+                tabla.AddCell(new Phrase("Habitación:", fontLabel));
+                tabla.AddCell(new Phrase(reserva.NombreHabitacion, fontValue));
+                tabla.AddCell(new Phrase("CheckIn:", fontLabel));
+                tabla.AddCell(new Phrase(reserva.CheckIn.ToString("dd/MM/yyyy HH:mm"), fontValue));
+                tabla.AddCell(new Phrase("CheckOut:", fontLabel));
+                tabla.AddCell(new Phrase(reserva.CheckOut.ToString("dd/MM/yyyy HH:mm"), fontValue));
+                tabla.AddCell(new Phrase("Estado:", fontLabel));
+                tabla.AddCell(new Phrase(reserva.Estado ? "Confirmada" : "Cancelada", fontValue));
+                tabla.AddCell(new Phrase("Moneda:", fontLabel));
+                tabla.AddCell(new Phrase(reserva.NombreMoneda, fontValue));
+                tabla.AddCell(new Phrase("Método de Pago:", fontLabel));
+                tabla.AddCell(new Phrase(reserva.NombreMetodoPago, fontValue));
+
+                document.Add(tabla);
+
+                document.Add(new Paragraph(" "));
+                var fontPie = FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 10, BaseColor.GRAY);
+                Paragraph pie = new Paragraph("Gracias por reservar con nosotros.", fontPie);
+                pie.Alignment = Element.ALIGN_CENTER;
+                document.Add(pie);
 
                 document.Close();
                 writer.Close();
